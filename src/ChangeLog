@@ -1,3 +1,7 @@
+1985-06-29         Brenda S. Baker       <research!bsb>
+
+	* makefile: Support standard targets.
+
 1982-03-17         Brenda S. Baker       <research!bsb>
 
 	* tree.c (compop, notop, opstring): Use new initialization syntax.

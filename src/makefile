@@ -1,5 +1,6 @@
 CFLAGS=-O
 YFLAGS=-d
+
 0FILES.c = 0.alloc.c 0.args.c 0.def.c 0.extr.c 0.graph.c 0.list.c 0.parts.c 0.string.c
 0FILES.o = 0.alloc.o 0.args.o 0.def.o 0.extr.o 0.graph.o 0.list.o 0.parts.o 0.string.o
 
@@ -17,23 +18,23 @@ YFLAGS=-d
 
 all:	structure beautify
 
-cp:	structure beautify
-	cp structure /usr/lib/struct
-	rm structure
-	cp beautify /usr/lib/struct
-	rm beautify
-	rm *.o y.tab.h beauty.c
+install:	all
+	if [ ! -d /usr/lib/struct ]; then mkdir /usr/lib/struct;\
+		chown bin,bin /usr/lib/struct;\
+		chmod 775 /usr/lib/struct;\
+	fi
+	strip structure beautify
+	cp structure beautify /usr/lib/struct
+	cp struct.sh /usr/bin/struct
 
-cmp:	beautify structure
-	cmp beautify /usr/lib/struct/beautify
-	cmp structure /usr/lib/struct/structure
-	rm beautify structure *.o y.tab.h beauty.c
+clean:
+	rm -f structure beautify *.o y.tab.c
 
 structure: main.o $(0FILES.o) $(1FILES.o) $(2FILES.o) $(3FILES.o) $(4FILES.o)
-	cc -o structure -i -n main.o 0.*.o 1.*.o 2.*.o 3.*.o 4.*.o 
+	cc -o structure main.o 0.*.o 1.*.o 2.*.o 3.*.o 4.*.o 
 
 beautify:	beauty.o tree.o lextab.o bdef.o
-	cc -n -s -O beauty.o tree.o lextab.o bdef.o -o beautify -lln
+	cc beauty.o tree.o lextab.o bdef.o -o beautify -lln
 
 lint:
 	lint $(0FILES.c) $(1FILES.c) $(2FILES.c) $(3FILES.c) $(4FILES.c) main.c
