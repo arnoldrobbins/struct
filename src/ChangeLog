@@ -1,3 +1,7 @@
+1982-03-17         Brenda S. Baker       <research!bsb>
+
+	* tree.c (compop, notop, opstring): Use new initialization syntax.
+
 1979-01-10         Brenda S. Baker       <research!bsb>
 
 	* 0.alloc.c, 0.args.c, 0.def.c, 0.extr.c, 0.graph.c, 0.list.c,
