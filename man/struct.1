@@ -1,10 +1,12 @@
-.TH STRUCT 1 
+.TH STRUCT 1
 .SH NAME
 struct \- structure Fortran programs
 .SH SYNOPSIS
 .B struct
-[ option ] ...
-file
+[
+.I option ...
+]
+.I file
 .SH DESCRIPTION
 .LP
 .I Struct
@@ -17,66 +19,65 @@ replace the original Fortran.
 Statement numbers appear only where still necessary.
 Cosmetic changes are made, including changing Hollerith strings
 into quoted strings
-and relational operators into symbols (e.g. ".GT." into ">").
+and relational operators into symbols (e.g.\&
+.L .GT.
+into
+.LR > ).
 The output is appropriately indented.
 .PP
 The following options may occur in any order.
 .TP
-.B  \-s
-Input is accepted in standard format, i.e.
-comments are specified by a c, C, or * in column 1, and continuation lines
-are specified by a nonzero, nonblank character in column 6.
-Normally input is in the form accepted by 
+.B  -s
+Input uses standard Fortran comment and continuation conventions.
+Normally input is in the form accepted by
 .IR f77 (1)
 .TP
-.B  \-i
+.B  -i
 Do not turn computed goto statements into
 switches.
 (Ratfor does not turn switches back
 into computed goto statements.)
 .TP
-.B  \-a
+.B  -a
 Turn sequences of else ifs into a
 non-Ratfor switch of the form
 .IP
-.nf
-.ta 5 7
+.EX
 switch
 	{	case pred1: code
 		case pred2: code
 		case pred3: code
 		default: code
 	}
-.fi
-.DT
+.EE
 .IP
 The case predicates are tested in order;
 the code appropriate to only one case is executed.
 This generalized form of switch statement does not
 occur in Ratfor.
 .TP
-.B  \-b
+.B  -b
 Generate goto's instead of multilevel break statements.
 .TP
-.B  \-n
+.B  -n
 Generate goto's instead of multilevel next statements.
 .TP
-.BI \-t n
+.BI -t n
 Make
 the nonzero integer
 .I n
 the lowest valued label in the output program
 (default 10).
 .TP
-.BI \-c n
+.BI -c n
 Increment successive labels
 in the output program
 by the nonzero integer
 .I n
 (default 1).
 .TP
-.BI \-e n
-If 
+.BI -e n
+If
 .I n
 is 0 (default),
 place code within a loop only if it can
@@ -84,18 +85,27 @@ lead to an iteration of the loop.
 If
 .I n
 is nonzero,
-admit a small code segments to a loop
+admit a small code segment to a loop
 if otherwise the loop would have exits to several places including the segment,
 and the segment can be reached only from the loop.
 `Small' is close to, but not equal to, the
 number of statements in the code segment.
-Values of n under 10 are suggested.
+Values of
+.I n
+under 10 are suggested.
 .SH FILES
-/tmp/struct*
+.F /tmp/struct*
 .br
-/usr/lib/struct/*
+.F /usr/lib/struct/*
 .SH SEE ALSO
-f77(1), ratfor(1)
+.IR f77 (1), 
+.IR ratfor (A)
+.br
+B. S. Baker,
+`An Algorithm for Structuring Flowgraphs',
+.I JACM
+.B 24 
+(1977) 376-391
 .SH BUGS
 Struct knows Fortran 66 syntax, but not full Fortran 77.
 .br
@@ -107,4 +117,4 @@ will not be a valid Ratfor program.
 The labels generated cannot go above 32767.
 .br
 If you get a goto without a target, try
-.B \-e .
+.BR -e .
