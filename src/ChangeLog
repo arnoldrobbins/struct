@@ -5,6 +5,7 @@
 1982-03-17         Brenda S. Baker       <research!bsb>
 
 	* tree.c (compop, notop, opstring): Use new initialization syntax.
+	* m.1, m.2, struct.sh, y.tab.h, beauty.c: New files.
 
 1979-01-10         Brenda S. Baker       <research!bsb>
 
