@@ -20,7 +20,7 @@ all:	structure beautify
 
 install:	all
 	if [ ! -d /usr/lib/struct ]; then mkdir /usr/lib/struct;\
-		chown bin,bin /usr/lib/struct;\
+		/etc/chown bin,bin /usr/lib/struct;\
 		chmod 775 /usr/lib/struct;\
 	fi
 	strip structure beautify
