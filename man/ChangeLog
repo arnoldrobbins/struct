@@ -1,3 +1,7 @@
+2021-12-20         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* struct.1: Add .L and .LR macros so that the full text formats.
+
 1986-08-06         Brenda S. Baker       <research!bsb>
 
 	* struct.1: Improve formatting.
