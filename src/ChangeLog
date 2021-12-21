@@ -5,6 +5,7 @@
 	* 1.init.c: Ditto.
 	* 1.main.c: Ditto.
 	* main.c: Include allfuncs.h.
+	* beauty.c, y.tab.h, m.1, m.2: Removed.
 
 2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
 
