@@ -1,6 +1,9 @@
 #include <stdio.h>
-#
+#include <stdlib.h>
+
 #include "def.h"
+#include "allfuncs.h"
+
 int errflag;
 FILE *infd;
 
@@ -20,7 +23,8 @@ int levnxt = 1;			/* true implies multilevel nexts; false implies single-level n
 
 int maxprogsw = 12;		/* number of program switches which can be set */
 
-char *progsw[] = { "i", "a",
+char *progsw[] = {
+	"i", "a",
 	"e", "m",
 	"h", "p",
 	"t", "c",
@@ -29,7 +33,8 @@ char *progsw[] = { "i", "a",
 };
 
 
-int *swval[] = { &intcase, &arbcase,
+int *swval[] = {
+	&intcase, &arbcase,
 	&exitsize, &maxnode,
 	&maxhash, &progress,
 	&labinit, &labinc,
@@ -38,10 +43,8 @@ int *swval[] = { &intcase, &arbcase,
 };
 
 
-char *
-getargs(argc, argv)
-int argc;
-char *argv[];
+void
+getargs(int argc, char *argv[])
 {
 	int n, infile;
 
@@ -60,7 +63,7 @@ char *argv[];
 		}
 	}
 	if (errflag)
-		exit(1);
+		exit(EXIT_FAILURE);
 	if (!infile)
 		faterr("no input file", "", "");
 	infd = fopen(argv[infile], "r");
@@ -69,8 +72,8 @@ char *argv[];
 	return;
 }
 
-setsw(str)
-char *str;
+void
+setsw(char *str)
 {
 	int i, val, swnum;
 

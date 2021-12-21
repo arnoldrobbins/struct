@@ -4,7 +4,8 @@
 
 LOGICAL *brace;
 
-output()
+void
+output(void)
 {
 	VERT w;
 	int i;

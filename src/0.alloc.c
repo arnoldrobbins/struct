@@ -1,5 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "def.h"
+#include "allfuncs.h"
+
 int routbeg;
 
 extern int debug;
@@ -7,30 +11,30 @@ struct coreblk {
 	struct coreblk *nxtblk;
 	int blksize;
 	int nxtfree;
-	int *blk;
+	struct coreblk *blk;
 };
 
 long space;
 
-challoc(n)
-int n;
+void *
+challoc(int n)
 {
-	int i;
+	void *p;
 
-	i = malloc(n);
-	if (i) {
+	p = malloc(n);
+	if (p) {
 		space += n;
-		return (i);
+		return (p);
 	}
 	fprintf(stderr, "alloc out of space\n");
 	fprintf(stderr, "total space alloc'ed = %ld\n", space);
 	fprintf(stderr, "%d more bytes requested\n", n);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 
-chfree(p, n)
-int *p, n;
+void
+chfree(void *p, int n)
 {
 	ASSERT(p, chfree);
 	space -= n;
@@ -41,10 +45,11 @@ int *p, n;
 struct coreblk *tcore, *gcore;
 int tblksize = 12, gblksize = 300;
 
+/* allocate n bytes from coreblk *p */
+/* use specifies where called */
 
-balloc(n, p, size)		/* allocate n bytes from coreblk *p */
-int n, size;			/* use specifies where called */
-struct coreblk **p;
+void *
+balloc(int n, struct coreblk **p, int size)
 {
 	int i;
 	struct coreblk *q;
@@ -63,27 +68,27 @@ struct coreblk **p;
 	return (&(q->blk)[i]);
 }
 
-talloc(n)			/* allocate from line-by-line storage area */
-int n;
+void *
+talloc(int n)			/* allocate from line-by-line storage area */
 {
 	return (balloc(n, &tcore, tblksize));
 }
 
-galloc(n)			/* allocate from graph storage area */
-int n;
+void *
+galloc(int n)			/* allocate from graph storage area */
 {
 	return (balloc(n, &gcore, gblksize));
 }
 
-reuse(p)			/* set nxtfree so coreblk can be reused */
-struct coreblk *p;
+void
+reuse(struct coreblk *p)	/* set nxtfree so coreblk can be reused */
 {
 	for (; p; p = p->nxtblk)
 		p->nxtfree = 0;
 }
 
-bfree(p)			/* free coreblk p */
-struct coreblk *p;
+void
+bfree(struct coreblk *p)	/* free coreblk p */
 {
 	if (!p)
 		return;
@@ -93,9 +98,8 @@ struct coreblk *p;
 }
 
 
-morespace(n, p, size)		/* get at least n more wds for coreblk *p */
-int n, size;
-struct coreblk **p;
+struct coreblk *
+morespace(int n, struct coreblk **p, int size)	/* get at least n more wds for coreblk *p */
 {
 	struct coreblk *q;
 	int t, i;
@@ -118,28 +122,18 @@ struct coreblk **p;
 }
 
 
-
-
-freegraf()
+void
+freegraf(void)
 {
 	bfree(gcore);
 	gcore = 0;
-
-
 }
-
-
-
-
-
-
-
 
 
 void
 error(char *mess1, char *mess2, char *mess3)
 {
-	static lastbeg;
+	static int lastbeg;
 
 	if (lastbeg != routbeg) {
 		fprintf(stderr, "routine beginning on line %d:\n",
@@ -150,16 +144,16 @@ error(char *mess1, char *mess2, char *mess3)
 }
 
 
-faterr(mess1, mess2, mess3)
-char *mess1, *mess2, *mess3;
+void
+faterr(char *mess1, char *mess2, char *mess3)
 {
 	error(mess1, mess2, mess3);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 
-strerr(mess1, mess2, mess3)
-char *mess1, *mess2, *mess3;
+void
+strerr(char *mess1, char *mess2, char *mess3)
 {
 	error("struct error: ", mess1, mess2);
 }

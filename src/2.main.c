@@ -5,7 +5,8 @@
 VERT *after;
 int *ntobef, *ntoaft;
 
-build()
+void
+build(void)
 {
 	VERT v, *dom, *head;
 	int type;

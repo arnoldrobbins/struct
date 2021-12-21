@@ -17,7 +17,6 @@ int
 main(int argc, char *argv[])
 {
 	int anyoutput;
-	char *getargs();
 	char input1(), unput1(), input2(), unput2();
 
 	outfd = stdout;

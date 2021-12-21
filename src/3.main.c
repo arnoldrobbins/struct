@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "def.h"
 
-structure()
+void
+structure(void)
 {
 	VERT v, *head;
 

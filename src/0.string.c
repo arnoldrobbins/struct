@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <string.h>
+
 #include "def.h"
 #include "1.defs.h"
+#include "allfuncs.h"
 
-str_copy(s, ptr, length)	/* copy s at ptr, return length of s */
-char *s, *ptr;
-int length;
+int
+str_copy(char *s, char *ptr, int length)	/* copy s at ptr, return length of s */
 {
 	int i;
 
@@ -17,9 +19,8 @@ int length;
 }
 
 
-find(s, ar, size)
-char *s, *ar[];
-int size;
+int
+find(char *s, char *ar[], int size)
 {
 	int i;
 
@@ -31,8 +32,8 @@ int size;
 }
 
 
-str_eq(s, t)
-char s[], t[];
+int
+str_eq(char s[], char t[])
 {
 	int j;
 
@@ -44,9 +45,8 @@ char s[], t[];
 }
 
 
-classmatch(c, i)
-char c;
-int i;
+int
+classmatch(char c, int i)
 {
 	switch (i) {
 	case _digit:
@@ -65,10 +65,7 @@ int i;
 		return (classmatch(c, _digit) || classmatch(c, _letter));
 
 	case _arith:
-		if (050 <= c && c <= 057)
-			return (1);
-		else
-			return (0);
+		return strchr("()*+,-./", c) != NULL;
 	case _nl:
 		return (c == '\n');
 	case _other:
@@ -77,9 +74,8 @@ int i;
 }
 
 
-copychars(cbeg, target, n)	/* copy n chars from cbeg to target */
-char *cbeg, *target;
-int n;
+void
+copychars(char *cbeg, char *target, int n)	/* copy n chars from cbeg to target */
 {
 	int i;
 
@@ -89,36 +85,36 @@ int n;
 
 
 
-copycs(cbeg, target, n)		/* copy n chars from cbeg to target, add '\0' */
-char *cbeg, *target;
-int n;
+void
+copycs(char *cbeg, char *target, int n)	/* copy n chars from cbeg to target, add '\0' */
 {
 	copychars(cbeg, target, n);
 	target[n] = '\0';
 }
 
 
-slength(s)			/* return number of chars in s, not counting '\0' */
-char *s;
+int
+slength(char *s)			/* return number of chars in s, not counting '\0' */
 {
 	int i;
 
 	if (!s)
 		return (-1);
-	for (i = 0; s[i] != '\0'; i++);
+	for (i = 0; s[i] != '\0'; i++)
+		continue;
 	return (i);
 }
 
 
-concat(x, y)			/* allocate space, return xy */
-char *x, *y;
+char *
+concat(char *x, char *y)		/* allocate space, return xy */
 {
 	char *temp;
 	int i, j;
 
 	i = slength(x);
 	j = slength(y);
-	temp = galloc(i + j + 1);
+	temp = (char *) galloc(i + j + 1);
 	sprintf(temp, "%s", x);
 	sprintf(&temp[i], "%s", y);
 	return (temp);
