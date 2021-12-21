@@ -1,5 +1,13 @@
 2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
 
+	* allfuncs.h: New file.
+	* 0.graph.c: Move to ANSI definitions.
+	* 1.init.c: Ditto.
+	* 1.main.c: Ditto.
+	* main.c: Include allfuncs.h.
+
+2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
+
 	Start getting it to compile. :-)
 
 	* 0.alloc.c: Use %ld instead of %D in printf.

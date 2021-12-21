@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include "def.h"
 
-#define TABOVER(n)	tabover(n,stderr)
-prgraph()
+#define TABOVER(n)	tabover(n, stderr)
+
+void
+prgraph(void)
 	{
 	VERT v;
 	int i;
@@ -20,14 +22,14 @@ prgraph()
 	fprintf(stderr,"\n\n");
 	}
 
-prtree()
+void
+prtree(void)
 	{
 	prtr(START,1);
 	}
 
-prtr(v,tab)		/* print tree in form of program indenting by tab */
-VERT v;
-int tab;
+void
+prtr(VERT v,int tab)		/* print tree in form of program indenting by tab */
 	{
 	int i;
 	TABOVER(tab);
@@ -49,9 +51,8 @@ int tab;
 	}
 
 
-tabover(n,fd)		/* tab n times */
-int n;
-FILE *fd;
+void
+tabover(int n, FILE *fd)		/* tab n times */
 	{
 	int i;
 	for (i = 0; i < n; ++i)

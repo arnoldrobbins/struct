@@ -2,12 +2,15 @@
 #include "def.h"
 int endbuf;
 
-mkgraph()
-	{
+int
+mkgraph(void)
+{
 	if (!parse())
 		return(FALSE);
+
 	hash_check();
 	hash_free();
 	fingraph();
+
 	return(TRUE);
-	}
+}

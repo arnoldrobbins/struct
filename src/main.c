@@ -4,6 +4,7 @@
 
 #include "1.defs.h"
 #include "def.h"
+#include "allfuncs.h"
 
 
 char (*input)(), (*unput)();

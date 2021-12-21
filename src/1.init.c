@@ -4,14 +4,16 @@
 #include "def.h"
 
 
-prog_init()
+void
+prog_init(void)
 	{
 	endline = endcom = 0;	endchar = -1;
 	comchar = -1;
 	graph = challoc(sizeof(*graph) * maxnode);
 	}
 
-routinit()
+void
+routinit(void)
 	{
 	graf_init();
 	progtype = !sub;
@@ -20,7 +22,9 @@ routinit()
 	nameline = 0;
 	stflag = UNDEFINED;
 	}
-line_init()
+
+void
+line_init(void)
 	{
 	struct lablist *makelab();
 	freelabs();
@@ -33,7 +37,9 @@ line_init()
 	reflab = endlab = errlab = 0;
 	r1 = r2 = 0;
 	}
-graf_init()
+
+void
+graf_init(void)
 	{
 	int arctype[3];  long arclab[3];
 	nodenum = 0;
