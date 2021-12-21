@@ -1,3 +1,8 @@
+2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* struct.1: Add .F macro. Use \-x for options instead of -x.
+	List options alphabetically. Additional small edits.
+
 2021-12-20         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* struct.1: Add .L and .LR macros so that the full text formats.
