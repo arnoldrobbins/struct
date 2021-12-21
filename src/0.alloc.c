@@ -17,7 +17,7 @@ int n;
 	i = malloc(n);
 	if(i) { space += n; return(i); }
 	fprintf(stderr,"alloc out of space\n");
-	fprintf(stderr,"total space alloc'ed = %D\n",space);
+	fprintf(stderr,"total space alloc'ed = %ld\n",space);
 	fprintf(stderr,"%d more bytes requested\n",n);
 	exit(1);
 	}
@@ -93,7 +93,7 @@ struct coreblk **p;
 	q = malloc(i=t*sizeof(*(q->blk))+sizeof(*q));
 	if(!q){
 		error(": alloc out of space","","");
-		fprintf(stderr,"space = %D\n",space);
+		fprintf(stderr,"space = %ld\n",space);
 		fprintf(stderr,"%d more bytes requested\n",n);
 		exit(1);
 		}
@@ -125,8 +125,8 @@ freegraf()
 
 
 
-error(mess1, mess2, mess3)
-char *mess1, *mess2, *mess3;
+void
+error(char *mess1, char *mess2, char *mess3)
 	{
 	static lastbeg;
 	if (lastbeg != routbeg)

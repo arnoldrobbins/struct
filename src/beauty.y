@@ -16,12 +16,12 @@
 %{
 #include "b.h"
 #include <stdio.h>
+
+struct node *t;
+void error(char *mess1, char *mess2, char *mess3);
 %}
 
 %%
-%{
-struct node *t;
-%}
 
 
 allprog:	prog xxnew
@@ -46,20 +46,20 @@ stat:		 iftok pred nlevel elsetok nlevel
 	;
 
 
-xxtab:		=	{
+xxtab:			{
 			if (!xxlablast) tab(xxindent);
 			xxlablast = 0;
 			}
 
-xxnl:	=	newline();
-xxnew:	=	putout('\n',"\n");
+xxnl:		{ newline(); }
+xxnew:		{ putout('\n',"\n"); }
 nlevel:	pindent stat mindent;
-pindent:		=
+pindent:
 				{
 				if (xxstack[xxstind] != xxlb)
 					++xxindent;
 				};
-mindent:			=
+mindent:
 				{if (xxstack[xxstind] != xxlb && xxstack[xxstind] != xxelseif)
 					--xxindent;
 				pop();
@@ -74,26 +74,26 @@ casetok:	xxtab xxctok predlist pindent prog mindent
 	|	xxnl comtok casetok
 	;
 
-xxctok:	xxcase		=	{putout(xxcase,"case "); free ($1); push(xxcase); }
+xxctok:	xxcase			{putout(xxcase,"case "); free ($1); push(xxcase); }
 
 
-deftok:		xxdefault ':'		=		{
+deftok:		xxdefault ':'			{
 						putout(xxcase,"default");
 						free($1);
 						putout(':',":");
 						free($2);
 						push(xxcase);
 						}
-swtok:	xxswitch			=	{putout(xxswitch,"switch"); free($1); push(xxswitch); }
+swtok:	xxswitch				{putout(xxswitch,"switch"); free($1); push(xxswitch); }
 
-fstok:	xxend		=	{
+fstok:	xxend			{
 				free($1);
 				putout(xxident,"end");
 				putout('\n',"\n");
 				putout('\n',"\n");
 				putout('\n',"\n");
 				}
-	|	xxident	=	{
+	|	xxident		{
 				putout(xxident,$1);
 				free($1);
 				newflag = 1;
@@ -103,21 +103,21 @@ fstok:	xxend		=	{
 
 		
 
-identtok:	xxident '(' explist ')'	=	{
+identtok:	xxident '(' explist ')'		{
 				xxt = addroot($1,xxident,0,0);
 				$$ = addroot("",xxidpar,xxt,$3);
 				}
 
-	|	xxident		=	$$ = addroot($1,xxident,0,0);
+	|	xxident			{$$ = addroot($1,xxident,0,0);}
 	;
 
-predlist:	explist  ':'		=	{
+predlist:	explist  ':'	{
 				yield($1,0);
 				putout(':',":");
 				freetree($1);
 				}
-explist:	expr ',' explist		=	$$ = addroot($2,xxexplist,checkneg($1,0),$3);
-	|	expr					=	$$ = checkneg($1,0);
+explist:	expr ',' explist			{ $$ = addroot($2,xxexplist,checkneg($1,0),$3); }
+	|	expr					{ $$ = checkneg($1,0); }
 	;
 
 
@@ -125,32 +125,32 @@ oppred:	pred
 	|
 	;
 
-pred:	'(' expr ')'	=	{ t = checkneg($2,0);
+pred:	'(' expr ')'		{ t = checkneg($2,0);
 				yield(t,100);  freetree(t);	};
 
-expr:		'(' expr ')'	=	$$ = $2;
-	|	'-' expr	%prec xxuminus	=	$$ = addroot($1,xxuminus,$2,0);
-	|	'+' expr	%prec xxuminus	=	$$ = $2;
-	|	'!' expr	=	$$ = addroot($1,'!',$2,0);
-	|	expr '+' expr	=	$$ = addroot($2,'+',$1,$3);
-	|	expr '-' expr	=	$$ = addroot($2,'-',$1,$3);
-	|	expr '*' expr	=	$$ = addroot($2,'*',$1,$3);
-	|	expr '/' expr	=	$$ = addroot($2,'/',$1,$3);
-	|	expr '^' expr	=	$$ = addroot($2,'^',$1,$3);
-	|	expr '|' expr	=	$$ = addroot($2,'|',$1,$3);
-	|	expr '&' expr	=	$$ = addroot($2,'&',$1,$3);
-	|	expr '>' expr	=	$$ = addroot($2,'>',$1,$3);
-	|	expr '<' expr	=	$$ = addroot($2,'<',$1,$3);
-	|	expr xxeq expr	=	$$ = addroot($2,xxeq,$1,$3);
-	|	expr xxle expr	=	$$ = addroot($2,xxle,$1,$3);
-	|	expr xxge expr	=	$$ = addroot($2,xxge,$1,$3);
-	|	expr xxne expr	=	$$ = addroot($2,xxne,$1,$3);
-	|	identtok		=	$$ = $1;
-	|	xxnum		=	$$ = addroot($1,xxnum,0,0);
-	|	xxstring		=	$$ = addroot($1,xxstring,0,0);
+expr:		'(' expr ')'		{ $$ = $2; }
+	|	'-' expr	%prec xxuminus		{ $$ = addroot($1,xxuminus,$2,0); }
+	|	'+' expr	%prec xxuminus		{ $$ = $2; }
+	|	'!' expr		{ $$ = addroot($1,'!',$2,0); }
+	|	expr '+' expr		{ $$ = addroot($2,'+',$1,$3); }
+	|	expr '-' expr		{ $$ = addroot($2,'-',$1,$3); }
+	|	expr '*' expr		{ $$ = addroot($2,'*',$1,$3); }
+	|	expr '/' expr		{ $$ = addroot($2,'/',$1,$3); }
+	|	expr '^' expr		{ $$ = addroot($2,'^',$1,$3); }
+	|	expr '|' expr		{ $$ = addroot($2,'|',$1,$3); }
+	|	expr '&' expr		{ $$ = addroot($2,'&',$1,$3); }
+	|	expr '>' expr		{ $$ = addroot($2,'>',$1,$3); }
+	|	expr '<' expr		{ $$ = addroot($2,'<',$1,$3); }
+	|	expr xxeq expr		{ $$ = addroot($2,xxeq,$1,$3); }
+	|	expr xxle expr		{ $$ = addroot($2,xxle,$1,$3); }
+	|	expr xxge expr		{ $$ = addroot($2,xxge,$1,$3); }
+	|	expr xxne expr		{ $$ = addroot($2,xxne,$1,$3); }
+	|	identtok		{ $$ = $1; }
+	|	xxnum			{ $$ = addroot($1,xxnum,0,0); }
+	|	xxstring		{ $$ = addroot($1,xxstring,0,0); }
 	;
 
-iftok:	xxif		=
+iftok:	xxif
 				{
 				if (xxstack[xxstind] == xxelse && !xxlablast)
 					{
@@ -168,19 +168,19 @@ iftok:	xxif		=
 				free($1);
 				push(xxif);
 				}
-elsetok:	xxelse	=
+elsetok:	xxelse
 				{
 				tab(xxindent);
 				putout(xxelse,"else");
 				free($1);
 				push(xxelse);
 				}
-whtok:	xxwhile		=	{
+whtok:	xxwhile			{
 				putout(xxwhile,"while");
 				free($1);
 				push(xxwhile);
 				}
-rpttok:	xxrept	=			{
+rpttok:	xxrept				{
 					putout(xxrept,"repeat");
 					free($1);
 					push(xxrept);
@@ -189,14 +189,14 @@ optuntil:	xxtab unttok pred
 		|
 		;
 
-unttok:	xxuntil	  = 	{
+unttok:	xxuntil	   	{
 			putout('\t',"\t");
 			putout(xxuntil,"until");
 			free($1);
 			}
 dotok:	dopart opdotok
 	;
-dopart:	xxdo	identtok '=' expr  ',' expr 		=
+dopart:	xxdo	identtok '=' expr  ',' expr
 					{push(xxdo);
 					putout(xxdo,"do");
 					free($1);
@@ -208,24 +208,24 @@ dopart:	xxdo	identtok '=' expr  ',' expr 		=
 					free($5);
 					puttree($6);
 					}
-opdotok:	',' expr		=	{
+opdotok:	',' expr			{
 						putout(',',",");
 						puttree($2);
 						}
 	|	;
-lbtok:	'{'		=	{
+lbtok:	'{'			{
 				putout('{'," {");
 				push(xxlb);
 				}
-rbtok:	'}'			=	{ putout('}',"}");  pop();   }
-labtok:	xxnum		=	{
+rbtok:	'}'				{ putout('}',"}");  pop();   }
+labtok:	xxnum			{
 				tab(xxindent);
 				putout(xxnum,$1);
 				putout(' ',"  ");
 				xxlablast = 1;
 				}
-comtok:	xxcom		=	{ putout(xxcom,$1);  free($1);  xxlablast = 0; }
-	|	comtok xxcom		= { putout ('\n',"\n"); putout(xxcom,$2);  free($2);  xxlablast = 0; };
+comtok:	xxcom			{ putout(xxcom,$1);  free($1);  xxlablast = 0; }
+	|	comtok xxcom		{ putout ('\n',"\n"); putout(xxcom,$2);  free($2);  xxlablast = 0; };
 %%
 #define ASSERT(X,Y)	if (!(X)) error("struct bug: assertion 'X' invalid in routine Y","","");
 
@@ -370,8 +370,8 @@ newline()
 		already = 1;
 	}
 
-error(mess1, mess2, mess3)
-char *mess1, *mess2, *mess3;
+void
+error(char *mess1, char *mess2, char *mess3)
 	{
 	fprintf(stderr,"\nerror in beautifying, output line %d: %s %s %s \n",
 		xxlineno, mess1, mess2, mess3);

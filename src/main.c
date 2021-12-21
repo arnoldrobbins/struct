@@ -1,22 +1,24 @@
-#include <signal.h>
 #include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+
 #include "1.defs.h"
 #include "def.h"
 
 
 char (*input)(), (*unput)();
-FILE *outfd	= stdout;
+FILE *outfd;
 
 
+static void dexit(int signum);
 
-main(argc,argv)
-int argc;
-char *argv[];
+int
+main(int argc, char *argv[])
 	{
 	int anyoutput;
-	int dexit();
 	char *getargs();
 	char input1(), unput1(), input2(), unput2();
+	outfd = stdout;
 	anyoutput = FALSE;
 	getargs(argc,argv);
 	if (debug == 2) debfd = stderr;
@@ -57,13 +59,14 @@ char *argv[];
 		freegraf();
 		}
 	if (anyoutput)
-		exit(0);
+		exit(EXIT_SUCCESS);
 	else
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 
-dexit()
-	{
-	exit(1);
-	}
+static void
+dexit(int signum_unused)
+{
+	exit(EXIT_FAILURE);
+}

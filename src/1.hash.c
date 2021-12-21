@@ -108,7 +108,7 @@ hash_check()
 		if (value[i] == -2 && hashtab[i] != -1L)
 			{
 			error("in syntax; label used but does not appear as statement label:","","");
-			fprintf(stderr,"%D\n",hashtab[i]);
+			fprintf(stderr,"%ld\n",hashtab[i]);
 			routerr = 1;
 			}
 	}
@@ -175,7 +175,7 @@ int ptr;
 		if (value[index]  == -1)
 			{
 			error("in syntax:  ","","");
-			fprintf(stderr,"attempt to redefine value of label %D between lines %d and %d\n",
+			fprintf(stderr,"attempt to redefine value of label %ld between lines %d and %d\n",
 				x,begline,endline);
 			routerr = 1;
 			return;

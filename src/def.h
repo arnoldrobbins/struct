@@ -93,7 +93,7 @@ extern int *vxpart(), *negpart(), *predic(), *expres(), *level(), *stlfmt();
 extern int arcsper[TYPENUM];
 
 /* also nodes contain wds for children as specified by childper */
-extern childper[TYPENUM];
+extern int childper[TYPENUM];
 
 
 /* switches */

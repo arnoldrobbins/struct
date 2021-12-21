@@ -1,3 +1,20 @@
+2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
+
+	Start getting it to compile. :-)
+
+	* 0.alloc.c: Use %ld instead of %D in printf.
+	(error): Use ANSI definition.
+	* 1.fort.c: Use %ld instead of %D in printf.
+	* 1.hash.c: Ditto.
+	* beauty.y: Fix grammar for modern yacc/bison.
+	* beauty.c: Now a bison parser.
+	* y.tab.h: Ditto.
+	* def.h (childper): Add int to declaration.
+	* main.c (dexit): Fix type. Add include of <stdlib.h> and fix
+	calls to exit().
+	(outfd): Initialize in main().
+	(main): Add return type, use ANSI definition.
+
 1985-10-30         Brenda S. Baker       <research!bsb>
 
 	* makefile: Call chown from the right path.

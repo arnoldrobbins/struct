@@ -21,7 +21,7 @@ char c;
 				if (newlab->labelt > 99999L)
 					{
 				error("in syntax:\n","","");
-					fprintf(stderr,"line %d: label beginning %D too long\n%s\n",
+					fprintf(stderr,"line %d: label beginning %ld too long\n%s\n",
 						begline,newlab->labelt,buffer);
 					fprintf(stderr,"treating line as straight line code\n");
 					return(ABORT);
