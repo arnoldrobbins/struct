@@ -6,11 +6,11 @@ int
 mkgraph(void)
 {
 	if (!parse())
-		return(FALSE);
+		return (FALSE);
 
 	hash_check();
 	hash_free();
 	fingraph();
 
-	return(TRUE);
+	return (TRUE);
 }

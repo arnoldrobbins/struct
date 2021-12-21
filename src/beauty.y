@@ -231,152 +231,169 @@ comtok:	xxcom			{ putout(xxcom,$1);  free($1);  xxlablast = 0; }
 
 yyerror(s)
 char *s;
-	{
+{
 	extern int yychar;
-	fprintf(stderr,"\n%s",s);
-	fprintf(stderr," in beautifying, output line %d,",xxlineno + 1);
-	fprintf(stderr," on input: ");
-		switch (yychar) {
-			case '\t': fprintf(stderr,"\\t\n"); return;
-			case '\n': fprintf(stderr,"\\n\n"); return;
-			case '\0': fprintf(stderr,"$end\n"); return;
-			default: fprintf(stderr,"%c\n",yychar); return;
-			}
-	}
 
-yyinit(argc, argv)			/* initialize pushdown store */
+	fprintf(stderr, "\n%s", s);
+	fprintf(stderr, " in beautifying, output line %d,", xxlineno + 1);
+	fprintf(stderr, " on input: ");
+	switch (yychar) {
+	case '\t':
+		fprintf(stderr, "\\t\n");
+		return;
+	case '\n':
+		fprintf(stderr, "\\n\n");
+		return;
+	case '\0':
+		fprintf(stderr, "$end\n");
+		return;
+	default:
+		fprintf(stderr, "%c\n", yychar);
+		return;
+	}
+}
+
+yyinit(argc, argv)		/* initialize pushdown store */
 int argc;
 char *argv[];
-	{
+{
 	xxindent = 0;
 	xxbpertab = 8;
 	xxmaxchars = 120;
-	}
+}
 
 
 #include <signal.h>
 main()
-	{
+{
 	int exit();
-	if ( signal(SIGINT, SIG_IGN) != SIG_IGN)
+
+	if (signal(SIGINT, SIG_IGN) != SIG_IGN)
 		signal(SIGINT, exit);
 	yyinit();
 	yyparse();
-	}
+}
 
 
-putout(type,string)			/* output string with proper indentation */
+putout(type, string)		/* output string with proper indentation */
 int type;
 char *string;
-	{
+{
 	static int lasttype;
-	if ( (lasttype != 0) && (lasttype != '\n') && (lasttype != ' ') && (lasttype != '\t') && (type == xxcom))
+
+	if ((lasttype != 0) && (lasttype != '\n') && (lasttype != ' ')
+	    && (lasttype != '\t') && (type == xxcom))
 		accum("\t");
 	else if (lasttype == xxcom && type != '\n')
 		tab(xxindent);
-	else
-		if (lasttype == xxif	||
-			lasttype == xxwhile	||
-			lasttype == xxdo	||
-			type == '='	||
-			lasttype == '='	||
-			(lasttype == xxident && (type == xxident || type == xxnum) )	||
-			(lasttype == xxnum && type == xxnum) )
-			accum(" ");
+	else if (lasttype == xxif ||
+		 lasttype == xxwhile ||
+		 lasttype == xxdo ||
+		 type == '=' ||
+		 lasttype == '=' ||
+		 (lasttype == xxident
+		  && (type == xxident || type == xxnum))
+		 || (lasttype == xxnum && type == xxnum))
+		accum(" ");
 	accum(string);
 	lasttype = type;
-	}
+}
 
 
-accum(token)		/* fill output buffer, generate continuation lines */
+accum(token)			/* fill output buffer, generate continuation lines */
 char *token;
-	{
+{
 	static char *buffer;
-	static int lstatus,llen,bufind;
-	int tstatus,tlen,i;
+	static int lstatus, llen, bufind;
+	int tstatus, tlen, i;
 
 #define NEW	0
 #define MID	1
 #define CONT	2
 
-	if (buffer == 0)
-		{
+	if (buffer == 0) {
 		buffer = malloc(xxmaxchars);
-		if (buffer == 0) error("malloc out of space","","");
-		}
+		if (buffer == 0)
+			error("malloc out of space", "", "");
+	}
 	tlen = slength(token);
-	if (tlen == 0) return;
+	if (tlen == 0)
+		return;
 	for (i = 0; i < tlen; ++i)
-		ASSERT(token[i] != '\n' || tlen == 1,accum);
-	switch(token[tlen-1])
-		{
-		case '\n':	tstatus = NEW;
-				break;
-		case '+':
-		case '-':
-		case '*':
-		case ',':
-		case '|':
-		case '&':
-		case '(':	tstatus = CONT;
-				break;
-		default:	tstatus = MID;
-		}
-	if (llen + bufind + tlen > xxmaxchars && lstatus == CONT && tstatus != NEW)
-		{
+		ASSERT(token[i] != '\n' || tlen == 1, accum);
+	switch (token[tlen - 1]) {
+	case '\n':
+		tstatus = NEW;
+		break;
+	case '+':
+	case '-':
+	case '*':
+	case ',':
+	case '|':
+	case '&':
+	case '(':
+		tstatus = CONT;
+		break;
+	default:
+		tstatus = MID;
+	}
+	if (llen + bufind + tlen > xxmaxchars && lstatus == CONT
+	    && tstatus != NEW) {
 		putchar('\n');
 		++xxlineno;
 		for (i = 0; i < xxindent; ++i)
 			putchar('\t');
-		putchar(' ');putchar(' ');
+		putchar(' ');
+		putchar(' ');
 		llen = 2 + xxindent * xxbpertab;
 		lstatus = NEW;
-		}
-	if (lstatus == CONT && tstatus == MID)
-		{			/* store in buffer in case need \n after last CONT char */
-		ASSERT(bufind + tlen < xxmaxchars,accum);
+	}
+	if (lstatus == CONT && tstatus == MID) {	/* store in buffer in case need \n after last CONT char */
+		ASSERT(bufind + tlen < xxmaxchars, accum);
 		for (i = 0; i < tlen; ++i)
 			buffer[bufind++] = token[i];
-		}
-	else
-		{
+	} else {
 		for (i = 0; i < bufind; ++i)
 			putchar(buffer[i]);
 		llen += bufind;
 		bufind = 0;
 		for (i = 0; i < tlen; ++i)
 			putchar(token[i]);
-		if (tstatus == NEW) ++xxlineno;
+		if (tstatus == NEW)
+			++xxlineno;
 		llen = (tstatus == NEW) ? 0 : llen + tlen;
 		lstatus = tstatus;
-		}
 	}
+}
 
 tab(n)
 int n;
-	{
+{
 	int i;
+
 	newline();
-	for ( i = 0;  i < n; ++i)
-		putout('\t',"\t");
-	}
+	for (i = 0; i < n; ++i)
+		putout('\t', "\t");
+}
 
 newline()
-	{
+{
 	static int already;
+
 	if (already)
-		putout('\n',"\n");
+		putout('\n', "\n");
 	else
 		already = 1;
-	}
+}
 
 void
 error(char *mess1, char *mess2, char *mess3)
-	{
-	fprintf(stderr,"\nerror in beautifying, output line %d: %s %s %s \n",
+{
+	fprintf(stderr,
+		"\nerror in beautifying, output line %d: %s %s %s \n",
 		xxlineno, mess1, mess2, mess3);
 	exit(1);
-	}
+}
 
 
 
@@ -386,26 +403,26 @@ error(char *mess1, char *mess2, char *mess3)
 
 push(type)
 int type;
-	{
+{
 	if (++xxstind > xxtop)
-		error("nesting too deep, stack overflow","","");
+		error("nesting too deep, stack overflow", "", "");
 	xxstack[xxstind] = type;
-	}
+}
 
 pop()
-	{
+{
 	if (xxstind <= 0)
-		error("stack exhausted, can't be popped as requested","","");
+		error("stack exhausted, can't be popped as requested", "",
+		      "");
 	--xxstind;
-	}
+}
 
 
 forst()
-	{
-	while( (xxval = yylex()) != '\n')
-		{
+{
+	while ((xxval = yylex()) != '\n') {
 		putout(xxval, yylval);
 		free(yylval);
-		}
-	free(yylval);
 	}
+	free(yylval);
+}

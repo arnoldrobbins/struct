@@ -9,105 +9,104 @@ extern int (*rline[])();
 extern int (*comment[])();
 extern int (*getlabel[])();
 extern int (*chkcont[])();
+
 null(c)
 char c;
-	{return;}
+{
+	return;
+}
 
 
 
 comprint()
-	{
-	int c, blank, first,count;
+{
+	int c, blank, first, count;
+
 	blank = 1;
 	first = 1;
 	count = 0;
-	while ((c = (*comment[inputform])(0) ) || blankline() )
-		{
+	while ((c = (*comment[inputform]) (0)) || blankline()) {
 		++count;
-		if (c)
-			{
-			(*comment[inputform])(1);		/* move head past comment signifier */
+		if (c) {
+			(*comment[inputform]) (1);	/* move head past comment signifier */
 			blank = blankline();
 			/* if (first && !blank)
-				OUTSTR("#\n");*/
+			   OUTSTR("#\n"); */
 			prline("#");
 			first = 0;
-			}
-		else
-			(*rline[inputform])(null);
-		}
-	/* if (!blank) 
-		OUTSTR("#\n"); */
-	return(count);
+		} else
+			(*rline[inputform]) (null);
 	}
+	/* if (!blank) 
+	   OUTSTR("#\n"); */
+	return (count);
+}
 
 
 
-prcode(linecount,tab)
+prcode(linecount, tab)
 int linecount, tab;
-	{
+{
 	int someout;
+
 	someout = FALSE;
-	while (linecount)
-		{
-		if ( (*comment[inputform])(0) )
-			{
+	while (linecount) {
+		if ((*comment[inputform]) (0)) {
 			linecount -= comprint();
 			someout = TRUE;
 			continue;
-			}
-		else if (blankline() )
-			(*rline[inputform])(null);
-		else if ((*chkcont[inputform])() )
-			{
+		} else if (blankline())
+			(*rline[inputform]) (null);
+		else if ((*chkcont[inputform]) ()) {
 			TABOVER(tab);
 			prline("&");
-			someout  = TRUE;
-			}
-		else 
-			{if (someout) TABOVER(tab);
-			(*getlabel[inputform])(null);
+			someout = TRUE;
+		} else {
+			if (someout)
+				TABOVER(tab);
+			(*getlabel[inputform]) (null);
 			prline("");
-			someout=TRUE;
-			}
-		--linecount;
+			someout = TRUE;
 		}
+		--linecount;
 	}
+}
 
 
 charout(c)
 char c;
-	{
-	putc(c,outfd);
-	}
+{
+	putc(c, outfd);
+}
 
 
 
 prline(str)
 char *str;
-	{
-	fprintf(outfd,"%s",str);
+{
+	fprintf(outfd, "%s", str);
 	(*rline[inputform]) (charout);
-	putc('\n',outfd);
-	}
+	putc('\n', outfd);
+}
 
 
 input2()
-	{
+{
 	static int c;
+
 	c = inchar();
 	if (c == '\n')
 		linechars = 0;
 	else
 		++linechars;
-	return(c);
-	}
+	return (c);
+}
 
 
 unput2(c)
 int c;
-	{
+{
 	unchar(c);
 	--linechars;
-	return(c);
-	}
+	return (c);
+}

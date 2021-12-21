@@ -1,5 +1,10 @@
 2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
 
+	All .c files: Run through indent.
+	* beauty.y, lextab.l: Format C code through indent.
+
+2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
+
 	* allfuncs.h: New file.
 	* 0.graph.c: Move to ANSI definitions.
 	* 1.init.c: Ditto.
