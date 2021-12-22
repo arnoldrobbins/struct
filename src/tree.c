@@ -250,6 +250,7 @@ slength(char *s)	/* return number of chars in s, not counting '\0' */
 
 	if (!s)
 		return (-1);
-	for (i = 0; s[i] != '\0'; i++);
+	for (i = 0; s[i] != '\0'; i++)
+		continue;
 	return (i);
 }

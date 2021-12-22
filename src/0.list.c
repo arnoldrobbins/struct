@@ -23,7 +23,8 @@ struct list *ls;
 
 	if (!ls)
 		return (consls(v, 0));
-	for (temp = ls; temp->nxtlist; temp = temp->nxtlist);
+	for (temp = ls; temp->nxtlist; temp = temp->nxtlist)
+		continue;
 	temp->nxtlist = consls(v, 0);
 	return (ls);
 }

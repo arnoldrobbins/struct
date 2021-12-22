@@ -97,7 +97,8 @@ VERT w, v;
 
 	temp = RSIB(w);
 	RSIB(w) = v;
-	for (u = v; DEFINED(RSIB(u)); u = RSIB(u));
+	for (u = v; DEFINED(RSIB(u)); u = RSIB(u))
+		continue;
 	RSIB(u) = temp;
 }
 

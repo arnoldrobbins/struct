@@ -6,6 +6,12 @@
 	* makefile (clean): Remove generated files.
 	* tree.c: Include <stdlib.h>. Move to ANSI definitions.
 	(str_copy): Fix the call to fprintf to pass things correctly.
+	* beauty.y: Remove fix numbers for terminals. Add %union.
+	Move to ANSI definitions for functions defined here.
+	Still needs work.
+	* lextab.l: Add includes of some standard headers. Move
+	to ANSI definitions of functions. Fix input() macro. Still needs
+	work.
 
 2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
 

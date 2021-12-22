@@ -1,8 +1,8 @@
-%term  xxif 300 xxelse 301 xxwhile 302 xxrept 303 xxdo 304 xxrb 305 xxpred 306
-%term xxident 307 xxle 308 xxge 309 xxne 310 xxnum 311 xxcom 312
-%term xxstring 313 xxexplist 314 xxidpar 315 xxelseif 316  xxlb 318 xxend 319
-%term xxcase 320 xxswitch 321 xxuntil 322 xxdefault 323 
-%term xxeq 324
+%term xxif xxelse xxwhile xxrept xxdo xxrb xxpred
+%term xxident xxle xxge xxne xxnum xxcom
+%term xxstring xxexplist xxidpar xxelseif  xxlb xxend
+%term xxcase xxswitch xxuntil xxdefault 
+%term xxeq
 
 %left	'|'
 %left	'&'
@@ -12,6 +12,12 @@
 %left	'*' '/'
 %left	xxuminus
 %right	'^'
+
+%union {
+	int ival;
+	char *strval;
+	struct node *nodep;
+}
 
 %{
 #include "b.h"
@@ -365,8 +371,8 @@ char *token;
 	}
 }
 
-tab(n)
-int n;
+void
+tab(int n)
 {
 	int i;
 
@@ -375,7 +381,8 @@ int n;
 		putout('\t', "\t");
 }
 
-newline()
+void
+newline(void)
 {
 	static int already;
 
@@ -395,20 +402,16 @@ error(char *mess1, char *mess2, char *mess3)
 }
 
 
-
-
-
-
-
-push(type)
-int type;
+void
+push(int type)
 {
 	if (++xxstind > xxtop)
 		error("nesting too deep, stack overflow", "", "");
 	xxstack[xxstind] = type;
 }
 
-pop()
+void
+pop(void)
 {
 	if (xxstind <= 0)
 		error("stack exhausted, can't be popped as requested", "",
@@ -416,8 +419,8 @@ pop()
 	--xxstind;
 }
 
-
-forst()
+void
+forst(void)
 {
 	while ((xxval = yylex()) != '\n') {
 		putout(xxval, yylval);

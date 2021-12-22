@@ -1,8 +1,12 @@
 %{
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "y.tab.h"
 #include "b.h"
+
 #undef	input
-#define input()	ninput()
+#define input(x)	ninput()
 #undef	unput
 #define unput(c)	nunput(c)
 extern int yylval;
@@ -13,8 +17,9 @@ int xxbp = -1;
 char xxunbuf[xxunmax + 2];
 int xxunbp = -1;
 
-
 int blflag;
+
+#define YY_NO_INPUT 1
 %}
 
 D	[0-9]
@@ -122,7 +127,8 @@ END			{fixval(); xxbp = -1; return(xxend); }
 
 %%
 
-rdchar()
+int
+rdchar(void)
 {
 	int c;
 
@@ -135,8 +141,8 @@ rdchar()
 		return ((char) c);
 }
 
-backup(c)
-char c;
+void
+backup(int c)
 {
 	if (++xxunbp > xxunmax) {
 		xxunbuf[xxunmax + 1] = '\0';
@@ -147,8 +153,8 @@ char c;
 	xxunbuf[xxunbp] = c;
 }
 
-nunput(c)
-char c;
+void
+nunput(int c)
 {
 	backup(c);
 	if (xxbp < 0)
@@ -166,7 +172,8 @@ char c;
 	xxbuf[xxbp + 1] = '\0';
 }
 
-ninput()
+int
+ninput(void)
 {
 	char c, d;
 
@@ -184,8 +191,8 @@ ninput()
 	return (addbuf('\n'));
 }
 
-addbuf(c)
-char c;
+int
+addbuf(int c)
 {
 	if (++xxbp > xxbpmax) {
 		xxbuf[xxbpmax + 1] = '\0';
@@ -199,23 +206,25 @@ char c;
 }
 
 
-fixval()
+void
+fixval(void)
 {
 	int i, j, k;
 
-	for (j = 0; xxbuf[j] == ' ' || xxbuf[j] == '\t'; ++j);
-	for (k = j; xxbuf[k] != '\0'; ++k);
-	for (--k; k > j && xxbuf[k] == ' ' || xxbuf[k] == '\t'; --k);
+	for (j = 0; xxbuf[j] == ' ' || xxbuf[j] == '\t'; ++j)
+		continue;
+	for (k = j; xxbuf[k] != '\0'; ++k)
+		continue;
+	for (--k; k > j && xxbuf[k] == ' ' || xxbuf[k] == '\t'; --k)
+		continue;
 	xxbuf[k + 1] = '\0';
 	i = slength(&xxbuf[j]) + 1;
-	yylval = malloc(i);
+	yylval = (char *) malloc(i);
 	str_copy(&xxbuf[j], yylval, i);
 }
 
-
-
-putback(str)
-char *str;
+void
+putback(char *str)
 {
 	int i;
 

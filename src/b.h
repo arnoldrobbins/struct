@@ -23,4 +23,18 @@ extern int slength(char *s);
 
 /* beauty.y: */
 extern void putout(int type, char *string);
+extern void tab(int n);
+extern void newline(void);
+extern void error(char *mess1, char *mess2, char *mess3);
+extern void push(int type);
+extern void pop(void);
+extern void forst(void);
 
+/* lextab.l: */
+extern int rdchar(void);
+extern void backup(int c);
+extern void nunput(int c);
+extern int ninput(void);
+extern int addbuf(int c);
+extern void fixval(void);
+extern void putback(char *str);
