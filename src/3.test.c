@@ -3,7 +3,8 @@
 /* for testing only */
 #include "def.h"
 
-testreach()
+void
+testreach(void)
 {
 	VERT v;
 

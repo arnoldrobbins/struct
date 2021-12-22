@@ -28,7 +28,7 @@ install:	all
 	cp struct.sh /usr/bin/struct
 
 clean:
-	rm -f structure beautify *.o y.tab.c
+	rm -f structure beautify *.o y.tab.c beauty.c y.tab.h
 
 structure: main.o $(0FILES.o) $(1FILES.o) $(2FILES.o) $(3FILES.o) $(4FILES.o)
 	cc -o structure main.o 0.*.o 1.*.o 2.*.o 3.*.o 4.*.o 

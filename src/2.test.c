@@ -4,7 +4,8 @@
 #include "def.h"
 #include "2.def.h"
 
-testaft()
+void
+testaft(void)
 {
 	int i;
 
@@ -16,8 +17,8 @@ testaft()
 		fprintf(stderr, "after[%d] = %d\n", i, after[i]);
 }
 
-testhead(head)
-VERT *head;
+void
+testhead(VERT *head)
 {
 	VERT v;
 
@@ -25,8 +26,8 @@ VERT *head;
 		fprintf(stderr, "head[%d] = %d\n", v, head[v]);
 }
 
-testdom(dom)
-VERT *dom;
+void
+testdom(VERT *dom)
 {
 	VERT v;
 
@@ -35,7 +36,8 @@ VERT *dom;
 }
 
 
-testtree()
+void
+testtree(void)
 {
 	VERT v;
 	int i;

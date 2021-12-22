@@ -1,9 +1,18 @@
+2021-12-22         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 2.test.c, 3.test.c: Function definitions moved to ANSI style.
+	* b.h: Fix formatting. Add function declarations.
+	* beauty.y (putout): Move to ANSI style definition.
+	* makefile (clean): Remove generated files.
+	* tree.c: Include <stdlib.h>. Move to ANSI definitions.
+	(str_copy): Fix the call to fprintf to pass things correctly.
+
 2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* alldefs.h: More decls added.
 	* main.c (main): Remove decl of getargs.
 	* 0.alloc.c, 0.args.c, 0.string.c, 2.main.c, 3.main.c,
-	4.main.c: Function decls moved to ANSI style.
+	4.main.c: Function definitions moved to ANSI style.
 
 2021-12-21         Arnold D. Robbins     <arnold@skeeve.com>
 

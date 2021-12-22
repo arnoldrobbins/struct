@@ -275,9 +275,8 @@ main()
 }
 
 
-putout(type, string)		/* output string with proper indentation */
-int type;
-char *string;
+void
+putout(int type, char *string)		/* output string with proper indentation */
 {
 	static int lasttype;
 

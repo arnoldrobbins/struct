@@ -1,12 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "y.tab.h"
 #include "b.h"
-#include <stdio.h>
 
-
-addroot(string, type, n1, n2)
-char *string;
-int type;
-struct node *n1, *n2;
+struct node *
+addroot(char *string, int type, struct node *n1, struct node *n2)
 {
 	struct node *p;
 
@@ -20,8 +19,8 @@ struct node *n1, *n2;
 }
 
 
-freetree(tree)
-struct node *tree;
+void
+freetree(struct node *tree)
 {
 	if (tree) {
 		freetree(tree->left);
@@ -30,8 +29,8 @@ struct node *tree;
 	}
 }
 
-freenode(treenode)
-struct node *treenode;
+void
+freenode(struct node *treenode)
 {
 	free(treenode->lit);
 	free(treenode);
@@ -41,9 +40,8 @@ int compop[] = { '&', '|', '<', '>', xxeq, xxle, xxne, xxge };
 int notop[] = { '|', '&', xxge, xxle, xxne, '>', xxeq, '<' };
 char *opstring[] = { "||", "&&", ">=", "<=", "!=", ">", "==", "<" };
 
-checkneg(tree, neg)		/* eliminate nots if possible */
-struct node *tree;
-int neg;
+struct node *
+checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 {
 	int i;
 	struct node *t;
@@ -109,9 +107,9 @@ int neg;
 	}
 }
 
-yield(tree, fprec)
-struct node *tree;
-int fprec;			/* fprec is precedence of father of this node */
+void
+yield(struct node *tree,
+      int fprec)		/* fprec is precedence of father of this node */
 {
 	int paren, p;
 	static int oplast;	/* oplast = 1 iff last char printed was operator */
@@ -172,16 +170,16 @@ int fprec;			/* fprec is precedence of father of this node */
 	}
 }
 
-puttree(tree)
-struct node *tree;
+void
+puttree(struct node *tree)
 {
 	yield(tree, 0);
 	freetree(tree);
 }
 
 
-prec(oper)
-int oper;
+int
+prec(int oper)
 {
 	switch (oper) {
 	case ',':
@@ -215,9 +213,10 @@ int oper;
 	}
 }
 
-str_copy(s, ptr, length)	/* copy s at ptr, return length of s */
-char *s, *ptr;
-int length;
+/* copy s at ptr, return length of s */
+
+int
+str_copy(char *s, char *ptr, int length)
 {
 	int i;
 
@@ -226,14 +225,14 @@ int length;
 		if (ptr[i] == '\0')
 			return (i + 1);
 	}
-	fprintf(2,
-		"string %s too long to be copied by str_copy at address %d\n",
-		*s, ptr);
-	exit(1);
+	fprintf(stderr,
+		"string %s too long to be copied by str_copy at address %p\n",
+		s, ptr);
+	exit(EXIT_FAILURE);
 }
 
-str_eq(s, t)
-char s[], t[];
+int
+str_eq(char s[], char t[])
 {
 	int j;
 
@@ -244,8 +243,8 @@ char s[], t[];
 	return (0);
 }
 
-slength(s)			/* return number of chars in s, not counting '\0' */
-char *s;
+int
+slength(char *s)	/* return number of chars in s, not counting '\0' */
 {
 	int i;
 
