@@ -1,3 +1,8 @@
+2021-12-23         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* beauty.y: Start cleaning things up for modern yacc.
+	* lextab.l: Ditto.
+
 2021-12-22         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 2.test.c, 3.test.c: Function definitions moved to ANSI style.

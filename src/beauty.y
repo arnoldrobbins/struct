@@ -19,6 +19,10 @@
 	struct node *nodep;
 }
 
+%type <strval> xxcase xxdefault ':' xxswitch xxend xxident xxif xxelse xxwhile xxrept xxuntil xxdo '=' ','
+%type <strval> xxnum
+%type <nodep> identtok explist expr predlist
+
 %{
 #include "b.h"
 #include <stdio.h>

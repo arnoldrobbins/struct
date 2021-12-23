@@ -121,7 +121,7 @@ END			{fixval(); xxbp = -1; return(xxend); }
 					return(xxstring);
 					}
 
-^\n		xxbp = -1;
+^\n		{xxbp = -1;}
 \n		{xxbp = -1; if (newflag) {fixval(); return('\n'); }  }
 {SP}		{fixval(); xxbp = -1; return(yytext[0]); }
 
@@ -219,8 +219,8 @@ fixval(void)
 		continue;
 	xxbuf[k + 1] = '\0';
 	i = slength(&xxbuf[j]) + 1;
-	yylval = (char *) malloc(i);
-	str_copy(&xxbuf[j], yylval, i);
+	yylval.strval = (char *) malloc(i);
+	str_copy(&xxbuf[j], yylval.strval, i);
 }
 
 void
