@@ -19,16 +19,22 @@
 	struct node *nodep;
 }
 
-%type <strval> xxcase xxdefault ':' xxswitch xxend xxident xxif xxelse xxwhile xxrept xxuntil xxdo '=' ','
-%type <strval> xxnum
+%type <strval> xxcase xxcom xxdefault xxdo xxelse xxend xxeq xxge xxident xxif xxle
+%type <strval> xxne xxnum xxrept xxstring xxswitch xxuntil xxwhile
+%type <strval> '!' '&' '*' '+' ',' '-' '/' ':' '<' '=' '>' '^' '|'
 %type <nodep> identtok explist expr predlist
 
 %{
 #include "b.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
 
 struct node *t;
 void error(char *mess1, char *mess2, char *mess3);
+void yyerror(const char *s);
+static void accum(char *token);
+extern int yylex(void);
 %}
 
 %%
@@ -41,8 +47,8 @@ prog:	stat
 	|	prog stat
 	;
 
-stat:		 iftok pred nlevel elsetok nlevel
-	|	 iftok  pred  nlevel
+stat:		iftok pred nlevel elsetok nlevel
+	|	iftok  pred  nlevel
 	|	xxtab whtok  pred  nlevel
 	|	xxtab rpttok nlevel optuntil
 	|	xxtab dotok nlevel
@@ -50,30 +56,33 @@ stat:		 iftok pred nlevel elsetok nlevel
 	|	xxtab fstok
 	|	lbtok prog xxtab rbtok
 	|	lbtok rbtok
-	|	 labtok stat
+	|	labtok stat
 	|	xxnl comtok stat
 	|	error
 	;
 
 
-xxtab:			{
+xxtab:		{
 			if (!xxlablast) tab(xxindent);
 			xxlablast = 0;
-			}
+		}
 
 xxnl:		{ newline(); }
 xxnew:		{ putout('\n',"\n"); }
 nlevel:	pindent stat mindent;
 pindent:
-				{
-				if (xxstack[xxstind] != xxlb)
-					++xxindent;
-				};
+		{
+			if (xxstack[xxstind] != xxlb)
+				++xxindent;
+		}
+
 mindent:
-				{if (xxstack[xxstind] != xxlb && xxstack[xxstind] != xxelseif)
-					--xxindent;
-				pop();
-				};
+		{
+			if (xxstack[xxstind] != xxlb && xxstack[xxstind] != xxelseif)
+				--xxindent;
+			pop();
+		}
+
 caseseq:	casetok caseseq
 	|	casetok
 	;
@@ -84,50 +93,64 @@ casetok:	xxtab xxctok predlist pindent prog mindent
 	|	xxnl comtok casetok
 	;
 
-xxctok:	xxcase			{putout(xxcase,"case "); free ($1); push(xxcase); }
+xxctok:	xxcase	{
+			putout(xxcase,"case ");
+			free ($1);
+			push(xxcase);
+		}
 
 
-deftok:		xxdefault ':'			{
-						putout(xxcase,"default");
-						free($1);
-						putout(':',":");
-						free($2);
-						push(xxcase);
-						}
-swtok:	xxswitch				{putout(xxswitch,"switch"); free($1); push(xxswitch); }
+deftok:	xxdefault ':'	{
+				putout(xxcase,"default");
+				free($1);
+				putout(':',":");
+				free($2);
+				push(xxcase);
+			}
 
-fstok:	xxend			{
+swtok:	xxswitch	{
+				putout(xxswitch,"switch");
+				free($1);
+				push(xxswitch);
+			}
+
+
+fstok:	xxend		{
 				free($1);
 				putout(xxident,"end");
 				putout('\n',"\n");
 				putout('\n',"\n");
 				putout('\n',"\n");
-				}
-	|	xxident		{
+			}
+	| xxident
+			{
 				putout(xxident,$1);
 				free($1);
 				newflag = 1;
 				forst();
 				newflag = 0;
-				};
+			}
+	;
 
 		
 
-identtok:	xxident '(' explist ')'		{
-				xxt = addroot($1,xxident,0,0);
-				$$ = addroot("",xxidpar,xxt,$3);
-				}
+identtok:	xxident '(' explist ')'
+					{
+						xxt = addroot($1,xxident,0,0);
+						$$ = addroot("",xxidpar,xxt,$3);
+					}
 
-	|	xxident			{$$ = addroot($1,xxident,0,0);}
+	|	xxident	{ $$ = addroot($1,xxident,0,0); }
 	;
 
 predlist:	explist  ':'	{
-				yield($1,0);
-				putout(':',":");
-				freetree($1);
+					yield($1,0);
+					putout(':',":");
+					freetree($1);
 				}
-explist:	expr ',' explist			{ $$ = addroot($2,xxexplist,checkneg($1,0),$3); }
-	|	expr					{ $$ = checkneg($1,0); }
+
+explist:	expr ',' explist	{ $$ = addroot($2,xxexplist,checkneg($1,0),$3); }
+	|	expr			{ $$ = checkneg($1,0); }
 	;
 
 
@@ -135,8 +158,11 @@ oppred:	pred
 	|
 	;
 
-pred:	'(' expr ')'		{ t = checkneg($2,0);
-				yield(t,100);  freetree(t);	};
+pred:	'(' expr ')'	{
+				t = checkneg($2,0);
+				yield(t,100);
+				freetree(t);
+			}
 
 expr:		'(' expr ')'		{ $$ = $2; }
 	|	'-' expr	%prec xxuminus		{ $$ = addroot($1,xxuminus,$2,0); }
@@ -161,86 +187,101 @@ expr:		'(' expr ')'		{ $$ = $2; }
 	;
 
 iftok:	xxif
-				{
-				if (xxstack[xxstind] == xxelse && !xxlablast)
-					{
-					--xxindent;
-					xxstack[xxstind] = xxelseif;
-					putout(' '," ");
-					}
-				else
-					{
-					if (!xxlablast)
-						tab(xxindent);
-					xxlablast = 0;
-					}
-				putout(xxif,"if");
-				free($1);
-				push(xxif);
-				}
+		{
+			if (xxstack[xxstind] == xxelse && !xxlablast) {
+				--xxindent;
+				xxstack[xxstind] = xxelseif;
+				putout(' '," ");
+			} else {
+				if (!xxlablast)
+					tab(xxindent);
+				xxlablast = 0;
+			}
+			putout(xxif,"if");
+			free($1);
+			push(xxif);
+		}
 elsetok:	xxelse
-				{
+			{
 				tab(xxindent);
 				putout(xxelse,"else");
 				free($1);
 				push(xxelse);
-				}
-whtok:	xxwhile			{
+			}
+whtok:	xxwhile		{
 				putout(xxwhile,"while");
 				free($1);
 				push(xxwhile);
-				}
-rpttok:	xxrept				{
-					putout(xxrept,"repeat");
-					free($1);
-					push(xxrept);
-					}
+			}
+rpttok:	xxrept		{
+				putout(xxrept,"repeat");
+				free($1);
+				push(xxrept);
+			}
 optuntil:	xxtab unttok pred
 		|
 		;
 
 unttok:	xxuntil	   	{
-			putout('\t',"\t");
-			putout(xxuntil,"until");
-			free($1);
+				putout('\t',"\t");
+				putout(xxuntil,"until");
+				free($1);
 			}
 dotok:	dopart opdotok
 	;
+
 dopart:	xxdo	identtok '=' expr  ',' expr
-					{push(xxdo);
-					putout(xxdo,"do");
-					free($1);
-					puttree($2);
-					putout('=',"=");
-					free($3);
-					puttree($4);
-					putout(',',",");
-					free($5);
-					puttree($6);
-					}
-opdotok:	',' expr			{
-						putout(',',",");
+					{
+						push(xxdo);
+						putout(xxdo,"do");
+						free($1);
 						puttree($2);
-						}
-	|	;
-lbtok:	'{'			{
+						putout('=',"=");
+						free($3);
+						puttree($4);
+						putout(',',",");
+						free($5);
+						puttree($6);
+					}
+opdotok:	',' expr	{
+					putout(',',",");
+					puttree($2);
+				}
+	|
+	;
+
+lbtok:	'{'		{
 				putout('{'," {");
 				push(xxlb);
-				}
-rbtok:	'}'				{ putout('}',"}");  pop();   }
-labtok:	xxnum			{
+			}
+rbtok:	'}'		{
+				putout('}',"}");
+				pop();
+			}
+labtok:	xxnum		{
 				tab(xxindent);
 				putout(xxnum,$1);
 				putout(' ',"  ");
 				xxlablast = 1;
-				}
-comtok:	xxcom			{ putout(xxcom,$1);  free($1);  xxlablast = 0; }
-	|	comtok xxcom		{ putout ('\n',"\n"); putout(xxcom,$2);  free($2);  xxlablast = 0; };
+			}
+comtok:	xxcom		{
+				putout(xxcom,$1);
+				free($1);
+				xxlablast = 0;
+			}
+	|	comtok xxcom
+			{
+				putout ('\n',"\n");
+				putout(xxcom,$2);
+				free($2);
+				xxlablast = 0;
+			}
+	;
 %%
 #define ASSERT(X,Y)	if (!(X)) error("struct bug: assertion 'X' invalid in routine Y","","");
 
-yyerror(s)
-char *s;
+void
+yyerror(const char *s)
 {
 	extern int yychar;
 
@@ -263,24 +304,26 @@ char *s;
 	}
 }
 
-yyinit(argc, argv)		/* initialize pushdown store */
-int argc;
-char *argv[];
+void
+yyinit(int argc, char **argv)		/* initialize pushdown store */
 {
 	xxindent = 0;
 	xxbpertab = 8;
 	xxmaxchars = 120;
 }
 
-
-#include <signal.h>
-main()
+static void
+handler(int signum_ignored)
 {
-	int exit();
+	exit(EXIT_FAILURE);
+}
 
+int
+main(int argc, char **argv)
+{
 	if (signal(SIGINT, SIG_IGN) != SIG_IGN)
-		signal(SIGINT, exit);
-	yyinit();
+		signal(SIGINT, handler);
+	yyinit(argc, argv);
 	yyparse();
 }
 
@@ -309,8 +352,8 @@ putout(int type, char *string)		/* output string with proper indentation */
 }
 
 
-accum(token)			/* fill output buffer, generate continuation lines */
-char *token;
+static void
+accum(char *token)			/* fill output buffer, generate continuation lines */
 {
 	static char *buffer;
 	static int lstatus, llen, bufind;
@@ -427,8 +470,8 @@ void
 forst(void)
 {
 	while ((xxval = yylex()) != '\n') {
-		putout(xxval, yylval);
-		free(yylval);
+		putout(xxval, yylval.strval);
+		free(yylval.strval);
 	}
-	free(yylval);
+	// free(yylval);	// ADR: What is this?
 }

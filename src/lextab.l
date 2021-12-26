@@ -9,7 +9,7 @@
 #define input(x)	ninput()
 #undef	unput
 #define unput(c)	nunput(c)
-extern int yylval;
+
 #define xxbpmax	1700
 char xxbuf[xxbpmax + 2];
 int xxbp = -1;
@@ -97,7 +97,7 @@ END			{fixval(); xxbp = -1; return(xxend); }
 \"([^"]|\"\")*\"		{fixval(); xxbp = -1; return(xxstring); }
 '([^']|'')*'				{
 					fixval();
-					xxp = yylval;
+					xxp = yylval.strval;
 					xxn = slength(xxp);
 					xxtbuff = malloc(2*xxn+1);
 					xxtbuff[0] = '"';
@@ -116,7 +116,7 @@ END			{fixval(); xxbp = -1; return(xxend); }
 					xxtbuff[xxk++] = '"';
 					xxtbuff[xxk] = '\0';
 					free(xxp);
-					yylval = xxtbuff;
+					yylval.strval = xxtbuff;
 					xxbp = -1;
 					return(xxstring);
 					}
@@ -231,4 +231,10 @@ putback(char *str)
 	for (i = 0; str[i] != '\0'; ++i);
 	for (--i; i >= 0; --i)
 		backup(str[i]);
+}
+
+int
+yywrap(void)
+{
+	return 1;
 }

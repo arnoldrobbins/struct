@@ -1,3 +1,17 @@
+2021-12-26         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* b.h (xxt): Change type to struct node *.
+	* bdef.c (xxt): Ditto.
+	* beauty.y: Continue cleanup. Give type to more terminals.
+	Format the productions more nicely. Include <stdlib.h>
+	and <signal.h>. Fix uses of yylval.
+	(handler): New function.
+	(yyerror, yyinit, main, accum): Use ANSI definitions.
+	* lextab.l (yylval): Remove declaration.  Fix uses.
+	(yywrap): New function.
+	* makefile (YACC): Define as byacc, avoids Bison's warnings.
+	(beautify): Remove -lln option.
+
 2021-12-23         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* beauty.y: Start cleaning things up for modern yacc.

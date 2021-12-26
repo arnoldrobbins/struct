@@ -1,13 +1,14 @@
 extern int xxindent, xxval, newflag, xxmaxchars, xxbpertab;
 extern int xxlineno;		/* # of lines already output */
 #define xxtop	100		/* max size of xxstack */
-extern int xxstind, xxstack[xxtop], xxlablast, xxt;
+extern int xxstind, xxstack[xxtop], xxlablast;
 struct node {
 	int op;
 	char *lit;
 	struct node *left;
 	struct node *right;
 };
+struct node *xxt;
 
 /* tree.c: */
 extern struct node *addroot(char *string, int type, struct node *n1, struct node *n2);

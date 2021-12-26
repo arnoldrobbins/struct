@@ -16,6 +16,8 @@ YFLAGS=-d
 4FILES.c = 4.brace.c 4.form.c 4.main.c 4.out.c
 4FILES.o = 4.brace.o 4.form.o 4.main.o 4.out.o
 
+YACC = byacc
+
 all:	structure beautify
 
 install:	all
@@ -34,7 +36,7 @@ structure: main.o $(0FILES.o) $(1FILES.o) $(2FILES.o) $(3FILES.o) $(4FILES.o)
 	cc -o structure main.o 0.*.o 1.*.o 2.*.o 3.*.o 4.*.o 
 
 beautify:	beauty.o tree.o lextab.o bdef.o
-	cc beauty.o tree.o lextab.o bdef.o -o beautify -lln
+	cc beauty.o tree.o lextab.o bdef.o -o beautify
 
 lint:
 	lint $(0FILES.c) $(1FILES.c) $(2FILES.c) $(3FILES.c) $(4FILES.c) main.c
