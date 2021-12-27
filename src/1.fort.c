@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "1.incl.h"
-#include  "1.defs.h"
+#include "1.defs.h"
 #include "def.h"
 
 
@@ -85,7 +85,7 @@ char c;
 		return (_rwlab);
 
 	case 72:
-		exp = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
+		expr = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
 		break;
 
 	case 73:
@@ -132,7 +132,7 @@ char c;
 		break;
 
 	case 125:		/* computed goto */
-		exp = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
+		expr = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
 		recognize(COMPVX, flag);
 		return (ABORT);
 
@@ -146,7 +146,7 @@ char c;
 		break;
 
 	case 150:		/* label assignment */
-		exp = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
+		expr = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
 		recognize(ASVX, flag);
 		break;
 

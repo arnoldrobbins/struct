@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include "def.h"
+#include "allfuncs.h"
 
 struct list *
-consls(v, ls)			/* make list */
-VERT v;
-struct list *ls;
+consls(VERT v, struct list *ls)			/* make list */
 {
 	struct list *temp;
 
@@ -15,9 +14,7 @@ struct list *ls;
 }
 
 struct list *
-append(v, ls)			/* return ls . v */
-VERT v;
-struct list *ls;
+append(VERT v, struct list *ls)			/* return ls . v */
 {
 	struct list *temp;
 
@@ -30,8 +27,8 @@ struct list *ls;
 }
 
 
-freelst(ls)
-struct list *ls;
+void
+freelst(struct list *ls)
 {
 	if (!ls)
 		return;
@@ -41,8 +38,8 @@ struct list *ls;
 }
 
 
-oneelt(ls)			/* return w if w is only elt of ls, UNDEFINED otherwise */
-struct list *ls;
+VERT
+oneelt(struct list *ls)		/* return w if w is only elt of ls, UNDEFINED otherwise */
 {
 	if (!ls)
 		return (UNDEFINED);
@@ -52,8 +49,8 @@ struct list *ls;
 }
 
 
-lslen(ls)			/* return number of elements in list ls */
-struct list *ls;
+int
+lslen(struct list *ls)			/* return number of elements in list ls */
 {
 	int count;
 	struct list *lp;
@@ -65,8 +62,8 @@ struct list *ls;
 }
 
 
-prlst(ls)
-struct list *ls;
+void
+prlst(struct list *ls)
 {
 	struct list *lp;
 

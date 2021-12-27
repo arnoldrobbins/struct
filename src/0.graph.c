@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
+#include "allfuncs.h"
 
 #define TABOVER(n)	tabover(n, stderr)
 

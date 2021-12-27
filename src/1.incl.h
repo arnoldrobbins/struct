@@ -27,7 +27,7 @@ extern long begchar, endchar, comchar;
 #define entry	-10
 
 
-extern char *pred, *inc, *prerw, *postrw, *exp, *stcode;
+extern char *pred, *inc, *prerw, *postrw, *expr, *stcode;
 
 #define maxdo	20	/* max nesting of do loops */
 extern long dostack[maxdo];		/* labels of do nodes */

@@ -12,6 +12,7 @@ extern struct coreblk *morespace(int n, struct coreblk **p, int size);
 extern void error(char *mess1, char *mess2, char *mess3);
 extern void faterr(char *mess1, char *mess2, char *mess3);
 extern void strerr(char *mess1, char *mess2, char *mess3);
+extern void *challoc(int n);
 
 /* 0.args.c: */
 extern void getargs(int argc, char *argv[]);
@@ -22,6 +23,14 @@ extern void prgraph(void);
 extern void prtree(void);
 extern void prtr(VERT v,int tab);
 extern void tabover(int n, FILE *fd);
+
+/* 0.list.c: */
+extern struct list *consls(VERT v, struct list *ls);
+extern struct list *append(VERT v, struct list *ls);
+extern void freelst(struct list *ls);
+extern VERT oneelt(struct list *ls);
+extern int lslen(struct list *ls);
+extern void prlst(struct list *ls);
 
 /* 0.string.c: */
 extern int str_copy(char *s, char *ptr, int length);
@@ -38,6 +47,7 @@ extern void prog_init(void);
 extern void routinit(void);
 extern void line_init(void);
 extern void graf_init(void);
+
 
 /* 1.main.c: */
 extern int mkgraph(void);

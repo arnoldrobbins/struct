@@ -1,3 +1,14 @@
+2021-12-27         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 0.extr.c (expr): Renamed from exp.
+	* 0.graph.c: Include <stdlib.h> and allfuncs.h.
+	* 0.list.c: Include allfuncs.h. Move to ANSI definitions.
+	* 0.parts.c: Include allfuncs.h. A formatting fix.
+	* 1.fort.c (expr): Renamed from exp, fix all uses.
+	* 1.incl.h (expr): Renamed from exp.
+	* 1.recog.c (expr): Renamed from exp, fix all uses.
+	* allfuncs.h: More declarations added.
+
 2021-12-26         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* b.h (xxt): Change type to struct node *.

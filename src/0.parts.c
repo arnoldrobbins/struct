@@ -1,7 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
+#include "allfuncs.h"
 
-char *typename[TYPENUM] = { "STLNVX", "IFVX", "DOVX", "IOVX", "FMTVX",
+char *typename[TYPENUM] = {
+	"STLNVX", "IFVX", "DOVX", "IOVX", "FMTVX",
 	"COMPVX", "ASVX", "ASGOVX", "LOOPVX", "WHIVX",
 	"UNTVX", "ITERVX", "THENVX", "STOPVX", "RETVX",
 	"DUMVX", "GOVX", "BRKVX", "NXTVX", "SWCHVX",

@@ -195,13 +195,13 @@ int type, ifflag;		/* do whatever is needed for this statement */
 		num =
 		    makenode(type, !ifflag, !ifflag, label(0), nlabs - 1,
 			     arctype, arclab);
-		EXP(num) = exp;
+		EXP(num) = expr;
 		break;
 	case ASVX:
 		num =
 		    makenode(ASVX, !ifflag, !ifflag, label(0), 1, arctype,
 			     arclab);
-		EXP(num) = exp;
+		EXP(num) = expr;
 		addref(label(1), &LABREF(num));
 		break;
 	case entry:
@@ -366,7 +366,7 @@ LOGICAL ifflag;
 	num =
 	    makenode(SWCHVX, !ifflag, !ifflag, label(0), d, arctype,
 		     arclab);
-	EXP(num) = exp;
+	EXP(num) = expr;
 
 	str = challoc(6 * nlabs);	/* 5 digits + , or \0 per label */
 	for (i = 0; i < d; ++i)	/* construct list of values for each label */

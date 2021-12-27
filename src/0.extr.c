@@ -16,7 +16,7 @@ int nlabs, lswnum, swptr, flag,
 long begchar, endchar, comchar;
 
 
-char *pred, *inc, *prerw, *postrw, *exp, *stcode;
+char *pred, *inc, *prerw, *postrw, *expr, *stcode;
 
 #define maxdo	20		/* max nesting of do loops */
 long dostack[maxdo];		/* labels of do nodes */
