@@ -31,13 +31,13 @@ addchar(c)
 	buffer[bufcount++] = c;
 }
 
-getline(lastline, lastchar, linecom, charcom)
-int *lastline, *linecom;
-long *lastchar, *charcom;
+// not getline, to avoid conflict with <stdio.h> function of that name.
+int
+get_a_line(int *lastline, long *lastchar, int *linecom, long *charcom)
 
-				/* set *lastline to number of last line of statement,
-				   set *lastchar to number of last char of statement,
-				   set *linecom to number of last line of comment preceding statement */
+		/* set *lastline to number of last line of statement,
+		   set *lastchar to number of last char of statement,
+		   set *linecom to number of last line of comment preceding statement */
 {
 
 	int i;

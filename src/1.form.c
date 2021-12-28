@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include "1.defs.h"
 #include "def.h"
+#include "allfuncs.h"
+
 extern int linechar, errflag, debug;
 extern int (*input)(),(*unput)();
 
 
-
-uptolow(c)			/*translates upper to lower case */
-int c;
+int
+uptolow(int c)			/*translates upper to lower case */
 {
 	if ('A' <= c && c <= 'Z')
 		return (c + 'a' - 'A');
@@ -15,35 +16,35 @@ int c;
 		return (c);
 }
 
-rdfree(func)
-int (*func)();
+void
+rdfree( int (*func)() )
 {
 	int c;
 
-	while ((c = (*input) ()) != '\n') {
-		(*func) (c);
+	while ((c = (*input)()) != '\n') {
+		(*func)(c);
 	}
 }
 
-rdstand(func)
-int (*func)();
+void
+rdstand( int (*func)() )
 {
 	int c;
 
-	while ((c = (*input) ()) != '\n') {
-		(*func) (c);
+	while ((c = (*input)()) != '\n') {
+		(*func)(c);
 	}
 }
 
-labfree(func)			/* labels in freeform input */
-int (*func)();
+void
+labfree( int (*func)() )	/* labels in freeform input */
 {
 	int c;
 	int temp[6];
 	int j;
 
 	for (j = 0; j < 5; ++j) {
-		while ((c = (*input) ()) == ' ' || c == '\t');
+		while ((c = (*input)()) == ' ' || c == '\t');
 		if (c == '\n') {
 			if (j != 0) {
 				temp[j] = '\0';
@@ -52,50 +53,51 @@ int (*func)();
 			}
 		}
 		if (c < '0' || c > '9') {
-			(*unput) (c);
+			(*unput)(c);
 			break;
 		} else {
 			temp[j] = c;
-			(*func) (c);
+			(*func)(c);
 		}
 	}
 	for (; j < 5; ++j)
-		(*func) (' ');
+		(*func)(' ');
 }
 
-labstand(func)			/* labels in standard form input */
-int (*func)();
+void
+labstand( int (*func)() )	/* labels in standard form input */
 {
 	int c;
 	int j;
 
 	for (j = 0; j < 5; ++j) {
-		c = (*input) ();
+		c = (*input)();
 		if (c == '\n') {
 			error("line shorter than 5 characters", "", "");
 			errflag = 1;
-			(*unput) ('\n');
+			(*unput)('\n');
 		}
 		if (c == '\t' || c == '\n') {
 			for (; j < 5; ++j)
-				(*func) (' ');
+				(*func)(' ');
 			return;
 		}
-		(*func) (c);
+		(*func)(c);
 	}
-	(*input) ();		/* throw away continuation char */
+	(*input)();		/* throw away continuation char */
 }
 
 
 
-contfree()
-{				/* identify continuation lines in free-form input */
+int
+contfree(void)		/* identify continuation lines in free-form input */
+{
 	return (nonblchar(_diglet, 0));	/* any non-alpha non-digit */
 }
 
 
-nonblchar(class, yesno)
-int class, yesno;
+int
+nonblchar(int class, int yesno)
 {
 #define CARDSIZE	121
 	int temp[CARDSIZE];
@@ -117,8 +119,9 @@ int class, yesno;
 }
 
 
-contstand()
-{				/* continuation lines in standard form input */
+int
+contstand(void)		/* continuation lines in standard form input */
+{
 	int temp[6];
 	int i;
 
@@ -135,21 +138,20 @@ contstand()
 		return (1);
 	else {
 		for (i = 5; i >= 0; --i)
-			(*unput) (temp[i]);
+			(*unput)(temp[i]);
 		return (0);
 	}
 }
 
 
-
-comstand(posafter)		/* standard form comments */
-int posafter;
+int
+comstand(int posafter)		/* standard form comments */
 {
 	int c;
 
-	c = (*input) ();
+	c = (*input)();
 	if (!posafter)
-		(*unput) (c);
+		(*unput)(c);
 	if (c == 'c' || c == '*' || c == '#')
 		return (1);
 	else
@@ -157,20 +159,22 @@ int posafter;
 }
 
 
-comfree(posafter)
-int posafter;
+int
+comfree(int posafter)
 {
 	return (comstand(posafter));
 }
-int (*rline[])() = { rdfree, rdstand };
+
+void (*rline[])() = { rdfree, rdstand };
 int (*comment[])() = { comfree, comstand };
-int (*getlabel[])() = { labfree, labstand };
+void (*getlabel[])() = { labfree, labstand };
 int (*chkcont[])() = { contfree, contstand };
 
-blankline()
+int
+blankline(void)
 {
 	if (nonblchar(_nl, 1)) {	/* first non-blank is nl */
-		(*unput) ('\n');
+		(*unput)('\n');
 		return (1);
 	} else
 		return (0);
@@ -180,15 +184,16 @@ blankline()
 char unbuf[maxunbp + 1];
 int unbp;
 
-empseek(linebeg)
-unsigned int linebeg;
+void
+empseek(unsigned int linebeg)
 {
 	unbp = 0;
 	if (fseek(infd, (long) (linebeg + rtnbeg), 0) == -1)
 		faterr("in disk seek", "", "");
 }
 
-inchar()
+int
+inchar(void)
 {
 	if (unbp > 0)
 		return (unbuf[--unbp]);
@@ -198,8 +203,8 @@ inchar()
 }
 
 
-unchar(c)
-int c;
+void
+unchar(int c)
 {
 	if (unbp >= maxunbp)
 		faterr("dec.rat: unbuf size exceeded", "", "");

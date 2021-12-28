@@ -1,3 +1,19 @@
+2021-12-28         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 0.parts.c: Fix formatting. Move to ANSI definitions.
+	* 1.finish.c: Ditto. Include allfuncs.h.
+	* 1.form.c: Ditto.
+	* 1.fort.c: Ditto.
+	* 1.hash.c: Ditto. Include <stdlib.h>.
+	(get_a_line): Calls renamed from getline to avoid conflict
+	with <stdio.h> function.
+	* 1.init.c: Include allfuncs.h.
+	* 1.line.c (get_a_line): Renamed from getline. ANSIfy definition.
+	* 1.node.c: Fix formatting. Move to ANSI definitions. Include
+	allfuncs.h.
+	* 1.recog.c (recognize): Move to ANSI definition.
+	* allfuncs.h: More declarations added.
+
 2021-12-27         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 0.extr.c (expr): Renamed from exp.

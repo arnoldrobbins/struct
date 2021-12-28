@@ -3,9 +3,11 @@
 #include "def.h"
 
 
-recognize(type, ifflag)		/* if ifflag = 1, statement is if()type; otherwise is type */
-int type, ifflag;		/* do whatever is needed for this statement */
+void
+recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwise is type */
 {
+	/* do whatever is needed for this statement */
+
 	int *arctype, i, sp;
 	VERT num, num1, nest, loophead;
 	extern long label();

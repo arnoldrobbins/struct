@@ -11,29 +11,32 @@ char *typename[TYPENUM] = {
 	"ACASVX", "ICASVX"
 };
 
-int hascom[TYPENUM] = { 2, 2, 2, 2, 2,
+int hascom[TYPENUM] = {
+	2, 2, 2, 2, 2,
 	2, 2, 2, 0, 0,
 	0, 0, 2, 0, 0,
 	0, 0, 0, 0, 2,
 	2, 0
 };
 
-int nonarcs[TYPENUM] =
-    { FIXED + 3, FIXED + 4, FIXED + 2, FIXED + 3, FIXED + 2,
+int nonarcs[TYPENUM] = {
+	FIXED + 3, FIXED + 4, FIXED + 2, FIXED + 3, FIXED + 2,
 	FIXED + 2, FIXED + 2, FIXED + 2, FIXED + 1, FIXED + 1,
 	FIXED + 1, FIXED + 4, FIXED + 3, FIXED, FIXED,
 	FIXED + 2, FIXED + 1, FIXED + 1, FIXED + 1, FIXED + 3,
 	FIXED + 4, FIXED + 2
 };
 
-int childper[TYPENUM] = { 0, 2, 1, 0, 0,
+int childper[TYPENUM] = {
+	0, 2, 1, 0, 0,
 	0, 0, 0, 1, 1,
 	1, 1, 1, 0, 0,
 	1, 0, 0, 0, 1,
 	2, 1
 };
 
-int arcsper[TYPENUM] = { 1, 2, 2, 3, 0,
+int arcsper[TYPENUM] = {
+	1, 2, 2, 3, 0,
 	-(FIXED + 1), 1, -(FIXED + 1), 1, 1,
 	1, 1, 2, 0, 0,
 	-FIXED, 1, 1, 1, -(FIXED + 1),
@@ -41,9 +44,7 @@ int arcsper[TYPENUM] = { 1, 2, 2, 3, 0,
 };
 
 VERT *
-arc(v, i)
-VERT v;
-int i;
+arc(VERT v, int i)
 {
 	ASSERT(DEFINED(v), arc);
 	ASSERT(0 <= i && i < ARCNUM(v), arc);
@@ -51,9 +52,7 @@ int i;
 }
 
 VERT *
-lchild(v, i)
-VERT v;
-int i;
+lchild(VERT v, int i)
 {
 	ASSERT(DEFINED(v), lchild);
 	ASSERT(0 <= i && i < childper[NTYPE(v)], lchild);
@@ -61,9 +60,7 @@ int i;
 }
 
 int *
-vxpart(v, type, j)
-VERT v;
-int type, j;
+vxpart(VERT v, int type, int j)
 {
 	ASSERT((NTYPE(v) == type) && (0 <= j)
 	       && (j < nonarcs[type] - FIXED), vxpart);
@@ -71,8 +68,7 @@ int type, j;
 }
 
 int *
-expres(v)
-VERT v;
+expres(VERT v)
 {
 	int ty;
 
@@ -83,24 +79,21 @@ VERT v;
 }
 
 int *
-negpart(v)
-VERT v;
+negpart(VERT v)
 {
 	ASSERT(NTYPE(v) == IFVX || NTYPE(v) == ACASVX, negpart);
 	return (&graph[v][FIXED + 1]);
 }
 
 int *
-predic(v)
-VERT v;
+predic(VERT v)
 {
 	ASSERT(NTYPE(v) == IFVX || NTYPE(v) == ACASVX, predic);
 	return (&graph[v][FIXED]);
 }
 
 int *
-level(v)
-VERT v;
+level(VERT v)
 {
 	ASSERT(NTYPE(v) == GOVX || NTYPE(v) == BRKVX
 	       || NTYPE(v) == NXTVX, level);
@@ -108,18 +101,16 @@ VERT v;
 }
 
 int *
-stlfmt(v, n)
-VERT v;
-int n;
+stlfmt(VERT v, int n)
 {
 	ASSERT(NTYPE(v) == STLNVX || NTYPE(v) == FMTVX, stlfmt);
 	return (&graph[v][FIXED + n]);
 }
 
-create(type, arcnum)
-int type, arcnum;
+int
+create(int type, int arcnum)
 {
-	int i, *temp, wds;
+	int i, **temp, wds;
 
 	if (nodenum >= maxnode) {
 		maxnode += 100;

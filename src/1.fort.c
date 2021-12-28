@@ -2,11 +2,10 @@
 #include "1.incl.h"
 #include "1.defs.h"
 #include "def.h"
+#include "allfuncs.h"
 
-
-act(k, c, bufptr)
-int k, bufptr;
-char c;
+VERT
+act(int k, int c, int bufptr)
 {
 	long ftemp;
 	struct lablist *makelab();
@@ -232,8 +231,7 @@ char c;
 
 
 struct lablist *
-makelab(x)
-long x;
+makelab(long x)
 {
 	struct lablist *p;
 
@@ -245,8 +243,7 @@ long x;
 
 
 long
-label(i)
-int i;
+label(int i)
 {
 	struct lablist *j;
 
@@ -262,12 +259,13 @@ int i;
 }
 
 
-freelabs()
+void
+freelabs(void)
 {
 	struct lablist *j, *k;
 
 	j = linelabs;
-	while (j != 0) {
+	while (j != NULL) {
 		k = j->nxtlab;
 		chfree(j, sizeof(*j));
 		j = k;
@@ -275,9 +273,8 @@ freelabs()
 }
 
 
-stralloc(ad, n)			/* allocate space, copy n chars from address ad, add '0' */
-int n;
-char *ad;
+char *
+stralloc(char *ad, int n)		/* allocate space, copy n chars from address ad, add '0' */
 {
 	char *cp;
 
@@ -287,8 +284,8 @@ char *ad;
 }
 
 
-remtilda(s)			/* change ~ to blank */
-char *s;
+char *
+remtilda(char *s)			/* change ~ to blank */
 {
 	int i;
 

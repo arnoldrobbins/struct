@@ -1,8 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
 #include "1.incl.h"
+#include "allfuncs.h"
 
-fingraph()
+void
+fingraph(void)
 {
 	/* if any entry statements, add a DUMVX with arcs to all entry statements */
 	if (ENTLST) {
@@ -16,9 +19,8 @@ fingraph()
 	}
 }
 
-addum(v, lst)
-VERT v;
-struct list *lst;
+VERT
+addum(VERT v, struct list *lst)
 {
 	VERT new;
 	int count, i;

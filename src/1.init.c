@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "1.defs.h"
-#include  "1.incl.h"
+#include "1.incl.h"
 #include "def.h"
+#include "allfuncs.h"
 
 
 void

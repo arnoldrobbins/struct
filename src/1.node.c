@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include "def.h"
 #include "1.incl.h"
+#include "allfuncs.h"
 
-makenode(type, addimp, addcom, labe, arcnum, arctype, arclab)
-LOGICAL addimp, addcom;
-int type, arctype[], arcnum;
-long arclab[], labe;
+VERT
+makenode(int type, LOGICAL addimp, LOGICAL addcom, long labe, int arcnum, int arctype[], long arclab[])
 {
 	int i;
 	VERT num;
@@ -36,13 +35,8 @@ long arclab[], labe;
 	return (num);
 }
 
-
-
-
-
-fiximp(num, labe)		/* fix implicit links, check nesting */
-VERT num;
-long labe;
+void
+fiximp(VERT num, long labe)		/* fix implicit links, check nesting */
 {
 	fixvalue(implicit, num);	/* set implicit links to this node */
 	clear(implicit);

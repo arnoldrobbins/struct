@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "1.incl.h"
 #include "1.defs.h"
-#include"def.h"
+#include "def.h"
+#include "allfuncs.h"
 
 extern int match[], symclass[], action[], newstate[];
 extern char symbol[];
@@ -10,8 +12,8 @@ int *value, *chain;
 
 extern FILE *infd;
 
-
-parse()
+int
+parse(void)
 {
 	int i, j, found, current, someread;
 	char c;
@@ -23,10 +25,10 @@ parse()
 	someread = 0;		/* indicates haven't read part of a routine */
 
 	empseek(0);
-	endbuf = getline(&endline, &endchar, &endcom, &comchar);
+	endbuf = get_a_line(&endline, &endchar, &endcom, &comchar);
 	if (progress && endbuf != -1)
 		fprintf(stderr, "parsing\n");
-	while (endbuf != -1) {	/* getline returns -1 when no more input */
+	while (endbuf != -1) {	/* get_a_line returns -1 when no more input */
 		someread = 1;
 		if (progress > 0) {
 			for (i = begline; i <= endline; i++)
@@ -44,7 +46,7 @@ parse()
 				    && current != ABORT) {
 					strerr("in parsing:", "", "");
 					fprintf(stderr,
-						"line %d of file, parser in invalid state",
+						"line %d of file, parser in invalid state %d ",
 						begline, current);
 					fprintf(stderr,
 						"treating it as straight line code\n");
@@ -90,7 +92,7 @@ parse()
 			}
 		}
 		line_init();
-		endbuf = getline(&endline, &endchar, &endcom, &comchar);
+		endbuf = get_a_line(&endline, &endchar, &endcom, &comchar);
 	}
 	if (someread)
 		return (1);
@@ -98,8 +100,8 @@ parse()
 		return (0);
 }
 
-
-hash_init()
+void
+hash_init(void)
 {
 	int i;
 
@@ -113,8 +115,8 @@ hash_init()
 	}
 }
 
-
-hash_check()
+void
+hash_check(void)
 {
 	int i;
 
@@ -128,7 +130,8 @@ hash_check()
 		}
 }
 
-hash_free()
+void
+hash_free(void)
 {
 	chfree(hashtab, sizeof(*hashtab) * maxhash);
 	hashtab = 0;
@@ -138,8 +141,8 @@ hash_free()
 	value = 0;
 }
 
-hash(x)
-long x;
+int
+hash(long x)
 {
 	int quo, rem, hcount, temp;
 
@@ -160,9 +163,8 @@ long x;
 	return (temp);
 }
 
-addref(x, ptr)			/* put ptr in chain for x or assign value of x to *ptr */
-long x;
-int *ptr;
+void
+addref(long x, int *ptr)	/* put ptr in chain for x or assign value of x to *ptr */
 {
 	int index;
 
@@ -182,9 +184,8 @@ int *ptr;
 	chain[index] = ptr;
 }
 
-fixvalue(x, ptr)
-long x;
-int ptr;
+void
+fixvalue(long x, int ptr)
 {
 	int *temp1, *temp2, index, temp0;
 
@@ -213,8 +214,8 @@ int ptr;
 	}
 }
 
-connect(x, y)
-long x, y;
+void
+connect(long x, long y)
 {
 	int *temp, index, temp2;
 
@@ -244,8 +245,8 @@ long x, y;
 }
 
 
-clear(x)
-long x;
+void
+clear(long x)
 {
 	int index;
 
