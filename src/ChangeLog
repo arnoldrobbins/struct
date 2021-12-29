@@ -4,6 +4,7 @@
 	* beauty.y (ASSERT): Modernize the macro body.
 	* lextab.l (YY_INPUT): Use our input routine.
 	(xxbpmax): Increase size.
+	* makefile: Use $(CFLAGS) to link, also.
 
 2021-12-29         Arnold D. Robbins     <arnold@skeeve.com>
 
