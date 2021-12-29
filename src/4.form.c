@@ -10,15 +10,15 @@ extern int (*comment[])();
 extern int (*getlabel[])();
 extern int (*chkcont[])();
 
-null(c)
-char c;
+void
+null(int c)
 {
 	return;
 }
 
 
-
-comprint()
+int
+comprint(void)
 {
 	int c, blank, first, count;
 
@@ -44,8 +44,8 @@ comprint()
 
 
 
-prcode(linecount, tab)
-int linecount, tab;
+void
+prcode(int linecount, int tab)
 {
 	int someout;
 
@@ -73,16 +73,16 @@ int linecount, tab;
 }
 
 
-charout(c)
-char c;
+void
+charout(int c)
 {
 	putc(c, outfd);
 }
 
 
 
-prline(str)
-char *str;
+void
+prline(char *str)
 {
 	fprintf(outfd, "%s", str);
 	(*rline[inputform]) (charout);
@@ -90,7 +90,8 @@ char *str;
 }
 
 
-input2()
+int
+input2(void)
 {
 	static int c;
 
@@ -103,8 +104,8 @@ input2()
 }
 
 
-unput2(c)
-int c;
+int
+unput2(int c)
 {
 	unchar(c);
 	--linechars;

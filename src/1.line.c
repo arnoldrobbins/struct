@@ -1,32 +1,28 @@
 #include <stdio.h>
-#
 #include "def.h"
+#include "allfuncs.h"
+
 #define bufsize 1601
 char buffer[bufsize];
 int bufcount;
 extern int errflag;
 long stchars;			/* counts number of chars at most recent \n read */
 
-#ifndef unix
-long ostchars;
-extern long ftell();
-#endif
 int newline;			/* counts number of lines read so far in file */
-extern int rdfree(), comfree(), labfree(), contfree();
-extern int rdstand(), comstand(), labstand(), contstand();
-extern int (*rline[])();
+extern void (*rline[])();
 extern int (*comment[])();
 extern int (*getlabel[])();
 extern int (*chkcont[])();
 
 
-
-flush()
+void
+flush(void)
 {
 	bufcount = 0;
 }
 
-addchar(c)
+void
+addchar(int c)
 {
 	buffer[bufcount++] = c;
 }
@@ -83,7 +79,8 @@ int linechars;			/* counts number of chars read so far in current line */
 long newchar;			/* counts number of chars read so far in file */
 
 
-input1()
+int
+input1(void)
 {
 	static int c;
 
@@ -94,27 +91,19 @@ input1()
 	++newchar;
 	if (c == '\n') {
 		++newline;
-#ifdef unix
 		stchars = newchar;
-#else
-		ostchars = stchars;
-		stchars = ftell(infd);
-#endif
 	}
 	return (c);
 }
 
-unput1(c)
+int
+unput1(int c)
 {
 	--linechars;
 	--newchar;
 	unchar(c);
 	if (c == '\n') {
-#ifdef unix
 		stchars = newchar;
-#else
-		stchars = ostchars;
-#endif
 		--newline;
 	}
 	return (c);

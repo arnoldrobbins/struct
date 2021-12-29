@@ -1,8 +1,8 @@
 #define YESTAB	TRUE
 #define NOTAB	FALSE
-#define TABOVER(n)	tabover(n,outfd)
-#define OUTSTR(x)		fprintf(outfd,"%s",x)
-#define OUTNUM(x)		fprintf(outfd,"%d",x)
+#define TABOVER(n)	tabover(n, outfd)
+#define OUTSTR(x)	fprintf(outfd, "%s", x)
+#define OUTNUM(x)	fprintf(outfd, "%d", x)
 
 
 extern LOGICAL *brace;

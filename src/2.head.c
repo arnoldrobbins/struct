@@ -1,17 +1,18 @@
 #include <stdio.h>
-#
+
 /*
 set head[v] to ITERVX heading smallest loop containing v, for each v
 */
 #include "def.h"
 #include "2.def.h"
+#include "allfuncs.h"
 
 /* define ANC(v,w) true if v == w or v is ancestor of w */
 #define ANC(v,w)	(ntobef[v] <= ntobef[w] && ntoaft[v] <= ntoaft[w])	/* reflexive ancestor */
 
 
-gethead(head)
-VERT *head;
+void
+gethead(VERT *head)
 {
 	VERT v, w, adj;
 	int i, j;
@@ -56,8 +57,8 @@ VERT *head;
 }
 
 
-lowanc(y, z, head)		/* find the first node in chain of y which is anc of z, if it exists */
-VERT y, z, *head;
+VERT
+lowanc(VERT y, VERT z, VERT *head)		/* find the first node in chain of y which is anc of z, if it exists */
 {
 	while (y != -1 && !ANC(y, z))
 		y = head[y];
@@ -65,8 +66,8 @@ VERT y, z, *head;
 }
 
 
-merge(w, y, head)		/* merge chains of w and y according to ANC relation */
-VERT w, y, *head;
+void
+merge(VERT w, VERT y, VERT *head)		/* merge chains of w and y according to ANC relation */
 {
 	VERT t, min;
 
@@ -100,5 +101,4 @@ VERT w, y, *head;
 		min = w;
 	if (t != min)
 		head[t] = min;
-
 }

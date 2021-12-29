@@ -1,3 +1,27 @@
+2021-12-29         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 1.line.c: Include allfuncs.h. Move to ANSI definitions. Drop
+	non-unix ifdef stuff.
+	(get_a_line): Renamed from getline to avoid conflict with
+	function in <stdio.h>.
+	* 1.main.c: Include allfuncs.h.
+	* 1.node.c: Include <stdlib.h>.
+	* 1.recog.c: Include <stdlib.h> and allfuncs.h.  Move to
+	ANSI definitions.
+	* 1.tables.c: Fix some formatting.
+	* 2.dfs.c: Include <stdlib.h> and allfuncs.h.  Move to
+	ANSI definitions.
+	(exchange2): New function, to get typing right. Call it as needed.
+	* 2.dom.c: Include <stdlib.h> and allfuncs.h.  Move to
+	ANSI definitions.
+	* 2.head.c: Include allfuncs.h.  Move to ANSI definitions.
+	* 4.def.h: Fix formatting.
+	* 4.form.c: Move to ANSI definitions.
+	* allfuncs.h: More declarations added.
+	* main.c (input, unput): Improve typing.
+	(main): Remove declartions of input1, unput1, input2, unput2.
+	* struct.sh: Start modernizing.
+
 2021-12-28         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 0.parts.c: Fix formatting. Move to ANSI definitions.

@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "1.incl.h"
 #include "def.h"
+#include "allfuncs.h"
 
 
 void
@@ -280,10 +282,8 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 
 
 
-makeif(first, labe, test, arc1, arc2)	/* construct IFVX with arcs to labels arc1,arc2 */
-int first;
-long labe, arc1, arc2;
-char *test;
+int
+makeif(int first, long labe, char *test, long arc1, long arc2)	/* construct IFVX with arcs to labels arc1, arc2 */
 {
 	int num, arctype[2];
 	long arclab[2];
@@ -297,8 +297,8 @@ char *test;
 }
 
 
-innerdo(labe)			/* return number of DOVX associated with labe, or UNDEFINED */
-long labe;
+int
+innerdo(long labe)			/* return number of DOVX associated with labe, or UNDEFINED */
 {
 	if (DEFINED(doptr)) {
 		if (dostack[doptr] == labe)
@@ -310,9 +310,8 @@ long labe;
 
 
 
-contin(labe, nest)		/* handle continue statements */
-long labe;
-int nest;
+void
+contin(long labe, int nest)		/* handle continue statements */
 {
 	VERT y;
 
@@ -329,13 +328,11 @@ int nest;
 
 
 
-
-nesteddo(labe, v)
+void
+nesteddo(long labe, int v)
     /* if multiple do's end on same label, add arc from inner DOVX
        to enclosing DOVX;
        add implicit link out of outermost DOVX with this label */
-long labe;
-int v;
 {
 
 	while (DEFINED(doptr) && dostack[doptr] == labe) {
@@ -346,9 +343,8 @@ int v;
 }
 
 
-
-compcase(ifflag)		/* turn computed goto into case statement */
-LOGICAL ifflag;
+int
+compcase(LOGICAL ifflag)		/* turn computed goto into case statement */
 {
 	int *arctype, i, num, d, arct;
 	extern long label();
@@ -381,10 +377,8 @@ LOGICAL ifflag;
 }
 
 
-accum(str, vlist, f)		/* build string of indices in compnode  corr. to label f */
-char *str;
-long f;
-struct lablist *vlist;
+int
+accum(char *str, struct lablist *vlist, long f)		/* build string of indices in compnode  corr. to label f */
 {
 	int s, j;
 	struct lablist *p;
@@ -407,10 +401,10 @@ struct lablist *vlist;
 }
 
 
-distinct(vlist, count, dlist, size)	/* make dlist into list of distinct labels in vlist */
-struct lablist *vlist;
-long dlist[];			/*count[] gets count of each label;  d distinct labels */
-int count[], size;
+/* make dlist into list of distinct labels in vlist */
+int
+distinct(struct lablist *vlist, int count[],	/*count[] gets count of each label;  d distinct labels */
+		long dlist[], int size)
 {
 	int d, i;
 

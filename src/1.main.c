@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "def.h"
+#include "allfuncs.h"
+
 int endbuf;
 
 int

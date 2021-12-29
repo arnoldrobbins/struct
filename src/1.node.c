@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
 #include "1.incl.h"
 #include "allfuncs.h"

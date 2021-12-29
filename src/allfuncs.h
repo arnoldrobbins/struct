@@ -94,13 +94,16 @@ extern void hash_check(void);
 extern void hash_free(void);
 extern int hash(long x);
 extern void addref(long x, int *ptr);
+extern void fixvalue(long x, int ptr);
 extern void connect(long x, long y);
 extern void clear(long x);
 
 /* 1.line.c: */
-int
-get_a_line(int *lastline, long *lastchar, int *linecom, long *charcom);
-
+extern void flush(void);
+extern int get_a_line(int *lastline, long *lastchar, int *linecom, long *charcom);
+extern void addchar(int c);
+extern int input1(void);
+extern int unput1(int c);
 
 /* 1.main.c: */
 extern int mkgraph(void);
@@ -111,12 +114,47 @@ extern void fiximp(VERT num, long labe);
 
 /* 1.recog.c: */
 extern void recognize(int type, int ifflag);
+extern int makeif(int first, long labe, char *test, long arc1, long arc2);
+extern int innerdo(long labe);
+extern void contin(long labe, int nest);
+extern void nesteddo(long labe, int v);
+extern int compcase(LOGICAL ifflag);
+extern int accum(char *str, struct lablist *vlist, long f);
+extern int distinct(struct lablist *vlist, int count[], long dlist[], int size);
+
+/* 2.dfs.c: */
+extern void dfs(VERT v);
+extern void search(VERT v);
+extern void chreach(void);
+extern void addloop(void);
+extern void insloop(VERT v);
+extern void exchange(int **p1, int **p2);
+extern void exchange2(int *p1, int *p2);
+extern void repsearch(VERT v);
+
+/* 2.dom.c: */
+extern void getdom(struct list **inarc, VERT *dom);
+extern int comdom(VERT u, VERT v, VERT *dom);
+
+/* 2.head.c: */
+extern void gethead(VERT *head);
+extern VERT lowanc(VERT y, VERT z, VERT *head);
+extern void merge(VERT w, VERT y, VERT *head);
 
 /* 2.main.c: */
 extern void build(void);
 
 /* 3.main.c: */
 extern void structure(void);
+
+/* 4.form.c: */
+extern void null(int c);
+extern int comprint(void);
+extern void prcode(int linecount, int tab);
+extern void charout(int c);
+extern void prline(char *str);
+extern int input2(void);
+extern int unput2(int c);
 
 /* 4.main.c: */
 extern void output(void);

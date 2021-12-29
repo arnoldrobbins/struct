@@ -1,5 +1,6 @@
 #include <stdio.h>
-#
+#include <stdlib.h>
+
 /* depth-first search used to identify back edges, unreachable nodes;
 	each node v entered by back edge replaced by
 	LOOPVX ->ITERVX -> v,
@@ -15,6 +16,7 @@
 
 #include "def.h"
 #include "2.def.h"
+#include "allfuncs.h"
 
 #define MAXINS 3		/* spacing needed between numbers generated during depth first search */
 
@@ -33,8 +35,8 @@ int befcount, aftcount;
 #define BACKEDGE(e)	(e < -1)
 
 
-dfs(v)				/* depth first search */
-VERT v;
+void
+dfs(VERT v)				/* depth first search */
 {
 	int i;
 	VERT w;
@@ -62,10 +64,10 @@ VERT v;
 }
 
 
-search(v)
+void
+search(VERT v)
     /* using depth first search, mark back edges using MKEDGE, and nodes entered by back
        edges using MARK */
-VERT v;
 {
 	VERT adj;
 	int i;
@@ -86,7 +88,8 @@ VERT v;
 	++accessnum;
 }
 
-chreach()
+void
+chreach(void)
 {				/* look for unreachable nodes */
 	VERT v;
 	LOGICAL unreach;
@@ -97,16 +100,14 @@ chreach()
 		    && NTYPE(v) != STOPVX && NTYPE(v) != RETVX) {
 			unreach = TRUE;
 			if (debug)
-				fprintf(stderr, "node %d unreachable\n",
-					v);
+				fprintf(stderr, "node %d unreachable\n", v);
 		}
 	if (unreach)
-		error(": unreachable statements - ", "will be ignored",
-		      "");
+		error(": unreachable statements - ", "will be ignored", "");
 }
 
-
-addloop()
+void
+addloop(void)
 {				/* add LOOPVX, ITERVX at nodes entered by back edges, and adjust edges */
 	VERT v, adj;
 	int j, oldnum;
@@ -133,8 +134,8 @@ addloop()
 		}
 }
 
-insloop(v)			/* insert LOOPVX, ITERVX at node number v */
-VERT v;
+void
+insloop(VERT v)			/* insert LOOPVX, ITERVX at node number v */
 {
 	VERT loo, iter;
 
@@ -144,14 +145,24 @@ VERT v;
 	/* want LOOPVX to take on node number v, so that arcs other than back arcs
 	   entering v will enter the LOOPVX automatically */
 	exchange(&graph[v], &graph[loo]);
-	exchange(&v, &loo);
+	exchange2(&v, &loo);
 	ARC(loo, 0) = iter;
 	ARC(iter, 0) = v;
 	FATH(iter) = UNDEFINED;	/* will be defined later along with FATH for DOVX */
 }
 
-exchange(p1, p2)		/* exchange values of p1,p2 */
-int *p1, *p2;
+void
+exchange(int **p1, int **p2)		/* exchange values of p1, p2 */
+{
+	int *temp;
+
+	temp = *p1;
+	*p1 = *p2;
+	*p2 = temp;
+}
+
+void
+exchange2(int *p1, int *p2)		/* exchange values of p1, p2 */
 {
 	int temp;
 
@@ -161,8 +172,8 @@ int *p1, *p2;
 }
 
 
-repsearch(v)			/* repeat df search in order to fill in after, ntoaft, ntobef tables */
-VERT v;
+void
+repsearch(VERT v)			/* repeat df search in order to fill in after, ntoaft, ntobef tables */
 {
 	VERT adj;
 	int i, temp;

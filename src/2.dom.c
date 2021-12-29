@@ -1,5 +1,6 @@
 #include <stdio.h>
-#
+#include <stdlib.h>
+
 /*
 set dom[v] to immediate dominator of v, based on arcs as stored in inarcs
 (i.e. pretending the graph is reducible if it isn't).
@@ -9,11 +10,11 @@ through DOM to save quadratic blowup in space
 */
 #include "def.h"
 #include "2.def.h"
+#include "allfuncs.h"
 
 
-getdom(inarc, dom)
-struct list **inarc;
-VERT *dom;
+void
+getdom(struct list **inarc, VERT *dom)
 {
 	VERT v;
 	int i;
@@ -31,9 +32,8 @@ VERT *dom;
 	}
 }
 
-
-comdom(u, v, dom)		/* find closest common dominator of u,v */
-VERT u, v, *dom;
+int
+comdom(VERT u, VERT v, VERT *dom)	/* find closest common dominator of u,v */
 {
 	if (u == UNDEFINED)
 		return (v);

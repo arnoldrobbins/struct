@@ -7,7 +7,7 @@
 #include "allfuncs.h"
 
 
-char (*input)(),(*unput)();
+int (*input)(void), (*unput)(int c);
 FILE *outfd;
 
 
@@ -17,7 +17,6 @@ int
 main(int argc, char *argv[])
 {
 	int anyoutput;
-	char input1(), unput1(), input2(), unput2();
 
 	outfd = stdout;
 	anyoutput = FALSE;
