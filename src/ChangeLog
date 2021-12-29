@@ -1,5 +1,12 @@
 2021-12-29         Arnold D. Robbins     <arnold@skeeve.com>
 
+	* 1.form.c, 1.line.c: Minor formatting fixes.
+	* beauty.y (ASSERT): Modernize the macro body.
+	* lextab.l (YY_INPUT): Use our input routine.
+	(xxbpmax): Increase size.
+
+2021-12-29         Arnold D. Robbins     <arnold@skeeve.com>
+
 	* 1.line.c: Include allfuncs.h. Move to ANSI definitions. Drop
 	non-unix ifdef stuff.
 	(get_a_line): Renamed from getline to avoid conflict with

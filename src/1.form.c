@@ -130,7 +130,7 @@ contstand(void)		/* continuation lines in standard form input */
 		if (temp[i] == '\t' || temp[i] == '\n' || temp[i] == '\0'
 		    || temp[i] == EOF) {
 			for (; i >= 0; --i)
-				(*unput) (temp[i]);
+				(*unput)(temp[i]);
 			return (0);
 		}
 	}

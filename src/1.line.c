@@ -55,8 +55,8 @@ get_a_line(int *lastline, long *lastchar, int *linecom, long *charcom)
 
 		while (blankline()
 		       || (!(*comment[inputform]) (0)
-			   && (*chkcont[inputform]) ()))
-			(*rline[inputform]) (addchar);
+			   && (*chkcont[inputform])()))
+			(*rline[inputform])(addchar);
 
 		addchar('\0');
 		*lastline = newline;

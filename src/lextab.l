@@ -10,7 +10,16 @@
 #undef	unput
 #define unput(c)	nunput(c)
 
-#define xxbpmax	1700
+#undef YY_INPUT
+#define YY_INPUT(buf, result, max_size) \
+	{ \
+		int i; \
+		for (i = 0; i < max_size; i++) \
+			buf[i] = ninput(); \
+		result = i; \
+	}
+
+#define xxbpmax	17000
 char xxbuf[xxbpmax + 2];
 int xxbp = -1;
 #define xxunmax	200
@@ -38,13 +47,12 @@ char *xxp;
 				blflag = 1;
 				sscanf(&yytext[1],"%d",&xxn);
 				xxtbuff = malloc(2*xxn+3);
-				for (xxj = xxk = 1; xxj <= xxn; ++xxj)
-					{
+				for (xxj = xxk = 1; xxj <= xxn; ++xxj) {
 					xxtbuff[xxk] = ninput();
 					if (xxtbuff[xxk] == '"')
 						xxtbuff[++xxk] = '"';
 					++xxk;
-					}
+				}
 				xxtbuff[0] = xxtbuff[xxk++] = '"';
 				xxtbuff[xxk] = '\0';
 				putback(xxtbuff);
@@ -138,7 +146,7 @@ rdchar(void)
 	if (c == EOF)
 		return ('\0');
 	else
-		return ((char) c);
+		return (c);
 }
 
 void
@@ -184,7 +192,8 @@ ninput(void)
 			addbuf(c);
 	if (c != '\n')
 		return (addbuf(c));
-	while ((d = rdchar()) == ' ' || d == '\t');
+	while ((d = rdchar()) == ' ' || d == '\t')
+		continue;
 	if (d == '&')
 		return (ninput());
 	backup(d);

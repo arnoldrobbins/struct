@@ -57,7 +57,7 @@ prcode(int linecount, int tab)
 			continue;
 		} else if (blankline())
 			(*rline[inputform]) (null);
-		else if ((*chkcont[inputform]) ()) {
+		else if ((*chkcont[inputform])()) {
 			TABOVER(tab);
 			prline("&");
 			someout = TRUE;

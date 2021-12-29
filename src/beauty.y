@@ -278,7 +278,7 @@ comtok:	xxcom		{
 			}
 	;
 %%
-#define ASSERT(X,Y)	if (!(X)) error("struct bug: assertion 'X' invalid in routine Y","","");
+#define ASSERT(X,Y)	if (!(X)) error("struct bug: assertion '" #X "' invalid in routine " #Y,"","");
 
 void
 yyerror(const char *s)
@@ -309,7 +309,7 @@ yyinit(int argc, char **argv)		/* initialize pushdown store */
 {
 	xxindent = 0;
 	xxbpertab = 8;
-	xxmaxchars = 120;
+	xxmaxchars = 1200;
 }
 
 static void
