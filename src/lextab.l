@@ -43,10 +43,10 @@ char *xxtbuff;
 int xxj, xxn, xxk;
 char *xxp;
 %}
-[=/,(]{D}+[h]			{
+[=/,(]{D}+[h]		{
 				blflag = 1;
-				sscanf(&yytext[1],"%d",&xxn);
-				xxtbuff = malloc(2*xxn+3);
+				sscanf(&yytext[1], "%d", &xxn);
+				xxtbuff = malloc(2 * xxn + 3);
 				for (xxj = xxk = 1; xxj <= xxn; ++xxj) {
 					xxtbuff[xxk] = ninput();
 					if (xxtbuff[xxk] == '"')
@@ -61,12 +61,12 @@ char *xxp;
 				backup(yytext[0]);
 				blflag = 0;
 				xxbp = -1;
-				}
+			}
 IF			{fixval(); xxbp = -1; return(xxif);}
 ELSE			{fixval(); xxbp = -1; return(xxelse);}
 REPEAT			{fixval(); xxbp = -1; return(xxrept); }
 WHILE			{fixval(); xxbp = -1; return(xxwhile); }
-UNTIL			{ fixval(); xxbp = -1; return(xxuntil); }
+UNTIL			{fixval(); xxbp = -1; return(xxuntil); }
 DO			{fixval(); xxbp = -1; return(xxdo); }
 SWITCH			{fixval(); xxbp = -1; return(xxswitch); }
 CASE			{fixval(); xxbp = -1; return(xxcase); }
@@ -76,10 +76,10 @@ END			{fixval(); xxbp = -1; return(xxend); }
 ".true."		|
 ".false."		|
 
-{L}{A}*		{fixval(); xxbp = -1; return(xxident); }
+{L}{A}*			{fixval(); xxbp = -1; return(xxident); }
 ~{D}+			{xxbuf[0] = ' '; fixval(); xxbp = -1; return(xxnum); }
 {D}+/"."(ge|gt|le|lt|eq|ne|not|or|and)"."	|
-{D}+\.?			|
+{D}+\.?				|
 {D}+\.?[de][+-]?{D}+		|
 {D}*\.{D}+[de][+-]?{D}+		|
 {D}*\.{D}+			{fixval(); xxbp = -1; return(xxnum); }
@@ -93,8 +93,8 @@ END			{fixval(); xxbp = -1; return(xxend); }
 ".not."			{ putback("!"); xxbp = -1; }
 ".or."			{ putback("||"); xxbp = -1; }
 ".and."			{ putback("&&"); xxbp = -1; }
-">="		{fixval(); xxbp = -1;  return(xxge);  }
-"<="		{fixval(); xxbp = -1;  return(xxle); }
+">="			{fixval(); xxbp = -1;  return(xxge);  }
+"<="			{fixval(); xxbp = -1;  return(xxle); }
 ==			{fixval(); xxbp = -1; return(xxeq); }
 !=			{fixval(); xxbp = -1; return(xxne); }
 "||"			{fixval(); xxbp = -1; return('|'); }
@@ -102,32 +102,29 @@ END			{fixval(); xxbp = -1; return(xxend); }
 "**"			{fixval(); xxbp = -1; return('^'); }
 
 #.*			{fixval(); xxbp = -1; return(xxcom); }
-\"([^"]|\"\")*\"		{fixval(); xxbp = -1; return(xxstring); }
-'([^']|'')*'				{
+\"([^"]|\"\")*\"	{fixval(); xxbp = -1; return(xxstring); }
+'([^']|'')*'			{
 					fixval();
 					xxp = yylval.strval;
 					xxn = slength(xxp);
 					xxtbuff = malloc(2*xxn+1);
 					xxtbuff[0] = '"';
-					for (xxj = xxk = 1; xxj < xxn-1; ++xxj)
-						{
+					for (xxj = xxk = 1; xxj < xxn-1; ++xxj) {
 						if (xxp[xxj] == '\'' && xxp[++xxj] == '\'')
 							xxtbuff[xxk++] = '\'';
-						else if (xxp[xxj] == '"')
-							{
+						else if (xxp[xxj] == '"') {
 							xxtbuff[xxk++] = '"';
 							xxtbuff[xxk++] = '"';
-							}
-						else
+						} else
 							xxtbuff[xxk++] = xxp[xxj];
-						}
+					}
 					xxtbuff[xxk++] = '"';
 					xxtbuff[xxk] = '\0';
 					free(xxp);
 					yylval.strval = xxtbuff;
 					xxbp = -1;
 					return(xxstring);
-					}
+				}
 
 ^\n		{xxbp = -1;}
 \n		{xxbp = -1; if (newflag) {fixval(); return('\n'); }  }
@@ -154,9 +151,8 @@ backup(int c)
 {
 	if (++xxunbp > xxunmax) {
 		xxunbuf[xxunmax + 1] = '\0';
-		error
-		    ("RATFOR beautifying; input backed up too far during lex:\n",
-		     xxunbuf, "\n");
+		error("RATFOR beautifying; input backed up too far during lex:\n",
+			xxunbuf, "\n");
 	}
 	xxunbuf[xxunbp] = c;
 }
@@ -169,9 +165,8 @@ nunput(int c)
 		return;
 	if (c != xxbuf[xxbp]) {
 		xxbuf[xxbp + 1] = '\0';
-		error
-		    ("RATFOR beautifying; lex call of nunput with wrong char:\n",
-		     xxbuf, "\n");
+		error("RATFOR beautifying; lex call of nunput with wrong char:\n",
+			xxbuf, "\n");
 	}
 	for (--xxbp;
 	     xxbp >= 0 && (xxbuf[xxbp] == ' ' || xxbuf[xxbp] == '\t');
@@ -205,9 +200,8 @@ addbuf(int c)
 {
 	if (++xxbp > xxbpmax) {
 		xxbuf[xxbpmax + 1] = '\0';
-		error
-		    ("RATFOR beautifying; buffer xxbuf too small for token beginning:\n",
-		     xxbuf, "\n");
+		error("RATFOR beautifying; buffer xxbuf too small for token beginning:\n",
+			xxbuf, "\n");
 	}
 	xxbuf[xxbp] = c;
 	xxbuf[xxbp + 1] = '\0';

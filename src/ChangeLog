@@ -2,7 +2,8 @@
 
 	* def.h (ASSERT): Modernize the macro body.
 	* lextab.l (putback): Fix loop to use continue instead of
-	empty body.
+	empty body.  Some formatting cleanup.
+	* beauty.y: Some formatting cleanup.
 
 2021-12-29         Arnold D. Robbins     <arnold@skeeve.com>
 

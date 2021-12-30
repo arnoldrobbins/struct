@@ -63,12 +63,13 @@ stat:		iftok pred nlevel elsetok nlevel
 
 
 xxtab:		{
-			if (!xxlablast) tab(xxindent);
+			if (!xxlablast)
+				tab(xxindent);
 			xxlablast = 0;
 		}
 
 xxnl:		{ newline(); }
-xxnew:		{ putout('\n',"\n"); }
+xxnew:		{ putout('\n', "\n"); }
 nlevel:	pindent stat mindent;
 pindent:
 		{
@@ -94,22 +95,22 @@ casetok:	xxtab xxctok predlist pindent prog mindent
 	;
 
 xxctok:	xxcase	{
-			putout(xxcase,"case ");
-			free ($1);
+			putout(xxcase, "case ");
+			free($1);
 			push(xxcase);
 		}
 
 
 deftok:	xxdefault ':'	{
-				putout(xxcase,"default");
+				putout(xxcase, "default");
 				free($1);
-				putout(':',":");
+				putout(':', ":");
 				free($2);
 				push(xxcase);
 			}
 
 swtok:	xxswitch	{
-				putout(xxswitch,"switch");
+				putout(xxswitch, "switch");
 				free($1);
 				push(xxswitch);
 			}
@@ -117,14 +118,14 @@ swtok:	xxswitch	{
 
 fstok:	xxend		{
 				free($1);
-				putout(xxident,"end");
-				putout('\n',"\n");
-				putout('\n',"\n");
-				putout('\n',"\n");
+				putout(xxident, "end");
+				putout('\n', "\n");
+				putout('\n', "\n");
+				putout('\n', "\n");
 			}
 	| xxident
 			{
-				putout(xxident,$1);
+				putout(xxident, $1);
 				free($1);
 				newflag = 1;
 				forst();
@@ -136,21 +137,21 @@ fstok:	xxend		{
 
 identtok:	xxident '(' explist ')'
 					{
-						xxt = addroot($1,xxident,0,0);
-						$$ = addroot("",xxidpar,xxt,$3);
+						xxt = addroot($1, xxident, 0, 0);
+						$$ = addroot("", xxidpar, xxt, $3);
 					}
 
-	|	xxident	{ $$ = addroot($1,xxident,0,0); }
+	|	xxident	{ $$ = addroot($1, xxident, 0, 0); }
 	;
 
 predlist:	explist  ':'	{
-					yield($1,0);
-					putout(':',":");
+					yield($1, 0);
+					putout(':', ":");
 					freetree($1);
 				}
 
-explist:	expr ',' explist	{ $$ = addroot($2,xxexplist,checkneg($1,0),$3); }
-	|	expr			{ $$ = checkneg($1,0); }
+explist:	expr ',' explist	{ $$ = addroot($2, xxexplist, checkneg($1, 0), $3); }
+	|	expr			{ $$ = checkneg($1, 0); }
 	;
 
 
@@ -159,31 +160,31 @@ oppred:	pred
 	;
 
 pred:	'(' expr ')'	{
-				t = checkneg($2,0);
-				yield(t,100);
+				t = checkneg($2, 0);
+				yield(t, 100);
 				freetree(t);
 			}
 
 expr:		'(' expr ')'		{ $$ = $2; }
-	|	'-' expr	%prec xxuminus		{ $$ = addroot($1,xxuminus,$2,0); }
+	|	'-' expr	%prec xxuminus		{ $$ = addroot($1, xxuminus, $2, 0); }
 	|	'+' expr	%prec xxuminus		{ $$ = $2; }
-	|	'!' expr		{ $$ = addroot($1,'!',$2,0); }
-	|	expr '+' expr		{ $$ = addroot($2,'+',$1,$3); }
-	|	expr '-' expr		{ $$ = addroot($2,'-',$1,$3); }
-	|	expr '*' expr		{ $$ = addroot($2,'*',$1,$3); }
-	|	expr '/' expr		{ $$ = addroot($2,'/',$1,$3); }
-	|	expr '^' expr		{ $$ = addroot($2,'^',$1,$3); }
-	|	expr '|' expr		{ $$ = addroot($2,'|',$1,$3); }
-	|	expr '&' expr		{ $$ = addroot($2,'&',$1,$3); }
-	|	expr '>' expr		{ $$ = addroot($2,'>',$1,$3); }
-	|	expr '<' expr		{ $$ = addroot($2,'<',$1,$3); }
-	|	expr xxeq expr		{ $$ = addroot($2,xxeq,$1,$3); }
-	|	expr xxle expr		{ $$ = addroot($2,xxle,$1,$3); }
-	|	expr xxge expr		{ $$ = addroot($2,xxge,$1,$3); }
-	|	expr xxne expr		{ $$ = addroot($2,xxne,$1,$3); }
+	|	'!' expr		{ $$ = addroot($1, '!', $2, 0); }
+	|	expr '+' expr		{ $$ = addroot($2, '+', $1, $3); }
+	|	expr '-' expr		{ $$ = addroot($2, '-', $1, $3); }
+	|	expr '*' expr		{ $$ = addroot($2, '*', $1, $3); }
+	|	expr '/' expr		{ $$ = addroot($2, '/', $1, $3); }
+	|	expr '^' expr		{ $$ = addroot($2, '^', $1, $3); }
+	|	expr '|' expr		{ $$ = addroot($2, '|', $1, $3); }
+	|	expr '&' expr		{ $$ = addroot($2, '&', $1, $3); }
+	|	expr '>' expr		{ $$ = addroot($2, '>', $1, $3); }
+	|	expr '<' expr		{ $$ = addroot($2, '<', $1, $3); }
+	|	expr xxeq expr		{ $$ = addroot($2, xxeq, $1, $3); }
+	|	expr xxle expr		{ $$ = addroot($2, xxle, $1, $3); }
+	|	expr xxge expr		{ $$ = addroot($2, xxge, $1, $3); }
+	|	expr xxne expr		{ $$ = addroot($2, xxne, $1, $3); }
 	|	identtok		{ $$ = $1; }
-	|	xxnum			{ $$ = addroot($1,xxnum,0,0); }
-	|	xxstring		{ $$ = addroot($1,xxstring,0,0); }
+	|	xxnum			{ $$ = addroot($1, xxnum, 0, 0); }
+	|	xxstring		{ $$ = addroot($1, xxstring, 0, 0); }
 	;
 
 iftok:	xxif
@@ -191,30 +192,30 @@ iftok:	xxif
 			if (xxstack[xxstind] == xxelse && !xxlablast) {
 				--xxindent;
 				xxstack[xxstind] = xxelseif;
-				putout(' '," ");
+				putout(' ', " ");
 			} else {
 				if (!xxlablast)
 					tab(xxindent);
 				xxlablast = 0;
 			}
-			putout(xxif,"if");
+			putout(xxif, "if");
 			free($1);
 			push(xxif);
 		}
 elsetok:	xxelse
 			{
 				tab(xxindent);
-				putout(xxelse,"else");
+				putout(xxelse, "else");
 				free($1);
 				push(xxelse);
 			}
 whtok:	xxwhile		{
-				putout(xxwhile,"while");
+				putout(xxwhile, "while");
 				free($1);
 				push(xxwhile);
 			}
 rpttok:	xxrept		{
-				putout(xxrept,"repeat");
+				putout(xxrept, "repeat");
 				free($1);
 				push(xxrept);
 			}
@@ -223,8 +224,8 @@ optuntil:	xxtab unttok pred
 		;
 
 unttok:	xxuntil	   	{
-				putout('\t',"\t");
-				putout(xxuntil,"until");
+				putout('\t', "\t");
+				putout(xxuntil, "until");
 				free($1);
 			}
 dotok:	dopart opdotok
@@ -233,52 +234,52 @@ dotok:	dopart opdotok
 dopart:	xxdo	identtok '=' expr  ',' expr
 					{
 						push(xxdo);
-						putout(xxdo,"do");
+						putout(xxdo, "do");
 						free($1);
 						puttree($2);
-						putout('=',"=");
+						putout('=', "=");
 						free($3);
 						puttree($4);
-						putout(',',",");
+						putout(', ', ",");
 						free($5);
 						puttree($6);
 					}
 opdotok:	',' expr	{
-					putout(',',",");
+					putout(',', ",");
 					puttree($2);
 				}
 	|
 	;
 
 lbtok:	'{'		{
-				putout('{'," {");
+				putout('{', " {");
 				push(xxlb);
 			}
 rbtok:	'}'		{
-				putout('}',"}");
+				putout('}', "}");
 				pop();
 			}
 labtok:	xxnum		{
 				tab(xxindent);
-				putout(xxnum,$1);
-				putout(' ',"  ");
+				putout(xxnum, $1);
+				putout(' ', "  ");
 				xxlablast = 1;
 			}
 comtok:	xxcom		{
-				putout(xxcom,$1);
+				putout(xxcom, $1);
 				free($1);
 				xxlablast = 0;
 			}
 	|	comtok xxcom
 			{
-				putout ('\n',"\n");
-				putout(xxcom,$2);
+				putout ('\n', "\n");
+				putout(xxcom, $2);
 				free($2);
 				xxlablast = 0;
 			}
 	;
 %%
-#define ASSERT(X,Y)	if (!(X)) error("struct bug: assertion '" #X "' invalid in routine " #Y,"","");
+#define ASSERT(X, Y)	if (!(X)) error("struct bug: assertion '" #X "' invalid in routine " #Y, "", "");
 
 void
 yyerror(const char *s)
@@ -353,7 +354,7 @@ putout(int type, char *string)		/* output string with proper indentation */
 
 
 static void
-accum(char *token)			/* fill output buffer, generate continuation lines */
+accum(char *token)		/* fill output buffer, generate continuation lines */
 {
 	static char *buffer;
 	static int lstatus, llen, bufind;
