@@ -1,3 +1,9 @@
+2021-12-30         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* def.h (ASSERT): Modernize the macro body.
+	* lextab.l (putback): Fix loop to use continue instead of
+	empty body.
+
 2021-12-29         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 1.form.c, 1.line.c: Minor formatting fixes.

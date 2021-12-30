@@ -1,4 +1,4 @@
-#define ASSERT(P,R)	{if (!(P)) {fprintf(stderr,"failed assertion in routine R: P\n"); abort();}}
+#define ASSERT(P, R)	{if (!(P)) {fprintf(stderr, "failed assertion in routine " #R ": " #P "\n"); abort();}}
 
 extern int routnum, routerr;
 extern long rtnbeg;		/* number of chars up to beginnine of curernt routing */
