@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include "def.h"
 #include "3.def.h"
+#include "allfuncs.h"
 
 
-getbranch(head)
-VERT *head;
+VERT
+getbranch(VERT *head)
 {
 	VERT v;
 
@@ -17,8 +18,8 @@ VERT *head;
 
 
 
-chkbranch(v, head)
-VERT v, *head;
+void
+chkbranch(VERT v, VERT *head)
 {
 	VERT w;
 	int i;
@@ -68,8 +69,8 @@ VERT v, *head;
 }
 
 
-addlab(v)			/* add labels */
-VERT v;
+void
+addlab(VERT v)			/* add labels */
 {
 	int recvar;
 
@@ -81,9 +82,10 @@ VERT v;
 }
 
 
-nxtlab()
+int
+nxtlab(void)
 {
-	static count;
+	static int count;
 
 	return (labinit + (count++) * labinc);
 }

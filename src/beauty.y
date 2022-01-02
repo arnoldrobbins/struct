@@ -240,7 +240,7 @@ dopart:	xxdo	identtok '=' expr  ',' expr
 						putout('=', "=");
 						free($3);
 						puttree($4);
-						putout(', ', ",");
+						putout(',', ",");
 						free($5);
 						puttree($6);
 					}

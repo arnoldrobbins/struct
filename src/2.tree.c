@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #
 /* use inarc, dom, and head to build tree representing structure of program.
 	Each node v has CHILDNUM(v) children denoted by
@@ -9,10 +10,10 @@
 */
 #include "def.h"
 #include "2.def.h"
+#include "allfuncs.h"
 
-gettree(inarc, dom, head)	/* build tree */
-struct list **inarc;
-VERT *dom, *head;
+void
+gettree(struct list **inarc, VERT *dom, VERT *head)	/* build tree */
 {
 	VERT v, u, from;
 	int i;
@@ -89,9 +90,8 @@ VERT *dom, *head;
 
 
 
-
-insib(w, v)			/* make RSIB(w) = v, and make RSIB(rightmost sib of v) = old RSIB(w) */
-VERT w, v;
+void
+insib(VERT w, VERT v)			/* make RSIB(w) = v, and make RSIB(rightmost sib of v) = old RSIB(w) */
 {
 	VERT u, temp;
 
@@ -103,9 +103,8 @@ VERT w, v;
 }
 
 
-asoc(v, n)			/* return # of nodes associated with v if <= n, -1 otherwise */
-VERT v;
-int n;
+int
+asoc(VERT v, int n)			/* return # of nodes associated with v if <= n, -1 otherwise */
 {
 	int count, i, temp;
 	VERT w;

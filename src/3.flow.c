@@ -1,26 +1,28 @@
 #include <stdio.h>
-#
+#include <stdlib.h>
+
 /*
 correct the flow of control in the new program - use GOTO's which may
 be changed later to NEXT, BREAK, etc.
 */
 #include "def.h"
 #include "3.def.h"
+#include "allfuncs.h"
 
-#define BRANCHTYPE(v)	(NTYPE(v) == GOVX )
+#define BRANCHTYPE(v)	(NTYPE(v) == GOVX)
 #define HASLEX(t)	(t != GOVX && t != COMPVX && t != ASGOVX  && t != ITERVX )
 			/* for these, control never flows directly to following statement */
 
 
-getflow()
+void
+getflow(void)
 {
 	fixflow(START, UNDEFINED);
 }
 
 
-fixflow(v, autolex)
-VERT v;
-VERT autolex;			/* lexical successor of v */
+void
+fixflow(VERT v, VERT autolex)			/* lexical successor of v */
 {
 	VERT lex, chlex, z, x, w;
 	int i;
@@ -57,8 +59,8 @@ VERT autolex;			/* lexical successor of v */
 }
 
 
-lexval(v, lastlex)
-VERT v, lastlex;
+VERT
+lexval(VERT v, VERT lastlex)
 {
 	VERT sib;
 
@@ -75,9 +77,8 @@ VERT v, lastlex;
 		return (sib);
 }
 
-
-makebr(w)			/* make branching node leading to w */
-VERT w;
+VERT
+makebr(VERT w)			/* make branching node leading to w */
 {
 	VERT new;
 

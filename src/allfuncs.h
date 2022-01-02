@@ -141,11 +141,50 @@ extern void gethead(VERT *head);
 extern VERT lowanc(VERT y, VERT z, VERT *head);
 extern void merge(VERT w, VERT y, VERT *head);
 
+/* 2.inarc.c: */
+extern void getinarc(struct list **inarc, VERT *head);
+extern VERT maxentry(VERT x, VERT y, VERT *head);
+extern int loomem(VERT x, VERT y, VERT *head);
+
 /* 2.main.c: */
 extern void build(void);
+extern void insib(VERT w, VERT v);
+extern int asoc(VERT v, int n);
+
+/* 2.tree.c: */
+extern void gettree(struct list **inarc, VERT *dom, VERT *head);
+
+/* 3.branch.c: */
+extern VERT getbranch(VERT *head);
+extern void chkbranch(VERT v, VERT *head);
+extern void addlab(VERT v);
+extern int nxtlab(void);
+
+/* 3.flow.c: */
+extern void getflow(void);
+extern void fixflow(VERT v, VERT autolex);
+extern VERT lexval(VERT v, VERT lastlex);
+extern VERT makebr(VERT w);
+
+/* 3.loop.c: */
+extern void fixhd(VERT v, VERT hd, VERT *head);
+extern void getloop(void);
+extern void cntarcs(void);
+extern void fixloop(VERT v);
+extern int getwh(VERT v);
+extern int getun(VERT v);
+extern int getswitch(VERT v);
 
 /* 3.main.c: */
 extern void structure(void);
+
+/* 3.reach.c: */
+extern void getreach(void);
+extern struct pair *exits(VERT v);
+extern void number(VERT v);
+extern VERT NUM(VERT v);
+extern void SETNUM(VERT v, int count);
+extern LOGICAL inspr(VERT w, struct pair *pr);
 
 /* 4.form.c: */
 extern void null(int c);

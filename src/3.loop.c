@@ -1,12 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
 #include "3.def.h"
+#include "allfuncs.h"
 
 #define ARCCOUNT(v)	REACH(v)
 
-
-fixhd(v, hd, head)
-VERT v, hd, *head;
+void
+fixhd(VERT v, VERT hd, VERT *head)
 {
 	VERT w, newhd;
 	int i;
@@ -18,14 +19,16 @@ VERT v, hd, *head;
 			fixhd(w, newhd, head);
 }
 
-getloop()
+void
+getloop(void)
 {
 	cntarcs();
 	fixloop(START);
 }
 
 
-cntarcs()
+void
+cntarcs(void)
 {				/* count arcs entering each node */
 	VERT w, v;
 	int i;
@@ -42,8 +45,8 @@ cntarcs()
 }
 
 
-fixloop(v)			/* find WHILE loops  */
-VERT v;
+void
+fixloop(VERT v)			/* find WHILE loops  */
 {
 	int recvar;
 
@@ -62,8 +65,8 @@ VERT v;
 }
 
 
-getwh(v)
-VERT v;
+int
+getwh(VERT v)
 {
 	VERT vchild, vgrand, vgreat;
 
@@ -89,9 +92,8 @@ VERT v;
 }
 
 
-
-getun(v)			/* change loop to REPEAT UNTIL if possible */
-VERT v;
+int
+getun(VERT v)			/* change loop to REPEAT UNTIL if possible */
 {
 	VERT vchild, vgrand, vgreat, before, ch;
 
@@ -124,8 +126,8 @@ VERT v;
 
 #define FORMCASE(w)	(DEFINED(w) && !DEFINED(RSIB(w)) && NTYPE(w) == IFVX && ARCCOUNT(w) == 1)
 
-getswitch(v)
-VERT v;
+int
+getswitch(VERT v)
 {
 	VERT ch, grand, temp;
 

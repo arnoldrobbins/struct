@@ -1,14 +1,15 @@
 #include <stdio.h>
-#
+#include <stdlib.h>
+
 /* find forward in-arcs for each node, pretending that arcs which jump into a loop 
 	jump to the head of the largest such loop instead, based on the
 	depth first search tree */
 #include "def.h"
 #include "2.def.h"
+#include "allfuncs.h"
 
-getinarc(inarc, head)		/* construct array "inarc" containing in arcs for each node */
-struct list **inarc;
-VERT *head;
+void
+getinarc(struct list **inarc, VERT *head)		/* construct array "inarc" containing in arcs for each node */
 {
 	VERT v, adj, x;
 	int i, j;
@@ -41,8 +42,8 @@ VERT *head;
 
 
 
-maxentry(x, y, head)		/* return z if z is ITERVX of largest loop containing y but not x, UNDEFINED otherwise */
-VERT x, y, *head;
+VERT
+maxentry(VERT x, VERT y, VERT *head)		/* return z if z is ITERVX of largest loop containing y but not x, UNDEFINED otherwise */
 {
 	if (head[y] == UNDEFINED)
 		return (UNDEFINED);
@@ -59,8 +60,8 @@ VERT x, y, *head;
 
 
 
-loomem(x, y, head)		/* return TRUE if x is in loop headed by y, FALSE otherwise */
-VERT x, y, *head;
+int
+loomem(VERT x, VERT y, VERT *head)		/* return TRUE if x is in loop headed by y, FALSE otherwise */
 {
 	VERT w;
 

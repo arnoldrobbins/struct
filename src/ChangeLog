@@ -1,3 +1,13 @@
+2022-01-02         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 2.inarc.c, 3.flow.c, 3.loop.c: Include <stdlib.h> and allfuncs.h.
+	Move to ANSI definitions.
+	* 2.main.c, 3.main.c: Include allfuncs.h.
+	* 2.tree.c, 3.branch.c, 3.reach.c: Include allfuncs.h.  Move to ANSI
+	definitions.
+	* allfuncs.h: More declarations added.
+	* beauty.y: Typo fix.
+
 2021-12-30         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* def.h (ASSERT): Modernize the macro body.

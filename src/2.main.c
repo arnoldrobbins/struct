@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "def.h"
 #include "2.def.h"
+#include "allfuncs.h"
 
 VERT *after;
 int *ntobef, *ntoaft;

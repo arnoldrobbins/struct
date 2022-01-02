@@ -1,10 +1,10 @@
 #include <stdio.h>
-#
 /*
 set REACH[v] = w if w is only node outside subtree of v which is reached from within
 	subtree of v, REACH[v] = UNDEFINED otherwise
 */
 #include "def.h"
+#include "allfuncs.h"
 
 /* strategy in obtaining REACH(v) for each node v:
 Since only need to know whether there is exactly one exit from subtree of v,
@@ -28,7 +28,8 @@ struct pair {
 };
 
 
-getreach()
+void
+getreach(void)
 {				/* obtain REACH(v) for each node v */
 	VERT v;
 	struct pair *pr;
@@ -43,9 +44,9 @@ getreach()
 }
 
 
-exits(v)			/* set REACH(v) = w if w is only node outside subtree of v which is reached from within
+struct pair *
+exits(VERT v)			/* set REACH(v) = w if w is only node outside subtree of v which is reached from within
 				   subtree of v, leave REACH(v) UNDEFINED otherwise */
-VERT v;
 {
 	struct pair *vpair, *chpair;
 	VERT w, t;
@@ -88,8 +89,8 @@ VERT v;
 
 
 	/* number nodes from -2 to -(accessnum+2) starting at bottom left corner of tree */
-number(v)
-VERT v;
+void
+number(VERT v)
 {
 	int i;
 	VERT w;
@@ -107,17 +108,16 @@ VERT v;
 }
 
 
-NUM(v)
-VERT v;
+VERT
+NUM(VERT v)
 {
 	if (!DEFINED(v))
 		return (UNDEFINED);
 	return (REACH(v));
 }
 
-SETNUM(v, count)
-VERT v;
-int count;
+void
+SETNUM(VERT v, int count)
 {
 	/* this reuses REACH to save space;
 	   /* appears to be no conflict with setting true value of REACH later */
@@ -126,10 +126,8 @@ int count;
 
 
 LOGICAL
-inspr(w, pr)			/* insert w in order in pr, return TRUE if <= smaller of pr */
- /* don't insert duplicates */
-VERT w;
-struct pair *pr;
+inspr(VERT w, struct pair *pr)	/* insert w in order in pr, return TRUE if <= smaller of pr */
+				/* don't insert duplicates */
 {
 	if (w == pr->smallest)
 		return (TRUE);
