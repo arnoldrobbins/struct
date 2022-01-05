@@ -27,6 +27,8 @@ struct pair {
 	int second;
 };
 
+static struct pair *exits(VERT v);
+static LOGICAL inspr(VERT w, struct pair *pr);
 
 void
 getreach(void)
@@ -44,7 +46,7 @@ getreach(void)
 }
 
 
-struct pair *
+static struct pair *
 exits(VERT v)			/* set REACH(v) = w if w is only node outside subtree of v which is reached from within
 				   subtree of v, leave REACH(v) UNDEFINED otherwise */
 {
@@ -125,7 +127,7 @@ SETNUM(VERT v, int count)
 }
 
 
-LOGICAL
+static LOGICAL
 inspr(VERT w, struct pair *pr)	/* insert w in order in pr, return TRUE if <= smaller of pr */
 				/* don't insert duplicates */
 {

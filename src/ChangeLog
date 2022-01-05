@@ -1,3 +1,13 @@
+2022-01-05         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 3.reach.c (exits, inspr): Make static.
+	* 3.then.c, 4.brace.c, 4.out.c: Include <stdlib.h> and allfuncs.h.
+	Move to ANSI definitions.
+	* 4.form.c: Include allfuncs.h. Fix decls of externs.
+	* 4.main.c: Include allfuncs.h.
+	* allfuncs.h: More declarations added.
+	* lextab.l (YY_INPUT): Try to make smarter. Didn't help.
+
 2022-01-02         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 2.inarc.c, 3.flow.c, 3.loop.c: Include <stdlib.h> and allfuncs.h.

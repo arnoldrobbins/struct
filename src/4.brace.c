@@ -1,11 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
 #include "4.def.h"
 #include "3.def.h"
+#include "allfuncs.h"
 
-ndbrace(v)			/* determine whether braces needed around subparts of v */
+LOGICAL
+ndbrace(VERT v)			/* determine whether braces needed around subparts of v */
     /* return TRUE if v ends with IF THEN not in braces */
-VERT v;
 {
 	VERT w;
 	int i;
@@ -32,9 +34,8 @@ VERT v;
 }
 
 
-compound(v, ch)			/* return TRUE iff subpart ch of v has multiple statements */
-VERT v;
-int ch;
+int
+compound(VERT v, int ch)	/* return TRUE iff subpart ch of v has multiple statements */
 {
 	VERT w;
 

@@ -180,11 +180,18 @@ extern void structure(void);
 
 /* 3.reach.c: */
 extern void getreach(void);
-extern struct pair *exits(VERT v);
 extern void number(VERT v);
 extern VERT NUM(VERT v);
 extern void SETNUM(VERT v, int count);
-extern LOGICAL inspr(VERT w, struct pair *pr);
+
+/* 3.then.c: */
+extern void getthen(VERT v);
+extern void mkthen(VERT v);
+extern void negate(VERT v);
+
+/* 4.brace.c: */
+extern LOGICAL ndbrace(VERT v);
+extern int compound(VERT v, int ch);
 
 /* 4.form.c: */
 extern void null(int c);
@@ -197,3 +204,11 @@ extern int unput2(int c);
 
 /* 4.main.c: */
 extern void output(void);
+
+/* 4.out.c: */
+extern void outrat(VERT v, int tab, LOGICAL tabfirst);
+extern void newlevel(VERT v, int ch, int tab, LOGICAL tabfirst);
+extern void prpred(VERT v, LOGICAL addpar);
+extern void prlab(int n, int tab);
+extern void prstln(VERT v, int tab);
+extern void prcom(VERT v);

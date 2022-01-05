@@ -1,13 +1,12 @@
 #include <stdio.h>
-#
 #include "def.h"
 #include "4.def.h"
+#include "allfuncs.h"
+
 extern int linechars;
-extern int rdfree(), comfree(), labfree(), contfree();
-extern int rdstand(), comstand(), labstand(), contstand();
-extern int (*rline[])();
+extern void (*rline[])();
 extern int (*comment[])();
-extern int (*getlabel[])();
+extern void (*getlabel[])();
 extern int (*chkcont[])();
 
 void

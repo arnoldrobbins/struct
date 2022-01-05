@@ -1,12 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
 #include "4.def.h"
 #include "3.def.h"
+#include "allfuncs.h"
 
-outrat(v, tab, tabfirst)
-VERT v;
-int tab;			/* number of tabs to indent */
-LOGICAL tabfirst;		/* FALSE if doing IF of ELSE IF */
+void
+outrat(
+VERT v,
+int tab,			/* number of tabs to indent */
+LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 {
 	LOGICAL ndcomma;
 	VERT w;
@@ -195,11 +198,12 @@ LOGICAL tabfirst;		/* FALSE if doing IF of ELSE IF */
 }
 
 
-newlevel(v, ch, tab, tabfirst)
-VERT v;
-int ch;				/* number of lchild of v being processed */
-int tab;			/* number of tabs to indent */
-LOGICAL tabfirst;		/* same as for outrat */
+void
+newlevel(
+VERT v,
+int ch,				/* number of lchild of v being processed */
+int tab,			/* number of tabs to indent */
+LOGICAL tabfirst)		/* same as for outrat */
 {
 	LOGICAL addbrace;
 	VERT w;
@@ -226,10 +230,8 @@ LOGICAL tabfirst;		/* same as for outrat */
 
 
 
-
-prpred(v, addpar)
-VERT v;
-LOGICAL addpar;
+void
+prpred(VERT v, LOGICAL addpar)
 {
 	if (addpar)
 		OUTSTR("(");
@@ -242,8 +244,8 @@ LOGICAL addpar;
 		OUTSTR(")");
 }
 
-prlab(n, tab)
-int n, tab;
+void
+prlab(int n, int tab)
 {
 	TABOVER(tab);
 	OUTSTR("~");
@@ -251,9 +253,8 @@ int n, tab;
 	OUTSTR(" ");
 }
 
-prstln(v, tab)
-VERT v;
-int tab;
+void
+prstln(VERT v, int tab)
 {
 	ASSERT(NTYPE(v) == STLNVX || NTYPE(v) == FMTVX, prstln);
 	if (!ONDISK(v)) {
@@ -265,8 +266,8 @@ int tab;
 	}
 }
 
-prcom(v)
-VERT v;
+void
+prcom(VERT v)
 {
 	if (DEFINED(BEGCOM(v))) {
 		empseek(BEGCOM(v));

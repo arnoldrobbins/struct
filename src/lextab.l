@@ -14,8 +14,11 @@
 #define YY_INPUT(buf, result, max_size) \
 	{ \
 		int i; \
-		for (i = 0; i < max_size; i++) \
+		for (i = 0; i < max_size; i++) { \
 			buf[i] = ninput(); \
+			if (buf[i] == '\0') \
+				break; \
+		} \
 		result = i; \
 	}
 

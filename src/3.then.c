@@ -1,14 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "def.h"
 #include "3.def.h"
+#include "allfuncs.h"
 
 #define BRANCHTYPE(t)	(t == STOPVX || t == RETVX || t == BRKVX || t == NXTVX || t == GOVX)
 #define MAXCHUNK	20
 		/* if else clause smaller than MAXCHUNK and smaller than then clause,
 		   and there is no reason not to negate the if, negate the if */
 
-getthen(v)			/* turn IFVX into THEN when appropriate, create else ifs where possible  */
-VERT v;
+void
+getthen(VERT v)			/* turn IFVX into THEN when appropriate, create else ifs where possible  */
 {
 	VERT tch, fch;
 	int tn, fn;
@@ -44,8 +46,8 @@ VERT v;
 	RECURSE(getthen, v, recvar);
 }
 
-mkthen(v)
-VERT v;
+void
+mkthen(VERT v)
 {
 	VERT w, tc;
 
@@ -61,10 +63,10 @@ VERT v;
 }
 
 
-negate(v)
-VERT v;
+void
+negate(VERT v)
 {
 	ASSERT(NTYPE(v) == IFVX, negate);
-	exchange(&LCHILD(v, THEN), &LCHILD(v, ELSE));
+	exchange2(&LCHILD(v, THEN), &LCHILD(v, ELSE));
 	NEG(v) = !NEG(v);
 }

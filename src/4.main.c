@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "def.h"
 #include "4.def.h"
+#include "allfuncs.h"
 
 LOGICAL *brace;
 
