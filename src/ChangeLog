@@ -7,6 +7,7 @@
 	* 4.main.c: Include allfuncs.h.
 	* allfuncs.h: More declarations added.
 	* lextab.l (YY_INPUT): Try to make smarter. Didn't help.
+	Improve formatting some.
 
 2022-01-02         Arnold D. Robbins     <arnold@skeeve.com>
 
