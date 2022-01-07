@@ -1,4 +1,4 @@
-CFLAGS=-O
+CFLAGS=-O -m32
 YFLAGS=-d
 
 0FILES.c = 0.alloc.c 0.args.c 0.def.c 0.extr.c 0.graph.c 0.list.c 0.parts.c 0.string.c
