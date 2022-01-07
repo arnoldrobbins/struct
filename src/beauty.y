@@ -444,9 +444,9 @@ void
 error(char *mess1, char *mess2, char *mess3)
 {
 	fprintf(stderr,
-		"\nerror in beautifying, output line %d: %s %s %s \n",
+		"\nerror in beautifying, output line %d: %s %s %s\n",
 		xxlineno, mess1, mess2, mess3);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 
@@ -474,5 +474,5 @@ forst(void)
 		putout(xxval, yylval.strval);
 		free(yylval.strval);
 	}
-	// free(yylval);	// ADR: What is this?
+	free(yylval.strval);
 }
