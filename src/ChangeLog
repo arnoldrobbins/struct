@@ -1,3 +1,10 @@
+2022-01-07         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* beauty.y (error): Small tweak in printf format.
+	(forst): Restore call to free.
+	* makefile (CFLAGS): Use -m32 for now.  Add allfuncs.h as
+	a dependency for all the structure files.
+
 2022-01-05         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 3.reach.c (exits, inspr): Make static.

@@ -43,10 +43,10 @@ lint:
 
 main.o $(0FILES.o) $(1FILES.o) $(2FILES.o) $(3FILES.o) $(4FILES.o): def.h
 
-$(1FILES.o): 1.defs.h 1.incl.h
-$(2FILES.o): 2.def.h
-$(3FILES.o): 3.def.h
-$(4FILES.o): 4.def.h
+$(1FILES.o): 1.defs.h 1.incl.h allfuncs.h
+$(2FILES.o): 2.def.h allfuncs.h
+$(3FILES.o): 3.def.h allfuncs.h
+$(4FILES.o): 4.def.h allfuncs.h
 
 lextab.o tree.o: y.tab.h
 
