@@ -9,8 +9,6 @@
 
 #undef	input
 #define input(x)	(x = ninput())
-#undef	unput
-#define unput(c)	nunput(c)
 
 #undef YY_INPUT
 #define YY_INPUT(buf, result, max_size) \
@@ -25,8 +23,6 @@ int xxbp = -1;
 #define xxunmax	200
 char xxunbuf[xxunmax + 2];
 int xxunbp = -1;
-
-int blflag = 1;
 
 #define YY_NO_INPUT 1
 %}
@@ -44,7 +40,6 @@ int xxj, xxn, xxk;
 char *xxp;
 %}
 [=/,(]{D}+[h]		{
-				// blflag = 1;
 				sscanf(&yytext[1], "%d", &xxn);
 				xxtbuff = malloc(2 * xxn + 3);
 				for (xxj = xxk = 1; xxj <= xxn; ++xxj) {
@@ -59,7 +54,6 @@ char *xxp;
 				free(xxtbuff);
 
 				backup(yytext[0]);
-				// blflag = 0;
 				xxbp = -1;
 			}
 IF			{ fixval(); xxbp = -1; return(xxif);}
@@ -129,6 +123,7 @@ END			{ fixval(); xxbp = -1; return(xxend); }
 [ \t]		{ xxbp = -1;}
 ^\n		{ xxbp = -1;}
 \n		{ xxbp = -1; if (newflag) { fixval(); return('\n'); }  }
+","		{ fixval(); return(','); }
 {SP}		{ fixval(); xxbp = -1; return(yytext[0]); }
 
 %%
@@ -158,42 +153,21 @@ backup(int c)
 	xxunbuf[xxunbp] = c;
 }
 
-void
-nunput(int c)
-{
-	backup(c);
-	if (xxbp < 0)
-		return;
-	if (c != xxbuf[xxbp]) {
-		xxbuf[xxbp + 1] = '\0';
-		error("RATFOR beautifying; lex call of nunput with wrong char:\n",
-			xxbuf, "\n");
-	}
-	for (--xxbp;
-	     xxbp >= 0 && (xxbuf[xxbp] == ' ' || xxbuf[xxbp] == '\t');
-	     --xxbp)
-		backup(xxbuf[xxbp]);
-	xxbuf[xxbp + 1] = '\0';
-}
 
 int
 ninput(void)
 {
 	int c, d;
 
-	if (blflag)
-		c = rdchar();
-	else
-		while ((c = rdchar()) == ' ' || c == '\t')
-			addbuf(c);
+	c = rdchar();
 	if (c != '\n')
-		return (addbuf(c));
+		return (c);
 	while ((d = rdchar()) == ' ' || d == '\t')
 		continue;
 	if (d == '&')
 		return (ninput());
 	backup(d);
-	return (addbuf('\n'));
+	return ('\n');
 }
 
 int
@@ -219,6 +193,9 @@ fixval(void)
 		j = strlen(yytext);
 		for (i = 1; i <= j; i++)
 			yytext[i-1] = yytext[i];
+	} else if (yytext[0] == ',') {
+		yytext[1] = ' ';
+		yytext[2] = '\0';
 	}
 	yylval.strval = (char *) malloc(strlen(yytext) + 1);
 	strcpy(yylval.strval, yytext);

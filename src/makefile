@@ -21,13 +21,13 @@ YACC = byacc
 all:	structure beautify
 
 install:	all
-	if [ ! -d /usr/lib/struct ]; then mkdir /usr/lib/struct;\
-		/etc/chown bin,bin /usr/lib/struct;\
-		chmod 775 /usr/lib/struct;\
+	if [ ! -d /usr/local/lib/struct ]; then mkdir -p /usr/local/lib/struct;\
+		chown root:root /usr/local/lib/struct;\
+		chmod 775 /usr/local/lib/struct;\
 	fi
 	strip structure beautify
-	cp structure beautify /usr/lib/struct
-	cp struct.sh /usr/bin/struct
+	cp structure beautify /usr/local/lib/struct
+	cp struct.sh /usr/local/bin/struct
 
 clean:
 	rm -f structure beautify *.o y.tab.c beauty.c y.tab.h

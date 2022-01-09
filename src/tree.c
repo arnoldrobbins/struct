@@ -137,6 +137,7 @@ yield(struct node *tree,
 	case '<':
 	case '>':
 	case xxeq:
+	case xxne:
 	case xxle:
 	case xxge:
 	case '+':
@@ -145,7 +146,9 @@ yield(struct node *tree,
 	case '/':
 	case '^':
 		yield(tree->left, p);
+		putout(' ', " ");
 		putout(tree->op, tree->lit);
+		putout(' ', " ");
 		oplast = 1;
 		yield(tree->right, p);
 		break;

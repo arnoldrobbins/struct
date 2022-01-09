@@ -1,5 +1,17 @@
 2022-01-09         Arnold D. Robbins     <arnold@skeeve.com>
 
+	* lextab.l (unput, nunput, blflag): Removed, not used.
+	[RULES]: Handle "," specially to get a space after it.
+	(fixval): Ditto.
+	(ninput): Don't use addbuf, just return characters.
+	* makefile (install): Install in /usr/local/lib/struct, using
+	modern chown invocation.
+	* struct.sh: Run the programs from /usr/local/lib/struct.
+	* tree.c (yield): Add xxne case, put out spaces around major
+	operators.
+
+2022-01-09         Arnold D. Robbins     <arnold@skeeve.com>
+
 	* beauty.y: Use %token instead of %term.
 	(accum): Fix the loop on the assert.
 	* lextab.l (input): Make the macro smarter.

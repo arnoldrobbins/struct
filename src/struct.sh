@@ -15,11 +15,11 @@ done
 
 case $files in
 yes)
-	/usr/lib/struct/structure "$@" > /tmp/struct$$
+	/usr/local/lib/struct/structure "$@" > /tmp/struct$$
 	;;
 no)
 	cat > /tmp/structin$$
-	/usr/lib/struct/structure /tmp/structin$$ "$@" > /tmp/struct$$
+	/usr/local/lib/struct/structure /tmp/structin$$ "$@" > /tmp/struct$$
 	;;
 esac &&
-	/usr/lib/struct/beautify < /tmp/struct$$
+	/usr/local/lib/struct/beautify < /tmp/struct$$
