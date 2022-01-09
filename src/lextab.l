@@ -2,24 +2,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <ctype.h>
 #include "y.tab.h"
 #include "b.h"
 
 #undef	input
-#define input(x)	ninput()
+#define input(x)	(x = ninput())
 #undef	unput
 #define unput(c)	nunput(c)
 
 #undef YY_INPUT
 #define YY_INPUT(buf, result, max_size) \
 	{ \
-		int i; \
-		for (i = 0; i < max_size; i++) { \
-			buf[i] = ninput(); \
-			if (buf[i] == '\0') \
-				break; \
-		} \
-		result = i; \
+		buf[0] = ninput(); \
+		result = (buf[0] != 0); \
 	}
 
 #define xxbpmax	17000
@@ -29,7 +26,7 @@ int xxbp = -1;
 char xxunbuf[xxunmax + 2];
 int xxunbp = -1;
 
-int blflag;
+int blflag = 1;
 
 #define YY_NO_INPUT 1
 %}
@@ -47,7 +44,7 @@ int xxj, xxn, xxk;
 char *xxp;
 %}
 [=/,(]{D}+[h]		{
-				blflag = 1;
+				// blflag = 1;
 				sscanf(&yytext[1], "%d", &xxn);
 				xxtbuff = malloc(2 * xxn + 3);
 				for (xxj = xxk = 1; xxj <= xxn; ++xxj) {
@@ -62,7 +59,7 @@ char *xxp;
 				free(xxtbuff);
 
 				backup(yytext[0]);
-				blflag = 0;
+				// blflag = 0;
 				xxbp = -1;
 			}
 IF			{ fixval(); xxbp = -1; return(xxif);}
@@ -80,7 +77,7 @@ END			{ fixval(); xxbp = -1; return(xxend); }
 ".false."		|
 
 {L}{A}*			{ fixval(); xxbp = -1; return(xxident); }
-~{D}+			{ xxbuf[0] = ' '; fixval(); xxbp = -1; return(xxnum); }
+~{D}+			{ /*xxbuf[0] = ' ';*/ fixval(); xxbp = -1; return(xxnum); }
 {D}+/"."(ge|gt|le|lt|eq|ne|not|or|and)"."	|
 {D}+\.?				|
 {D}+\.?[de][+-]?{D}+		|
@@ -129,6 +126,7 @@ END			{ fixval(); xxbp = -1; return(xxend); }
 					return(xxstring);
 				}
 
+[ \t]		{ xxbp = -1;}
 ^\n		{ xxbp = -1;}
 \n		{ xxbp = -1; if (newflag) { fixval(); return('\n'); }  }
 {SP}		{ fixval(); xxbp = -1; return(yytext[0]); }
@@ -181,7 +179,7 @@ nunput(int c)
 int
 ninput(void)
 {
-	char c, d;
+	int c, d;
 
 	if (blflag)
 		c = rdchar();
@@ -216,6 +214,15 @@ void
 fixval(void)
 {
 	int i, j, k;
+
+	if (yytext[0] == '~' && isdigit(yytext[1])) {
+		j = strlen(yytext);
+		for (i = 1; i <= j; i++)
+			yytext[i-1] = yytext[i];
+	}
+	yylval.strval = (char *) malloc(strlen(yytext) + 1);
+	strcpy(yylval.strval, yytext);
+	return;
 
 	for (j = 0; xxbuf[j] == ' ' || xxbuf[j] == '\t'; ++j)
 		continue;

@@ -1,8 +1,8 @@
-%term xxif xxelse xxwhile xxrept xxdo xxrb xxpred
-%term xxident xxle xxge xxne xxnum xxcom
-%term xxstring xxexplist xxidpar xxelseif  xxlb xxend
-%term xxcase xxswitch xxuntil xxdefault 
-%term xxeq
+%token xxif xxelse xxwhile xxrept xxdo xxrb xxpred
+%token xxident xxle xxge xxne xxnum xxcom
+%token xxstring xxexplist xxidpar xxelseif  xxlb xxend
+%token xxcase xxswitch xxuntil xxdefault 
+%token xxeq
 
 %left	'|'
 %left	'&'
@@ -372,7 +372,7 @@ accum(char *token)		/* fill output buffer, generate continuation lines */
 	tlen = slength(token);
 	if (tlen == 0)
 		return;
-	for (i = 0; i < tlen; ++i)
+	for (i = 0; i < tlen - 1; ++i)
 		ASSERT(token[i] != '\n' || tlen == 1, accum);
 	switch (token[tlen - 1]) {
 	case '\n':

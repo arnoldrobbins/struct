@@ -1,3 +1,16 @@
+2022-01-09         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* beauty.y: Use %token instead of %term.
+	(accum): Fix the loop on the assert.
+	* lextab.l (input): Make the macro smarter.
+	(YY_INPUT): Return one character at a time, as Unix lex did.
+	(blflag): Always on.
+	[RULES]: For ~{D}* small fix.  Add a rule to ignore space and
+	tab as tokens.
+	(ninput): Use int not char.
+	(fixval): Use the contents of yytext, not the home-grown buffer.
+	* makefile: For now, compile -m32 -g -g3.
+
 2022-01-07         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* beauty.y (error): Small tweak in printf format.
