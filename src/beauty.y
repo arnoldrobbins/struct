@@ -372,7 +372,7 @@ accum(char *token)		/* fill output buffer, generate continuation lines */
 	tlen = slength(token);
 	if (tlen == 0)
 		return;
-	for (i = 0; i < tlen - 1; ++i)
+	for (i = 0; i < tlen; ++i)
 		ASSERT(token[i] != '\n' || tlen == 1, accum);
 	switch (token[tlen - 1]) {
 	case '\n':

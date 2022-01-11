@@ -17,9 +17,6 @@
 		result = (buf[0] != 0); \
 	}
 
-#define xxbpmax	17000
-char xxbuf[xxbpmax + 2];
-int xxbp = -1;
 #define xxunmax	200
 char xxunbuf[xxunmax + 2];
 int xxunbp = -1;
@@ -54,49 +51,48 @@ char *xxp;
 				free(xxtbuff);
 
 				backup(yytext[0]);
-				xxbp = -1;
 			}
-IF			{ fixval(); xxbp = -1; return(xxif);}
-ELSE			{ fixval(); xxbp = -1; return(xxelse);}
-REPEAT			{ fixval(); xxbp = -1; return(xxrept); }
-WHILE			{ fixval(); xxbp = -1; return(xxwhile); }
-UNTIL			{ fixval(); xxbp = -1; return(xxuntil); }
-DO			{ fixval(); xxbp = -1; return(xxdo); }
-SWITCH			{ fixval(); xxbp = -1; return(xxswitch); }
-CASE			{ fixval(); xxbp = -1; return(xxcase); }
-DEFAULT			{ fixval(); xxbp = -1; return(xxdefault); }
-END			{ fixval(); xxbp = -1; return(xxend); }
+IF			{ fixval(); return(xxif);}
+ELSE			{ fixval(); return(xxelse);}
+REPEAT			{ fixval(); return(xxrept); }
+WHILE			{ fixval(); return(xxwhile); }
+UNTIL			{ fixval(); return(xxuntil); }
+DO			{ fixval(); return(xxdo); }
+SWITCH			{ fixval(); return(xxswitch); }
+CASE			{ fixval(); return(xxcase); }
+DEFAULT			{ fixval(); return(xxdefault); }
+END			{ fixval(); return(xxend); }
 
 ".true."		|
 ".false."		|
 
-{L}{A}*			{ fixval(); xxbp = -1; return(xxident); }
-~{D}+			{ /*xxbuf[0] = ' ';*/ fixval(); xxbp = -1; return(xxnum); }
+{L}{A}*			{ fixval(); return(xxident); }
+~{D}+			{ fixval(); return(xxnum); }
 {D}+/"."(ge|gt|le|lt|eq|ne|not|or|and)"."	|
 {D}+\.?				|
 {D}+\.?[de][+-]?{D}+		|
 {D}*\.{D}+[de][+-]?{D}+		|
-{D}*\.{D}+			{ fixval(); xxbp = -1; return(xxnum); }
+{D}*\.{D}+			{ fixval(); return(xxnum); }
 
-".gt."			{ putback(">"); xxbp = -1; }
-".ge."			{ putback(">=");xxbp = -1; }
-".lt."			{ putback("<"); xxbp = -1; }
-".le."			{ putback("<="); xxbp = -1; }
-".eq."			{ putback("=="); xxbp = -1; }
-".ne."			{ putback("!="); xxbp = -1; }
-".not."			{ putback("!"); xxbp = -1; }
-".or."			{ putback("||"); xxbp = -1; }
-".and."			{ putback("&&"); xxbp = -1; }
-">="			{ fixval(); xxbp = -1; return(xxge);  }
-"<="			{ fixval(); xxbp = -1; return(xxle); }
-==			{ fixval(); xxbp = -1; return(xxeq); }
-!=			{ fixval(); xxbp = -1; return(xxne); }
-"||"			{ fixval(); xxbp = -1; return('|'); }
-"&&"			{ fixval(); xxbp = -1; return('&'); }
-"**"			{ fixval(); xxbp = -1; return('^'); }
+".gt."			{ putback(">"); }
+".ge."			{ putback(">=");}
+".lt."			{ putback("<"); }
+".le."			{ putback("<="); }
+".eq."			{ putback("=="); }
+".ne."			{ putback("!="); }
+".not."			{ putback("!"); }
+".or."			{ putback("||"); }
+".and."			{ putback("&&"); }
+">="			{ fixval(); return(xxge);  }
+"<="			{ fixval(); return(xxle); }
+==			{ fixval(); return(xxeq); }
+!=			{ fixval(); return(xxne); }
+"||"			{ fixval(); return('|'); }
+"&&"			{ fixval(); return('&'); }
+"**"			{ fixval(); return('^'); }
 
-#.*			{ fixval(); xxbp = -1; return(xxcom); }
-\"([^"]|\"\")*\"	{ fixval(); xxbp = -1; return(xxstring); }
+#.*			{ fixval(); return(xxcom); }
+\"([^"]|\"\")*\"	{ fixval(); return(xxstring); }
 '([^']|'')*'			{
 					fixval();
 					xxp = yylval.strval;
@@ -116,15 +112,13 @@ END			{ fixval(); xxbp = -1; return(xxend); }
 					xxtbuff[xxk] = '\0';
 					free(xxp);
 					yylval.strval = xxtbuff;
-					xxbp = -1;
 					return(xxstring);
 				}
 
-[ \t]		{ xxbp = -1;}
-^\n		{ xxbp = -1;}
-\n		{ xxbp = -1; if (newflag) { fixval(); return('\n'); }  }
-","		{ fixval(); return(','); }
-{SP}		{ fixval(); xxbp = -1; return(yytext[0]); }
+[ \t]		{ if (newflag) { fixval(); return(yytext[0]); } }
+^\n		{ /* do nothing */ }
+\n		{ if (newflag) { fixval(); return('\n'); }  }
+{SP}		{ fixval(); return(yytext[0]); }
 
 %%
 
@@ -170,19 +164,6 @@ ninput(void)
 	return ('\n');
 }
 
-int
-addbuf(int c)
-{
-	if (++xxbp > xxbpmax) {
-		xxbuf[xxbpmax + 1] = '\0';
-		error("RATFOR beautifying; buffer xxbuf too small for token beginning:\n",
-			xxbuf, "\n");
-	}
-	xxbuf[xxbp] = c;
-	xxbuf[xxbp + 1] = '\0';
-	return (c);
-}
-
 
 void
 fixval(void)
@@ -193,24 +174,9 @@ fixval(void)
 		j = strlen(yytext);
 		for (i = 1; i <= j; i++)
 			yytext[i-1] = yytext[i];
-	} else if (yytext[0] == ',') {
-		yytext[1] = ' ';
-		yytext[2] = '\0';
 	}
 	yylval.strval = (char *) malloc(strlen(yytext) + 1);
 	strcpy(yylval.strval, yytext);
-	return;
-
-	for (j = 0; xxbuf[j] == ' ' || xxbuf[j] == '\t'; ++j)
-		continue;
-	for (k = j; xxbuf[k] != '\0'; ++k)
-		continue;
-	for (--k; k > j && xxbuf[k] == ' ' || xxbuf[k] == '\t'; --k)
-		continue;
-	xxbuf[k + 1] = '\0';
-	i = slength(&xxbuf[j]) + 1;
-	yylval.strval = (char *) malloc(i);
-	str_copy(&xxbuf[j], yylval.strval, i);
 }
 
 void

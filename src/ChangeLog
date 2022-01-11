@@ -1,3 +1,11 @@
+2022-01-11         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* beauty.y (accum): Restore original assert loop bounds.
+	* lextab.l (xxpmax, xxbuf, xxbp): Removed globally.
+	[RULES}: Space and tab return a token if newflag is set.
+	(addbuf): Removed.
+	(fixval): Removed special case for comma and old code.
+
 2022-01-09         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* lextab.l (unput, nunput, blflag): Removed, not used.
