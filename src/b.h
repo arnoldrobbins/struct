@@ -8,7 +8,7 @@ struct node {
 	struct node *left;
 	struct node *right;
 };
-struct node *xxt;
+extern struct node *xxt;
 
 /* tree.c: */
 extern struct node *addroot(char *string, int type, struct node *n1, struct node *n2);

@@ -1,3 +1,9 @@
+2022-01-13         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* beauty.y (xxt): Add definition.
+	* b.h (xxt): Make extern.
+	Thanks to Henry Bent for the report.
+
 2022-01-11         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* beauty.y (accum): Restore original assert loop bounds.
