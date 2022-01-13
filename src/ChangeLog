@@ -1,6 +1,5 @@
 2022-01-13         Arnold D. Robbins     <arnold@skeeve.com>
 
-	* beauty.y (xxt): Add definition.
 	* b.h (xxt): Make extern.
 	Thanks to Henry Bent for the report.
 

@@ -31,7 +31,6 @@
 #include <signal.h>
 
 struct node *t;
-struct node *xxt;
 void error(char *mess1, char *mess2, char *mess3);
 void yyerror(const char *s);
 static void accum(char *token);
