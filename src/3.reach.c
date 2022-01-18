@@ -121,7 +121,7 @@ NUM(VERT v)
 void
 SETNUM(VERT v, int count)
 {
-	/* this reuses REACH to save space;
+	/* this reuses REACH to save space; */
 	   /* appears to be no conflict with setting true value of REACH later */
 	REACH(v) = count;
 }

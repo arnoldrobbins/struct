@@ -1,23 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "def.h"
 #include "1.defs.h"
 #include "allfuncs.h"
-
-int
-str_copy(char *s, char *ptr, int length)	/* copy s at ptr, return length of s */
-{
-	int i;
-
-	for (i = 0; i < length; i++) {
-		ptr[i] = s[i];
-		if (ptr[i] == '\0')
-			return (i + 1);
-	}
-	faterr("string too long to be copied at given address:\n", s, "");
-}
-
 
 int
 find(char *s, char *ar[], int size)
@@ -50,13 +37,13 @@ classmatch(char c, int i)
 {
 	switch (i) {
 	case _digit:
-		if ('0' <= c && c <= '9')
+		if (isdigit(c))
 			return (1);
 		else
 			return (0);
 
 	case _letter:
-		if (('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))
+		if (isupper(c) || islower(c))
 			return (1);
 		else
 			return (0);
@@ -69,6 +56,7 @@ classmatch(char c, int i)
 	case _nl:
 		return (c == '\n');
 	case _other:
+	default:
 		return (1);
 	}
 }

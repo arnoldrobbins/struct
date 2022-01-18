@@ -29,7 +29,7 @@ getthen(VERT v)			/* turn IFVX into THEN when appropriate, create else ifs where
 		else if (BRANCHTYPE(NTYPE(fch))) {
 			negate(v);
 			mkthen(v);
-		} else if (NTYPE(fch) != IFVX || DEFINED(RSIB(fch)))	/* not an else if */
+		} else if (NTYPE(fch) != IFVX || DEFINED(RSIB(fch))) {	/* not an else if */
 			if (NTYPE(tch) == IFVX && !DEFINED(RSIB(tch)))
 				/* invert into else if */
 				negate(v);
@@ -42,6 +42,7 @@ getthen(VERT v)			/* turn IFVX into THEN when appropriate, create else ifs where
 					/* else clause smaller */
 					negate(v);
 			}
+		}
 	}
 	RECURSE(getthen, v, recvar);
 }

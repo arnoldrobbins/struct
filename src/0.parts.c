@@ -110,13 +110,11 @@ stlfmt(VERT v, int n)
 int
 create(int type, int arcnum)
 {
-	int i, **temp, wds;
+	int i, wds;
 
 	if (nodenum >= maxnode) {
 		maxnode += 100;
-		temp = realloc(graph, maxnode * sizeof(*graph));
-		free(graph);
-		graph = temp;
+		graph = realloc(graph, maxnode * sizeof(*graph));
 	}
 	wds = nonarcs[type] + arcnum;
 	graph[nodenum] = galloc(sizeof(*graph) * wds);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "def.h"
 #include "allfuncs.h"
@@ -80,7 +81,7 @@ setsw(char *str)
 #define maxtemp 15
 	char temp[maxtemp];
 
-	for (i = 0; 'a' <= str[i] && str[i] <= 'z'; ++i) {
+	for (i = 0; islower(str[i]); ++i) {
 		if (i >= maxtemp) {
 			error("invalid switch:", str, "");
 			errflag = 1;

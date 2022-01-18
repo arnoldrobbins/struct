@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 #include "1.defs.h"
 #include "def.h"
 #include "allfuncs.h"
@@ -10,8 +11,8 @@ extern int (*input)(),(*unput)();
 int
 uptolow(int c)			/*translates upper to lower case */
 {
-	if ('A' <= c && c <= 'Z')
-		return (c + 'a' - 'A');
+	if (isupper(c))
+		return tolower(c);
 	else
 		return (c);
 }
@@ -43,6 +44,7 @@ labfree( int (*func)() )	/* labels in freeform input */
 	int temp[6];
 	int j;
 
+	(void)temp;
 	for (j = 0; j < 5; ++j) {
 		while ((c = (*input)()) == ' ' || c == '\t');
 		if (c == '\n') {
@@ -52,7 +54,7 @@ labfree( int (*func)() )	/* labels in freeform input */
 				      "");
 			}
 		}
-		if (c < '0' || c > '9') {
+		if (! isdigit(c)) {
 			(*unput)(c);
 			break;
 		} else {

@@ -21,6 +21,8 @@ comprint(void)
 {
 	int c, blank, first, count;
 
+	(void)blank;
+	(void)first;
 	blank = 1;
 	first = 1;
 	count = 0;

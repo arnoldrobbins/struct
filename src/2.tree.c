@@ -26,7 +26,7 @@ gettree(struct list **inarc, VERT *dom, VERT *head)	/* build tree */
 	for (i = accessnum - 1; i > 0; --i) {
 		v = after[i];
 		from = oneelt(inarc[v]);	/* the unique elt of inarc[v] or UNDEFINED */
-		if (DEFINED(from))
+		if (DEFINED(from)) {
 			if (NTYPE(from) == IFVX
 			    && (head[v] == head[from]
 				|| asoc(v, exitsize) != -1))
@@ -72,6 +72,7 @@ gettree(struct list **inarc, VERT *dom, VERT *head)	/* build tree */
 				LCHILD(from, 0) = v;
 				continue;
 			}
+		}
 		if (loomem(v, head[dom[v]], head))
 			/* v is in smallest loop containing dom[v] */
 			insib(dom[v], v);

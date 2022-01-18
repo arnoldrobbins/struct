@@ -1,3 +1,5 @@
+%option nounput
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -168,7 +170,7 @@ ninput(void)
 void
 fixval(void)
 {
-	int i, j, k;
+	int i, j;
 
 	if (yytext[0] == '~' && isdigit(yytext[1])) {
 		j = strlen(yytext);

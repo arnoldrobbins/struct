@@ -101,7 +101,7 @@ extern int intcase, arbcase, whiloop, invelse, exitsize, maxnode,
 	maxhash, progress, labinit, labinc, inputform, debug,levbrk,levnxt,mkunt;
 
 /* arrays */
-extern int *after;
+extern VERT *after;
 extern char *typename[];
 
 struct list {

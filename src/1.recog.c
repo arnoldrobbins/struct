@@ -11,7 +11,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 	/* do whatever is needed for this statement */
 
 	int *arctype, i, sp;
-	VERT num, num1, nest, loophead;
+	VERT num = 0, num1 = 0, nest, loophead;
 	extern long label();
 	long *arclab;
 

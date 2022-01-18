@@ -4,7 +4,7 @@
 #include "allfuncs.h"
 
 
-VERT
+void
 getbranch(VERT *head)
 {
 	VERT v;

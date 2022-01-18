@@ -28,11 +28,12 @@ fixflow(VERT v, VERT autolex)			/* lexical successor of v */
 	int i;
 
 	lex = lexval(v, autolex);
-	if (HASLEX(NTYPE(v)) && NTYPE(v) != ICASVX)
+	if (HASLEX(NTYPE(v)) && NTYPE(v) != ICASVX) {
 		if (DEFINED(REACH(v)) && REACH(v) != lex)
 			insib(v, makebr(REACH(v)));
 		else if (NTYPE(v) == DOVX && ARC(v, 1) != lex)
 			insib(v, makebr(ARC(v, 1)));
+	}
 	if (NTYPE(v) == ITERVX) {
 		BRK(v) = autolex;
 		chlex = v;

@@ -44,7 +44,6 @@ extern int *stlfmt(VERT v, int n);
 extern int create(int type, int arcnum);
 
 /* 0.string.c: */
-extern int str_copy(char *s, char *ptr, int length);
 extern int find(char *s, char *ar[], int size);
 extern int str_eq(char s[], char t[]);
 extern int classmatch(char c, int i);
@@ -155,7 +154,7 @@ extern int asoc(VERT v, int n);
 extern void gettree(struct list **inarc, VERT *dom, VERT *head);
 
 /* 3.branch.c: */
-extern VERT getbranch(VERT *head);
+extern void getbranch(VERT *head);
 extern void chkbranch(VERT v, VERT *head);
 extern void addlab(VERT v);
 extern int nxtlab(void);

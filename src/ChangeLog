@@ -1,3 +1,28 @@
+2022-01-18         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 0.args.c (setsw): Use islower. Include <ctype.h>
+	* 0.string.c: Include <ctype.h>.
+	(str_copy): Removed.
+	(find): Use isdigit, islower, isupper.
+	* 1.form.c: Include <ctype.h>.
+	(uptolow): Use tolower, isupper.
+	* allfuncs.h (str_copy): Removed.
+
+2022-01-18         Jay Logue             <jay@stoaster.com>
+
+	* 0.parts.c (create): Fix use of realloc.
+	* 1.recog.c (recognize): Init num and num1.
+	* 2.tree.c (gettree): Improve bracing.
+	* 3.branch.c (getbranch): Move return type to void.
+	* 3.flow.c (fixflow): Improve bracing.
+	* 3.reach.c (SETNUM): Fix nested comments.
+	* 3.then.c (fixflow): Improve bracing.
+	* 4.form. (comprint): Add casts to silence warnings.
+	* allfuncs.h (getbranch): Move return type to void.
+	* def.h (after): Change type to VERT *, from int *.
+	* lextab.l: Add %option nounput.
+	* makefile (CFLAGS): Add -Wall.
+
 2022-01-13         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* b.h (xxt): Make extern.
