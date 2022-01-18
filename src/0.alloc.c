@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "def.h"
 #include "allfuncs.h"
@@ -23,6 +24,7 @@ challoc(int n)
 
 	p = malloc(n);
 	if (p) {
+		memset(p, 0, n);
 		space += n;
 		return (p);
 	}

@@ -1,5 +1,7 @@
 2022-01-18         Arnold D. Robbins     <arnold@skeeve.com>
 
+	* 0.alloc.c: Include <string.h>.
+	(challoc): Set allocated storage to zero.
 	* 0.args.c (setsw): Use islower. Include <ctype.h>
 	* 0.string.c: Include <ctype.h>.
 	(str_copy): Removed.
