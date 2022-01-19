@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "y.tab.h"
 #include "b.h"
@@ -13,8 +14,8 @@ addroot(char *string, int type, struct node *n1, struct node *n2)
 	p->left = n1;
 	p->right = n2;
 	p->op = type;
-	p->lit = malloc(slength(string) + 1);
-	str_copy(string, p->lit, slength(string) + 1);
+	p->lit = malloc(strlen(string) + 1);
+	str_copy(string, p->lit, strlen(string) + 1);
 	return (p);
 }
 
@@ -52,7 +53,7 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 		if (tree->op == compop[i])
 			break;
 	if (i > 1 && i < 8 && tree->left->op == '-'
-	    && str_eq(tree->right->lit, "0")) {
+	    && strcmp(tree->right->lit, "0") == 0) {
 		t = tree->right;
 		tree->right = tree->left->right;
 		freenode(t);
@@ -71,28 +72,28 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 		if (i < 8) {
 			tree->op = notop[i];
 			free(tree->lit);
-			tree->lit = malloc(slength(opstring[i]) + 1);
+			tree->lit = malloc(strlen(opstring[i]) + 1);
 			str_copy(opstring[i], tree->lit,
-				 slength(opstring[i]) + 1);
+				 strlen(opstring[i]) + 1);
 			if (tree->op == '&' || tree->op == '|') {
 				tree->left = checkneg(tree->left, 1);
 				tree->right = checkneg(tree->right, 1);
 			}
 			return (tree);
 		}
-		if (tree->op == xxident && str_eq(tree->lit, ".false."))
+		if (tree->op == xxident && strcmp(tree->lit, ".false.") == 0)
 			str_copy(".true.", tree->lit,
-				 slength(".true.") + 1);
+				 strlen(".true.") + 1);
 		else if (tree->op == xxident
-			 && str_eq(tree->lit, ".true.")) {
+			 && strcmp(tree->lit, ".true.") == 0) {
 			free(tree->lit);
-			tree->lit = malloc(slength(".false.") + 1);
+			tree->lit = malloc(strlen(".false.") + 1);
 			str_copy(".false.", tree->lit,
-				 slength(".false.") + 1);
+				 strlen(".false.") + 1);
 		} else {
 			tree = addroot("!", '!', tree, 0);
 			tree->lit = malloc(2);
-			str_copy("!", tree->lit, slength("!") + 1);
+			str_copy("!", tree->lit, strlen("!") + 1);
 		}
 		return (tree);
 	} else if (tree->op == '!') {
@@ -232,28 +233,4 @@ str_copy(char *s, char *ptr, int length)
 		"string %s too long to be copied by str_copy at address %p\n",
 		s, ptr);
 	exit(EXIT_FAILURE);
-}
-
-int
-str_eq(char s[], char t[])
-{
-	int j;
-
-	for (j = 0; s[j] == t[j]; j++) {
-		if (s[j] == '\0')
-			return (1);
-	}
-	return (0);
-}
-
-int
-slength(char *s)	/* return number of chars in s, not counting '\0' */
-{
-	int i;
-
-	if (!s)
-		return (-1);
-	for (i = 0; s[i] != '\0'; i++)
-		continue;
-	return (i);
 }

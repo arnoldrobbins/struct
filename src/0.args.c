@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <getopt.h>
 
 #include "def.h"
 #include "allfuncs.h"
@@ -22,84 +23,66 @@ int levbrk = 1;			/* true implies multilevel breaks; false implies single-level 
 int levnxt = 1;			/* true implies multilevel nexts; false implies single-level nexts only */
 
 
-int maxprogsw = 12;		/* number of program switches which can be set */
-
-char *progsw[] = {
-	"i", "a",
-	"e", "m",
-	"h", "p",
-	"t", "c",
-	"s", "d",
-	"b", "n"
-};
-
-
-int *swval[] = {
-	&intcase, &arbcase,
-	&exitsize, &maxnode,
-	&maxhash, &progress,
-	&labinit, &labinc,
-	&inputform, &debug,
-	&levbrk, &levnxt
-};
-
 
 void
 getargs(int argc, char *argv[])
 {
-	int n, infile;
+	int c;
+	char str[2];
 
-	infile = 0;
-
-	for (n = 1; n < argc; ++n) {
-		if (argv[n][0] == '-')
-			setsw(&argv[n][1]);
-		else {
-			if (infile != 0)
-				error
-				    ("multiple input files - using first one: ",
-				     argv[infile], "");
-			else
-				infile = n;
+#define getval(var)	sscanf(optarg, "%d", &var)
+	while ((c = getopt(argc, argv, "a:b:c:d:e:h:i:m:n:p:s:t:")) != -1) {
+		switch (c) {
+		case 'a':
+			getval(arbcase);
+			break;
+		case 'b':
+			getval(levbrk);
+			break;
+		case 'c':
+			getval(labinc);
+			break;
+		case 'd':
+			getval(debug);
+			break;
+		case 'e':
+			getval(exitsize);
+			break;
+		case 'h':
+			getval(maxhash);
+			break;
+		case 'i':
+			getval(intcase);
+			break;
+		case 'm':
+			getval(maxnode);
+			break;
+		case 'n':
+			getval(levnxt);
+			break;
+		case 'p':
+			getval(progress);
+			break;
+		case 's':
+			getval(inputform);
+			break;
+		case 't':
+			getval(labinit);
+			break;
+		default:
+			str[0] = 'c';
+			str[1] = '\0';
+			error("invalid switch:", str, "");
+			errflag = 1;
+			break;
 		}
 	}
 	if (errflag)
 		exit(EXIT_FAILURE);
-	if (!infile)
+
+	if (optind >= argc)
 		faterr("no input file", "", "");
-	infd = fopen(argv[infile], "r");
+	infd = fopen(argv[optind], "r");
 	if (infd == NULL)
-		faterr("can't open input file:", argv[infile], "");
-	return;
-}
-
-void
-setsw(char *str)
-{
-	int i, val, swnum;
-
-#define maxtemp 15
-	char temp[maxtemp];
-
-	for (i = 0; islower(str[i]); ++i) {
-		if (i >= maxtemp) {
-			error("invalid switch:", str, "");
-			errflag = 1;
-		}
-		temp[i] = str[i];
-	}
-	temp[i] = '\0';
-
-	swnum = find(temp, progsw, maxprogsw);
-	if (swnum == -1) {
-		error("invalid switch:", str, "");
-		errflag = 1;
-		return;
-	}
-	if (str[i] == '\0')
-		*(swval[swnum]) = !*(swval[swnum]);
-	else {
-		sscanf(&str[i], "%d", &val);
-		*(swval[swnum]) = val;
-	}
+		faterr("can't open input file:", argv[optind], "");
 }

@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
 
 struct node *t;
 void error(char *mess1, char *mess2, char *mess3);
@@ -369,7 +370,7 @@ accum(char *token)		/* fill output buffer, generate continuation lines */
 		if (buffer == 0)
 			error("malloc out of space", "", "");
 	}
-	tlen = slength(token);
+	tlen = strlen(token);
 	if (tlen == 0)
 		return;
 	for (i = 0; i < tlen; ++i)

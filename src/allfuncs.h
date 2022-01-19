@@ -16,7 +16,6 @@ extern void *challoc(int n);
 
 /* 0.args.c: */
 extern void getargs(int argc, char *argv[]);
-extern void setsw(char *str);
 
 /* 0.graph.c: */
 extern void prgraph(void);
@@ -44,12 +43,9 @@ extern int *stlfmt(VERT v, int n);
 extern int create(int type, int arcnum);
 
 /* 0.string.c: */
-extern int find(char *s, char *ar[], int size);
-extern int str_eq(char s[], char t[]);
 extern int classmatch(char c, int i);
 extern void copychars(char *cbeg, char *target, int n);
 extern void copycs(char *cbeg, char *target, int n);
-extern int slength(char *s);
 extern char *concat(char *x, char *y);
 
 /* 1.init.c: */

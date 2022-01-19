@@ -6,30 +6,6 @@
 #include "1.defs.h"
 #include "allfuncs.h"
 
-int
-find(char *s, char *ar[], int size)
-{
-	int i;
-
-	for (i = 0; i < size; i++) {
-		if (str_eq(s, ar[i]))
-			return (i);
-	}
-	return (-1);
-}
-
-
-int
-str_eq(char s[], char t[])
-{
-	int j;
-
-	for (j = 0; s[j] == t[j]; j++) {
-		if (s[j] == '\0')
-			return (1);
-	}
-	return (0);
-}
 
 
 int
@@ -81,18 +57,6 @@ copycs(char *cbeg, char *target, int n)	/* copy n chars from cbeg to target, add
 }
 
 
-int
-slength(char *s)			/* return number of chars in s, not counting '\0' */
-{
-	int i;
-
-	if (!s)
-		return (-1);
-	for (i = 0; s[i] != '\0'; i++)
-		continue;
-	return (i);
-}
-
 
 char *
 concat(char *x, char *y)		/* allocate space, return xy */
@@ -100,8 +64,8 @@ concat(char *x, char *y)		/* allocate space, return xy */
 	char *temp;
 	int i, j;
 
-	i = slength(x);
-	j = slength(y);
+	i = strlen(x);
+	j = strlen(y);
 	temp = (char *) galloc(i + j + 1);
 	sprintf(temp, "%s", x);
 	sprintf(&temp[i], "%s", y);

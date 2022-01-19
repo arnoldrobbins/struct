@@ -1,5 +1,21 @@
 2022-01-18         Arnold D. Robbins     <arnold@skeeve.com>
 
+	* 0.args.c: Include <getopt.h>.
+	(getargs): Rewrite using getopt.
+	(maxprogsw, progsw, swval, setsw): Removed.
+	* 0.string.c (find, str_eq, slength): Removed.
+	(concat): Use strlen, not slength.
+	* allfuncs.h (find, set_sw, str_eq, slength): Removed.
+	* b.h (str_eq, slength): Removed.
+	* beauty.y: Include <string.h>.
+	(accum): Use strlen, not slength.
+	* lextab.l [RULES]: Use strlen, not slength.
+	* tree.c (addroot): Use strlen, not slength.
+	(checknet): Use strlen, not slength. Use strcmp, not str_eq.
+	(str_eq, slength): Removed.
+
+2022-01-18         Arnold D. Robbins     <arnold@skeeve.com>
+
 	* 0.alloc.c: Include <string.h>.
 	(challoc): Set allocated storage to zero.
 	* 0.args.c (setsw): Use islower. Include <ctype.h>

@@ -19,8 +19,6 @@ extern void yield(struct node *tree, int fprec);
 extern void puttree(struct node *tree);
 extern int prec(int oper);
 extern int str_copy(char *s, char *cptr, int length);
-extern int str_eq(char s[], char t[]);
-extern int slength(char *s);
 
 /* beauty.y: */
 extern void putout(int type, char *string);

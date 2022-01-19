@@ -98,7 +98,7 @@ END			{ fixval(); return(xxend); }
 '([^']|'')*'			{
 					fixval();
 					xxp = yylval.strval;
-					xxn = slength(xxp);
+					xxn = strlen(xxp);
 					xxtbuff = malloc(2*xxn+1);
 					xxtbuff[0] = '"';
 					for (xxj = xxk = 1; xxj < xxn-1; ++xxj) {
