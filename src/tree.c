@@ -15,7 +15,7 @@ addroot(char *string, int type, struct node *n1, struct node *n2)
 	p->right = n2;
 	p->op = type;
 	p->lit = malloc(strlen(string) + 1);
-	str_copy(string, p->lit, strlen(string) + 1);
+	strcpy(p->lit, string);
 	return (p);
 }
 
@@ -73,8 +73,7 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 			tree->op = notop[i];
 			free(tree->lit);
 			tree->lit = malloc(strlen(opstring[i]) + 1);
-			str_copy(opstring[i], tree->lit,
-				 strlen(opstring[i]) + 1);
+			strcpy(tree->lit, opstring[i]);
 			if (tree->op == '&' || tree->op == '|') {
 				tree->left = checkneg(tree->left, 1);
 				tree->right = checkneg(tree->right, 1);
@@ -82,18 +81,16 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 			return (tree);
 		}
 		if (tree->op == xxident && strcmp(tree->lit, ".false.") == 0)
-			str_copy(".true.", tree->lit,
-				 strlen(".true.") + 1);
+			strcpy(tree->lit, ".true.");
 		else if (tree->op == xxident
 			 && strcmp(tree->lit, ".true.") == 0) {
 			free(tree->lit);
 			tree->lit = malloc(strlen(".false.") + 1);
-			str_copy(".false.", tree->lit,
-				 strlen(".false.") + 1);
+			strcpy(tree->lit, ".false.");
 		} else {
 			tree = addroot("!", '!', tree, 0);
 			tree->lit = malloc(2);
-			str_copy("!", tree->lit, strlen("!") + 1);
+			strcpy(tree->lit, "!");
 		}
 		return (tree);
 	} else if (tree->op == '!') {
@@ -215,22 +212,4 @@ prec(int oper)
 	default:
 		return (9);
 	}
-}
-
-/* copy s at ptr, return length of s */
-
-int
-str_copy(char *s, char *ptr, int length)
-{
-	int i;
-
-	for (i = 0; i < length; i++) {
-		ptr[i] = s[i];
-		if (ptr[i] == '\0')
-			return (i + 1);
-	}
-	fprintf(stderr,
-		"string %s too long to be copied by str_copy at address %p\n",
-		s, ptr);
-	exit(EXIT_FAILURE);
 }

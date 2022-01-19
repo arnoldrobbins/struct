@@ -1,3 +1,8 @@
+2022-01-19         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* tree.c (str_copy): Removed. Replaced all uses with strcpy.
+	* b.h (str_copy): Removed declaration.
+
 2022-01-18         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 0.args.c: Include <getopt.h>.
@@ -50,7 +55,7 @@
 
 	* beauty.y (accum): Restore original assert loop bounds.
 	* lextab.l (xxpmax, xxbuf, xxbp): Removed globally.
-	[RULES}: Space and tab return a token if newflag is set.
+	[RULES]: Space and tab return a token if newflag is set.
 	(addbuf): Removed.
 	(fixval): Removed special case for comma and old code.
 
