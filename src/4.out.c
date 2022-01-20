@@ -69,7 +69,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 	case COMPVX:
 		OUTSTR("goto ");
 		if (type == ASGOVX) {
-			OUTSTR(EXP(v));
+			OUTSTR((char *)EXP(v));
 			OUTSTR(",");
 		}
 		OUTSTR("(");
@@ -81,7 +81,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		OUTSTR(")");
 		if (type == COMPVX) {
 			OUTSTR(",");
-			OUTSTR(EXP(v));
+			OUTSTR((char *)EXP(v));
 		}
 		OUTSTR("\n");
 		break;
@@ -89,7 +89,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		OUTSTR("assign ");
 		OUTNUM(LABEL(LABREF(v)));
 		OUTSTR(" to ");
-		OUTSTR(EXP(v));
+		OUTSTR((char *)EXP(v));
 		OUTSTR("\n");
 		break;
 	case IFVX:
@@ -120,7 +120,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		break;
 	case DOVX:
 		OUTSTR("DO ");
-		OUTSTR(INC(v));
+		OUTSTR((char *)INC(v));
 		newlevel(v, 0, tab + 1, YESTAB);
 		break;
 	case LOOPVX:
@@ -150,7 +150,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		OUTSTR("SWITCH");
 		if (DEFINED(EXP(v))) {
 			OUTSTR("(");
-			OUTSTR(EXP(v));
+			OUTSTR((char *)EXP(v));
 			OUTSTR(")");
 		}
 		newlevel(v, 0, tab + 1, YESTAB);
@@ -161,7 +161,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		if (type == ACASVX)
 			prpred(v, FALSE);
 		else
-			OUTSTR(EXP(v));
+			OUTSTR((char *)EXP(v));
 		OUTSTR(":\n");
 		newlevel(v, 0, tab + 1, YESTAB);
 		if (type == ACASVX && DEFINED(LCHILD(v, ELSE))) {
@@ -171,7 +171,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		}
 		break;
 	case IOVX:
-		OUTSTR(PRERW(v));
+		OUTSTR((char *)PRERW(v));
 		ndcomma = FALSE;
 		if (DEFINED(FMTREF(v))) {
 			OUTNUM(LABEL(FMTREF(v)));
@@ -191,7 +191,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 			OUTNUM(LABEL(ARC(v, ERREQ)));
 			ndcomma = TRUE;
 		}
-		OUTSTR(POSTRW(v));
+		OUTSTR((char *)POSTRW(v));
 		OUTSTR("\n");
 		break;
 	}
@@ -237,7 +237,7 @@ prpred(VERT v, LOGICAL addpar)
 		OUTSTR("(");
 	if (NEG(v))
 		OUTSTR("!(");
-	OUTSTR(PRED(v));
+	OUTSTR((char *)PRED(v));
 	if (NEG(v))
 		OUTSTR(")");
 	if (addpar)
@@ -249,7 +249,7 @@ prlab(int n, int tab)
 {
 	TABOVER(tab);
 	OUTSTR("~");
-	OUTNUM(n);
+	OUTNUM((intptr_t)n);
 	OUTSTR(" ");
 }
 
@@ -258,7 +258,7 @@ prstln(VERT v, int tab)
 {
 	ASSERT(NTYPE(v) == STLNVX || NTYPE(v) == FMTVX, prstln);
 	if (!ONDISK(v)) {
-		OUTSTR(BEGCODE(v));
+		OUTSTR((char *)BEGCODE(v));
 		OUTSTR("\n");
 	} else {
 		empseek(BEGCODE(v));

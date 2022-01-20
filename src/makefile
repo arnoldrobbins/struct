@@ -1,4 +1,4 @@
-CFLAGS=-g -g3 -m32 -Wall
+CFLAGS=-g -g3 -Wall
 YFLAGS=-d
 
 0FILES.c = 0.alloc.c 0.args.c 0.def.c 0.extr.c 0.graph.c 0.list.c 0.parts.c 0.string.c

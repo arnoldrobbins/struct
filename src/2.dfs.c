@@ -100,7 +100,7 @@ chreach(void)
 		    && NTYPE(v) != STOPVX && NTYPE(v) != RETVX) {
 			unreach = TRUE;
 			if (debug)
-				fprintf(stderr, "node %d unreachable\n", v);
+				fprintf(stderr, "node %" PRIdPTR " unreachable\n", v);
 		}
 	if (unreach)
 		error(": unreachable statements - ", "will be ignored", "");
@@ -152,9 +152,9 @@ insloop(VERT v)			/* insert LOOPVX, ITERVX at node number v */
 }
 
 void
-exchange(int **p1, int **p2)		/* exchange values of p1, p2 */
+exchange(intptr_t **p1, intptr_t **p2)		/* exchange values of p1, p2 */
 {
-	int *temp;
+	intptr_t *temp;
 
 	temp = *p1;
 	*p1 = *p2;
@@ -162,9 +162,9 @@ exchange(int **p1, int **p2)		/* exchange values of p1, p2 */
 }
 
 void
-exchange2(int *p1, int *p2)		/* exchange values of p1, p2 */
+exchange2(intptr_t *p1, intptr_t *p2)		/* exchange values of p1, p2 */
 {
-	int temp;
+	intptr_t temp;
 
 	temp = *p1;
 	*p1 = *p2;
