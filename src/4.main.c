@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "def.h"
 #include "4.def.h"
 #include "allfuncs.h"
 
-LOGICAL *brace;
+bool *brace;
 
 void
 output(void)
@@ -13,7 +14,7 @@ output(void)
 
 	brace = challoc(nodenum * sizeof(*brace));
 	for (i = 0; i < nodenum; ++i)
-		brace[i] = FALSE;
+		brace[i] = false;
 	if (progress)
 		fprintf(stderr, "ndbrace:\n");
 	for (w = START; DEFINED(w); w = RSIB(w))

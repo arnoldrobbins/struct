@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 /* 0.alloc.c: */
 struct coreblk;
 extern void freegraf(void);
@@ -104,7 +106,7 @@ extern int unput1(int c);
 extern int mkgraph(void);
 
 /* 1.node.c: */
-extern VERT makenode(int type, LOGICAL addimp, LOGICAL addcom, long labe, int arcnum, int arctype[], long arclab[]);
+extern VERT makenode(int type, bool addimp, bool addcom, long labe, int arcnum, int arctype[], long arclab[]);
 extern void fiximp(VERT num, long labe);
 
 /* 1.recog.c: */
@@ -113,7 +115,7 @@ extern int makeif(int first, long labe, char *test, long arc1, long arc2);
 extern int innerdo(long labe);
 extern void contin(long labe, int nest);
 extern void nesteddo(long labe, int v);
-extern int compcase(LOGICAL ifflag);
+extern int compcase(bool ifflag);
 extern int accum(char *str, struct lablist *vlist, long f);
 extern int distinct(struct lablist *vlist, int count[], long dlist[], int size);
 
@@ -139,7 +141,7 @@ extern void merge(VERT w, VERT y, VERT *head);
 /* 2.inarc.c: */
 extern void getinarc(struct list **inarc, VERT *head);
 extern VERT maxentry(VERT x, VERT y, VERT *head);
-extern int loomem(VERT x, VERT y, VERT *head);
+extern bool loomem(VERT x, VERT y, VERT *head);
 
 /* 2.main.c: */
 extern void build(void);
@@ -168,7 +170,7 @@ extern void cntarcs(void);
 extern void fixloop(VERT v);
 extern int getwh(VERT v);
 extern int getun(VERT v);
-extern int getswitch(VERT v);
+extern bool getswitch(VERT v);
 
 /* 3.main.c: */
 extern void structure(void);
@@ -185,7 +187,7 @@ extern void mkthen(VERT v);
 extern void negate(VERT v);
 
 /* 4.brace.c: */
-extern LOGICAL ndbrace(VERT v);
+extern bool ndbrace(VERT v);
 extern int compound(VERT v, int ch);
 
 /* 4.form.c: */
@@ -201,9 +203,9 @@ extern int unput2(int c);
 extern void output(void);
 
 /* 4.out.c: */
-extern void outrat(VERT v, int tab, LOGICAL tabfirst);
-extern void newlevel(VERT v, int ch, int tab, LOGICAL tabfirst);
-extern void prpred(VERT v, LOGICAL addpar);
+extern void outrat(VERT v, int tab, bool tabfirst);
+extern void newlevel(VERT v, int ch, int tab, bool tabfirst);
+extern void prpred(VERT v, bool addpar);
 extern void prlab(int n, int tab);
 extern void prstln(VERT v, int tab);
 extern void prcom(VERT v);

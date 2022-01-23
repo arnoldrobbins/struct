@@ -1,17 +1,16 @@
 #include <stdint.h>
 #include <inttypes.h>
+#include <stdbool.h>
 
 #define ASSERT(P, R)	{if (!(P)) {fprintf(stderr, "failed assertion in routine " #R ": " #P "\n"); abort();}}
 
-extern int routnum, routerr;
+extern int routnum;
+extern bool routerr;
 extern long rtnbeg;		/* number of chars up to beginnine of curernt routing */
 extern intptr_t **graph;
 extern int nodenum;
 extern int stopflg;		/* turns off generation of stop statements */
 
-#define TRUE 1
-#define FALSE 0
-#define LOGICAL int
 #define VERT intptr_t
 #define DEFINED(v)	(v != -1)
 #define UNDEFINED	-1

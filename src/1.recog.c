@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "1.incl.h"
 #include "def.h"
 #include "allfuncs.h"
@@ -42,7 +43,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		arctype[1] = (nest >= 0) ? nest : -2;
 		arclab[1] = implicit;
 		num1 =
-		    makenode(IFVX, TRUE, TRUE, label(0), 2, arctype,
+		    makenode(IFVX, true, true, label(0), 2, arctype,
 			     arclab);
 		PRED(num1) = (intptr_t)pred;
 	}
@@ -63,13 +64,13 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		if (type == RETVX) {
 			if (retvert == UNDEFINED)
 				retvert =
-				    makenode(type, FALSE, FALSE, implicit,
+				    makenode(type, false, false, implicit,
 					     0, arctype, arclab);
 			num = retvert;
 		} else {
 			if (stopvert == UNDEFINED)
 				stopvert =
-				    makenode(type, FALSE, FALSE, implicit,
+				    makenode(type, false, false, implicit,
 					     0, arctype, arclab);
 			num = stopvert;
 		}
@@ -88,7 +89,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 
 	case FMTVX:
 		num =
-		    makenode(FMTVX, FALSE, TRUE, implicit, 0, arctype,
+		    makenode(FMTVX, false, true, implicit, 0, arctype,
 			     arclab);
 		BEGCODE(num) = comchar + 1 - rtnbeg;
 		if ((unsigned) (BEGCODE(num)) != comchar + 1 - rtnbeg)
@@ -116,7 +117,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 				CODELINES(num) = 1;
 			} else {
 				BEGCODE(num) = (intptr_t)stcode;
-				ONDISK(num) = FALSE;
+				ONDISK(num) = false;
 				CODELINES(num) = 1;
 			}
 		}
@@ -131,7 +132,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		}
 		arctype[1] = UNDEFINED;
 		num1 =
-		    makenode(DOVX, TRUE, TRUE, label(0), 2, arctype,
+		    makenode(DOVX, true, true, label(0), 2, arctype,
 			     arclab);
 		if (++doptr >= maxdo) {
 			faterr("in parsing:\n",
@@ -141,7 +142,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		doloc[doptr] = num1;	/* stack link to node after loop */
 		INC(num1) = (intptr_t)inc;
 		num =
-		    makenode(ITERVX, TRUE, FALSE, implicit, 1, arctype,
+		    makenode(ITERVX, true, false, implicit, 1, arctype,
 			     arclab);
 		ARC(num1, 0) = num;
 		FATH(num) = UNDEFINED;	/* number of DOVX can change so leave UNDEFINED until later */
@@ -210,7 +211,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		break;
 	case entry:
 		num =
-		    makenode(STLNVX, FALSE, TRUE, label(0), 1, arctype,
+		    makenode(STLNVX, false, true, label(0), 1, arctype,
 			     arclab);
 		BEGCODE(num) = comchar + 1 - rtnbeg;
 		if ((unsigned) (BEGCODE(num)) != comchar + 1 - rtnbeg)
@@ -344,7 +345,7 @@ nesteddo(long labe, int v)
 
 
 int
-compcase(LOGICAL ifflag)		/* turn computed goto into case statement */
+compcase(bool ifflag)		/* turn computed goto into case statement */
 {
 	int *arctype, i, num, d, arct;
 	extern long label();
@@ -359,7 +360,7 @@ compcase(LOGICAL ifflag)		/* turn computed goto into case statement */
 	arct = -2;
 	for (i = 0; i < d; ++i)
 		arctype[i] =
-		    makenode(ICASVX, FALSE, FALSE, implicit, 1, &arct,
+		    makenode(ICASVX, false, false, implicit, 1, &arct,
 			     &arclab[i]);
 	num =
 	    makenode(SWCHVX, !ifflag, !ifflag, label(0), d, arctype,

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "def.h"
 #include "3.def.h"
 #include "allfuncs.h"
@@ -10,7 +11,7 @@ getbranch(VERT *head)
 	VERT v;
 
 	for (v = 0; v < nodenum; ++v)
-		LABEL(v) = FALSE;
+		LABEL(v) = false;
 	for (v = START; DEFINED(v); v = RSIB(v))
 		chkbranch(v, head);
 	addlab(START);
@@ -46,21 +47,21 @@ chkbranch(VERT v, VERT *head)
 			else if (ARC(v, 0) == retvert)
 				NTYPE(v) = RETVX;
 			else
-				LABEL(ARC(v, 0)) = TRUE;
+				LABEL(ARC(v, 0)) = true;
 		}
 		break;
 	case COMPVX:
 	case ASGOVX:
 		for (i = 0; i < ARCNUM(v); ++i)
-			LABEL(ARC(v, i)) = TRUE;
+			LABEL(ARC(v, i)) = true;
 		break;
 	case IOVX:
 		if (DEFINED(ARC(v, ENDEQ)))
-			LABEL(ARC(v, ENDEQ)) = TRUE;
+			LABEL(ARC(v, ENDEQ)) = true;
 		if (DEFINED(ARC(v, ERREQ)))
-			LABEL(ARC(v, ERREQ)) = TRUE;
+			LABEL(ARC(v, ERREQ)) = true;
 		if (DEFINED(FMTREF(v)))
-			LABEL(FMTREF(v)) = TRUE;
+			LABEL(FMTREF(v)) = true;
 		break;
 	}
 	for (i = 0; i < CHILDNUM(v); ++i)

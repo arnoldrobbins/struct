@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "def.h"
 #include "allfuncs.h"
 
@@ -8,11 +9,11 @@ int
 mkgraph(void)
 {
 	if (!parse())
-		return (FALSE);
+		return (false);
 
 	hash_check();
 	hash_free();
 	fingraph();
 
-	return (TRUE);
+	return (true);
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 /*
 set REACH[v] = w if w is only node outside subtree of v which is reached from within
 	subtree of v, REACH[v] = UNDEFINED otherwise
@@ -28,7 +29,7 @@ struct pair {
 };
 
 static struct pair *exits(VERT v);
-static LOGICAL inspr(VERT w, struct pair *pr);
+static bool inspr(VERT w, struct pair *pr);
 
 void
 getreach(void)
@@ -127,20 +128,20 @@ SETNUM(VERT v, int count)
 }
 
 
-static LOGICAL
-inspr(VERT w, struct pair *pr)	/* insert w in order in pr, return TRUE if <= smaller of pr */
+static bool
+inspr(VERT w, struct pair *pr)	/* insert w in order in pr, return true if <= smaller of pr */
 				/* don't insert duplicates */
 {
 	if (w == pr->smallest)
-		return (TRUE);
+		return (true);
 	if (NUM(w) < NUM(pr->smallest)) {
 		pr->second = pr->smallest;
 		pr->smallest = w;
-		return (TRUE);
+		return (true);
 	}
 	if (w == pr->second)
-		return (FALSE);
+		return (false);
 	if (NUM(w) < NUM(pr->second))
 		pr->second = w;
-	return (FALSE);
+	return (false);
 }

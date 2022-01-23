@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "1.defs.h"
 #include "def.h"
@@ -16,10 +17,10 @@ static void dexit(int signum);
 int
 main(int argc, char *argv[])
 {
-	int anyoutput;
+	bool anyoutput;
 
 	outfd = stdout;
-	anyoutput = FALSE;
+	anyoutput = false;
 	getargs(argc, argv);
 	if (debug == 2)
 		debfd = stderr;
@@ -66,7 +67,7 @@ main(int argc, char *argv[])
 		output();
 		if (routerr)
 			continue;
-		anyoutput = TRUE;
+		anyoutput = true;
 		freegraf();
 	}
 	if (anyoutput)

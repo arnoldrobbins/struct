@@ -1,21 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "def.h"
 #include "4.def.h"
 #include "3.def.h"
 #include "allfuncs.h"
 
-LOGICAL
+bool
 ndbrace(VERT v)			/* determine whether braces needed around subparts of v */
-    /* return TRUE if v ends with IF THEN not in braces */
+    /* return true if v ends with IF THEN not in braces */
 {
 	VERT w;
 	int i;
-	LOGICAL endif;
+	bool endif;
 
-	endif = FALSE;
+	endif = false;
 	for (i = 0; i < CHILDNUM(v); ++i) {
-		endif = FALSE;
+		endif = false;
 		for (w = LCHILD(v, i); DEFINED(w); w = RSIB(w))
 			endif = ndbrace(w);
 		if (NTYPE(v) != DUMVX && NTYPE(v) != ITERVX &&
@@ -27,7 +28,7 @@ ndbrace(VERT v)			/* determine whether braces needed around subparts of v */
 			   check for IFTHEN followed by unrelated ELSE */
 		{
 			YESBRACE(v, i);
-			endif = FALSE;
+			endif = false;
 		}
 	}
 	return (endif || IFTHEN(v));
@@ -35,23 +36,23 @@ ndbrace(VERT v)			/* determine whether braces needed around subparts of v */
 
 
 int
-compound(VERT v, int ch)	/* return TRUE iff subpart ch of v has multiple statements */
+compound(VERT v, int ch)	/* return true iff subpart ch of v has multiple statements */
 {
 	VERT w;
 
 	w = LCHILD(v, ch);
 	if (!DEFINED(w))
-		return (FALSE);
+		return (false);
 	if (NTYPE(w) == ITERVX) {
 		ASSERT(DEFINED(NXT(w)), compound);
 		if (LABEL(NXT(w)))
-			return (TRUE);	/* loop ends with labeled CONTINUE statement */
+			return (true);	/* loop ends with labeled CONTINUE statement */
 		else
 			return (compound(w, 0));
 	} else if (DEFINED(RSIB(w)))
-		return (TRUE);
+		return (true);
 	else if (NTYPE(w) == STLNVX && CODELINES(w) > 1)
-		return (TRUE);
+		return (true);
 	else
-		return (FALSE);
+		return (false);
 }

@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "def.h"
 #include "1.incl.h"
 #include "allfuncs.h"
 
 VERT
-makenode(int type, LOGICAL addimp, LOGICAL addcom, long labe, int arcnum, int arctype[], long arclab[])
+makenode(int type, bool addimp, bool addcom, long labe, int arcnum, int arctype[], long arclab[])
 {
 	int i;
 	VERT num;

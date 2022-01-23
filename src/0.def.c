@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "def.h"
 
 int routnum;
 FILE *debfd;
-LOGICAL routerr;
+bool routerr;
 int nodenum, accessnum;
 intptr_t **graph;
 int progtype;

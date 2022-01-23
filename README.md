@@ -7,14 +7,55 @@ V10.  Overall, the code changed very little from the initial V7 version.
 The branches `v7-code`, `v8-code` and `v10-code` have the respective
 versions.
 
-This program has always fascinated me. I have always thought that
-it was extremely cool.  Besides preserving the code in one place,
-I would like to (try to) bring the code into the modern era,
-in terms of C language usage and code formatting. We'll see if I
-succeed.
+This program has always fascinated me. I have always thought that it was
+extremely cool.  Besides preserving the code in one place, I wanted to
+try to bring the code into the modern era, in terms of C language usage
+and code formatting.  With the help of Jay Logue, I have succeeded.
 
-Arnold Robbins
+## Program Structure
+
+There are three components:
+
+* `structure`, which reads Fortran and produces something that is almost Ratfor.
+
+* `beautify`, which reads the output of `structure` and finishes the conversion.
+
+* `struct.sh`, a shell script to run the other two components.
+
+The original code was written in 1974, when C was much less developed than
+it is now. In particular, it freely mixed `int` with `int *`, `int **` and
+`char *`.
+
+Needless to say, this kind of coding doesn't work very well on a modern
+64-bit Linux system.  _However_, when compiled with `gcc -m32` for the
+original 32-bit Intel architecture, even with the accompanying warnings, the
+code worked!
+
+## Changes Accomplished
+
+* Use of ANSI-style function definitions and declarations.
+
+* Code formatting converted to standard ``K&R'' style using tabs.
+
+* Modern C usages: macros, standard header files, `bool`, `printf` format specifiers and so on.
+
+* Use of standard string routines instead of home-grown versions.
+
+* Scanner for `beautify` adapted for use with flex.
+
+* Grammar and scanner for `beautify` adapted for modern Yacc with `%union`.
+
+* Argument parsing for `structure` converted to use getopt.
+
+* Code converted to use the modern `intptr_t` type instead of `int` where
+necessary, with casts added.  This was done by Jay Logue, and enables
+compiling and running on 64-bit systems.  I thank him.
+
+## Papers
+
+Dr. Baker's paper on `struct` may be found at
+https://dl.acm.org/doi/abs/10.1145/321992.321999.
 
 #### Last Modified
 
-Mon Dec 20 19:06:18 IST 2021
+Sun Jan 23 19:47:43 IST 2022

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "def.h"
 #include "4.def.h"
 #include "allfuncs.h"
@@ -48,26 +49,26 @@ comprint(void)
 void
 prcode(int linecount, int tab)
 {
-	int someout;
+	bool someout;
 
-	someout = FALSE;
+	someout = false;
 	while (linecount) {
 		if ((*comment[inputform]) (0)) {
 			linecount -= comprint();
-			someout = TRUE;
+			someout = true;
 			continue;
 		} else if (blankline())
 			(*rline[inputform]) (null);
 		else if ((*chkcont[inputform])()) {
 			TABOVER(tab);
 			prline("&");
-			someout = TRUE;
+			someout = true;
 		} else {
 			if (someout)
 				TABOVER(tab);
 			(*getlabel[inputform]) (null);
 			prline("");
-			someout = TRUE;
+			someout = true;
 		}
 		--linecount;
 	}

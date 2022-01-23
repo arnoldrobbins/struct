@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /* depth-first search used to identify back edges, unreachable nodes;
 	each node v entered by back edge replaced by
@@ -92,13 +93,13 @@ void
 chreach(void)
 {				/* look for unreachable nodes */
 	VERT v;
-	LOGICAL unreach;
+	bool unreach;
 
-	unreach = FALSE;
+	unreach = false;
 	for (v = 0; v < nodenum; ++v)
 		if (status[v] == UNPROCESSED && NTYPE(v) != FMTVX
 		    && NTYPE(v) != STOPVX && NTYPE(v) != RETVX) {
-			unreach = TRUE;
+			unreach = true;
 			if (debug)
 				fprintf(stderr, "node %" PRIdPTR " unreachable\n", v);
 		}

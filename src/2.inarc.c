@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /* find forward in-arcs for each node, pretending that arcs which jump into a loop 
 	jump to the head of the largest such loop instead, based on the
@@ -60,17 +61,17 @@ maxentry(VERT x, VERT y, VERT *head)		/* return z if z is ITERVX of largest loop
 
 
 
-int
-loomem(VERT x, VERT y, VERT *head)		/* return TRUE if x is in loop headed by y, FALSE otherwise */
+bool
+loomem(VERT x, VERT y, VERT *head)		/* return true if x is in loop headed by y, false otherwise */
 {
 	VERT w;
 
 	if (!DEFINED(y))
-		return (TRUE);
+		return (true);
 	ASSERT(NTYPE(y) == ITERVX, loomem);
 	for (w = (NTYPE(x) == ITERVX) ? x : head[x]; DEFINED(w);
 	     w = head[w])
 		if (w == y)
-			return (TRUE);
-	return (FALSE);
+			return (true);
+	return (false);
 }

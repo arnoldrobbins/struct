@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "1.defs.h"
 #include "1.incl.h"
 #include "def.h"
@@ -57,5 +58,5 @@ graf_init(void)
 	arctype[0] = -2;
 	arclab[0] = implicit;
 	START =
-	    makenode(DUMVX, FALSE, FALSE, implicit, 1, arctype, arclab);
+	    makenode(DUMVX, false, false, implicit, 1, arctype, arclab);
 }

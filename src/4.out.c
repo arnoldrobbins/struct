@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "def.h"
 #include "4.def.h"
 #include "3.def.h"
@@ -9,9 +10,9 @@ void
 outrat(
 VERT v,
 int tab,			/* number of tabs to indent */
-LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
+bool tabfirst)		/* false if doing IF of ELSE IF */
 {
-	LOGICAL ndcomma;
+	bool ndcomma;
 	VERT w;
 	int type, i;
 
@@ -94,7 +95,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		break;
 	case IFVX:
 		OUTSTR("IF");
-		prpred(v, TRUE);
+		prpred(v, true);
 		if (IFTHEN(v))
 			newlevel(v, THEN, tab + 1, YESTAB);
 		else {
@@ -131,7 +132,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 			TABOVER(tab + 1);
 			OUTSTR("UNTIL");
 			ASSERT(DEFINED(ARC(v, 0)), outrat);
-			prpred(LPRED(ARC(v, 0)), TRUE);
+			prpred(LPRED(ARC(v, 0)), true);
 			OUTSTR("\n");
 		}
 		break;
@@ -139,7 +140,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		OUTSTR("WHILE");
 		ASSERT(DEFINED(ARC(v, 0)), outrat);
 		ASSERT(DEFINED(LPRED(ARC(v, 0))), outrat);
-		prpred(LPRED(ARC(v, 0)), TRUE);
+		prpred(LPRED(ARC(v, 0)), true);
 		newlevel(v, 0, tab + 1, YESTAB);
 		break;
 	case STLNVX:
@@ -159,7 +160,7 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 	case ACASVX:
 		OUTSTR("CASE ");
 		if (type == ACASVX)
-			prpred(v, FALSE);
+			prpred(v, false);
 		else
 			OUTSTR((char *)EXP(v));
 		OUTSTR(":\n");
@@ -172,24 +173,24 @@ LOGICAL tabfirst)		/* FALSE if doing IF of ELSE IF */
 		break;
 	case IOVX:
 		OUTSTR((char *)PRERW(v));
-		ndcomma = FALSE;
+		ndcomma = false;
 		if (DEFINED(FMTREF(v))) {
 			OUTNUM(LABEL(FMTREF(v)));
-			ndcomma = TRUE;
+			ndcomma = true;
 		}
 		if (DEFINED(ARC(v, ENDEQ))) {
 			if (ndcomma)
 				OUTSTR(",");
 			OUTSTR("end = ");
 			OUTNUM(LABEL(ARC(v, ENDEQ)));
-			ndcomma = TRUE;
+			ndcomma = true;
 		}
 		if (DEFINED(ARC(v, ERREQ))) {
 			if (ndcomma)
 				OUTSTR(",");
 			OUTSTR("err = ");
 			OUTNUM(LABEL(ARC(v, ERREQ)));
-			ndcomma = TRUE;
+			ndcomma = true;
 		}
 		OUTSTR((char *)POSTRW(v));
 		OUTSTR("\n");
@@ -203,15 +204,15 @@ newlevel(
 VERT v,
 int ch,				/* number of lchild of v being processed */
 int tab,			/* number of tabs to indent */
-LOGICAL tabfirst)		/* same as for outrat */
+bool tabfirst)			/* same as for outrat */
 {
-	LOGICAL addbrace;
+	bool addbrace;
 	VERT w;
 
 	if (NTYPE(v) == ACASVX || NTYPE(v) == ICASVX)
-		addbrace = FALSE;
+		addbrace = false;
 	else if (NTYPE(v) == SWCHVX)
-		addbrace = TRUE;
+		addbrace = true;
 	else
 		addbrace = HASBRACE(v, ch);
 	ASSERT(tabfirst || !addbrace, newlevel);
@@ -231,7 +232,7 @@ LOGICAL tabfirst)		/* same as for outrat */
 
 
 void
-prpred(VERT v, LOGICAL addpar)
+prpred(VERT v, bool addpar)
 {
 	if (addpar)
 		OUTSTR("(");
