@@ -1,15 +1,19 @@
+#include <stdint.h>
+#include <inttypes.h>
+
 #define ASSERT(P, R)	{if (!(P)) {fprintf(stderr, "failed assertion in routine " #R ": " #P "\n"); abort();}}
 
 extern int routnum, routerr;
 extern long rtnbeg;		/* number of chars up to beginnine of curernt routing */
-extern int **graph, nodenum;
+extern intptr_t **graph;
+extern int nodenum;
 extern int stopflg;		/* turns off generation of stop statements */
 
 #define TRUE 1
 #define FALSE 0
 #define LOGICAL int
-#define VERT int
-#define DEFINED(v)	(v >= 0)
+#define VERT intptr_t
+#define DEFINED(v)	(v != -1)
 #define UNDEFINED	-1
 
 /* node types */
@@ -42,7 +46,7 @@ extern int stopflg;		/* turns off generation of stop statements */
 extern int hascom[TYPENUM];		/* FALSE for types with no comments, 2 otherwise */
 extern int nonarcs[TYPENUM];		/* number of wds per node other than arcs */
 extern VERT *arc(), *lchild();
-extern int *vxpart(), *negpart(), *predic(), *expres(), *level(), *stlfmt();
+extern intptr_t *vxpart(), *negpart(), *predic(), *expres(), *level(), *stlfmt();
 /* node parts */
 #define FIXED 4		/* number of wds needed in every node */
 #define NTYPE(v)	graph[v][0]
@@ -90,7 +94,7 @@ extern int *vxpart(), *negpart(), *predic(), *expres(), *level(), *stlfmt();
 
 /* also COMPVX, ASGOVX, SWCHVX, and DUMVX contain wd for number of arcs */
 /* location of this wd specified by negative entry in arcsper */
-extern int arcsper[TYPENUM];
+extern intptr_t arcsper[TYPENUM];
 
 /* also nodes contain wds for children as specified by childper */
 extern int childper[TYPENUM];

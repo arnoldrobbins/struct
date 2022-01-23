@@ -2,7 +2,7 @@
 #define NOTAB	FALSE
 #define TABOVER(n)	tabover(n, outfd)
 #define OUTSTR(x)	fprintf(outfd, "%s", x)
-#define OUTNUM(x)	fprintf(outfd, "%d", x)
+#define OUTNUM(x)	fprintf(outfd, "%" PRIdPTR, x)
 
 
 extern LOGICAL *brace;

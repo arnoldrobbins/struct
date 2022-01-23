@@ -1,3 +1,12 @@
+2022-01-20         Jay Logue             <jay.logue@gmail.com>
+
+	* 0.alloc.c, 0.def.c, 0.graph.c, 0.list.c, 0.parts.c,
+	1.hash.c, 1.recog.c, 2.dfs.c, 4.def.h, 4.out.c,
+	allfuncs.h, def.h: Use intptr_t for any integers that
+	may be used to hold pointers. Use PRIdPTR when printing
+	any such integers.
+	* makefile: Removed -m32 compiler option
+
 2022-01-19         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* tree.c (str_copy): Removed. Replaced all uses with strcpy.
@@ -31,7 +40,7 @@
 	(uptolow): Use tolower, isupper.
 	* allfuncs.h (str_copy): Removed.
 
-2022-01-18         Jay Logue             <jay@stoaster.com>
+2022-01-18         Jay Logue             <jay.logue@gmail.com>
 
 	* 0.parts.c (create): Fix use of realloc.
 	* 1.recog.c (recognize): Init num and num1.

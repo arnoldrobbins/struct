@@ -44,7 +44,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		num1 =
 		    makenode(IFVX, TRUE, TRUE, label(0), 2, arctype,
 			     arclab);
-		PRED(num1) = pred;
+		PRED(num1) = (intptr_t)pred;
 	}
 
 	arctype[0] = (nest >= 0) ? nest : -2;
@@ -115,7 +115,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 				ONDISK(num) = endline - endcom;
 				CODELINES(num) = 1;
 			} else {
-				BEGCODE(num) = stcode;
+				BEGCODE(num) = (intptr_t)stcode;
 				ONDISK(num) = FALSE;
 				CODELINES(num) = 1;
 			}
@@ -139,7 +139,7 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		}
 		dostack[doptr] = label(1);
 		doloc[doptr] = num1;	/* stack link to node after loop */
-		INC(num1) = inc;
+		INC(num1) = (intptr_t)inc;
 		num =
 		    makenode(ITERVX, TRUE, FALSE, implicit, 1, arctype,
 			     arclab);
@@ -178,8 +178,8 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		num =
 		    makenode(IOVX, !ifflag, !ifflag, label(0), 3, arctype,
 			     arclab);
-		PRERW(num) = prerw;
-		POSTRW(num) = postrw;
+		PRERW(num) = (intptr_t)prerw;
+		POSTRW(num) = (intptr_t)postrw;
 		if (reflab)
 			addref(reflab->labelt, &FMTREF(num));
 		else
@@ -199,13 +199,13 @@ recognize(int type, int ifflag)	/* if ifflag = 1, statement is if()type; otherwi
 		num =
 		    makenode(type, !ifflag, !ifflag, label(0), nlabs - 1,
 			     arctype, arclab);
-		EXP(num) = expr;
+		EXP(num) = (intptr_t)expr;
 		break;
 	case ASVX:
 		num =
 		    makenode(ASVX, !ifflag, !ifflag, label(0), 1, arctype,
 			     arclab);
-		EXP(num) = expr;
+		EXP(num) = (intptr_t)expr;
 		addref(label(1), &LABREF(num));
 		break;
 	case entry:
@@ -292,7 +292,7 @@ makeif(int first, long labe, char *test, long arc1, long arc2)	/* construct IFVX
 	arclab[0] = arc1;
 	arclab[1] = arc2;
 	num = makenode(IFVX, first, first, labe, 2, arctype, arclab);
-	PRED(num) = test;
+	PRED(num) = (intptr_t)test;
 	return (num);
 }
 
@@ -364,12 +364,12 @@ compcase(LOGICAL ifflag)		/* turn computed goto into case statement */
 	num =
 	    makenode(SWCHVX, !ifflag, !ifflag, label(0), d, arctype,
 		     arclab);
-	EXP(num) = expr;
+	EXP(num) = (intptr_t)expr;
 
 	str = challoc(6 * nlabs);	/* 5 digits + , or \0 per label */
 	for (i = 0; i < d; ++i)	/* construct list of values for each label */
 		EXP(arctype[i]) =
-		    stralloc(str, accum(str, linelabs->nxtlab, arclab[i]));
+		    (intptr_t)stralloc(str, accum(str, linelabs->nxtlab, arclab[i]));
 	chfree(str, 6 * nlabs);
 	chfree(arctype, sizeof(*arctype) * nlabs);
 	chfree(arclab, sizeof(*arclab) * nlabs);

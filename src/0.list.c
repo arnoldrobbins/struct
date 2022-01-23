@@ -68,6 +68,6 @@ prlst(struct list *ls)
 	struct list *lp;
 
 	for (lp = ls; lp; lp = lp->nxtlist)
-		fprintf(stderr, "%d,", lp->elt);
+		fprintf(stderr, "%" PRIdPTR ",", lp->elt);
 	fprintf(stderr, "\n");
 }

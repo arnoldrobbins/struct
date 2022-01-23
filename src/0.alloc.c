@@ -56,7 +56,7 @@ balloc(int n, struct coreblk **p, int size)
 	int i;
 	struct coreblk *q;
 
-	n = (n + sizeof(i) - 1) / sizeof(i);	/* convert bytes to wds to ensure ints always at wd boundaries */
+	n = (n + sizeof(intptr_t) - 1) / sizeof(intptr_t);	/* convert bytes to wds to ensure ints always at wd boundaries */
 	for (q = *p;; q = q->nxtblk) {
 		if (!q) {
 			q = morespace(n, p, size);

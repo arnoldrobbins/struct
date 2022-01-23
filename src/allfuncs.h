@@ -34,12 +34,12 @@ extern void prlst(struct list *ls);
 /* 0.parts.c: */
 extern VERT *arc(VERT v, int i);
 extern VERT *lchild(VERT v, int i);
-extern int *vxpart(VERT v, int type, int j);
-extern int *expres(VERT v);
-extern int *negpart(VERT v);
-extern int *predic(VERT v);
-extern int *level(VERT v);
-extern int *stlfmt(VERT v, int n);
+extern intptr_t *vxpart(VERT v, int type, int j);
+extern intptr_t *expres(VERT v);
+extern intptr_t *negpart(VERT v);
+extern intptr_t *predic(VERT v);
+extern intptr_t *level(VERT v);
+extern intptr_t *stlfmt(VERT v, int n);
 extern int create(int type, int arcnum);
 
 /* 0.string.c: */
@@ -88,8 +88,8 @@ extern void hash_init(void);
 extern void hash_check(void);
 extern void hash_free(void);
 extern int hash(long x);
-extern void addref(long x, int *ptr);
-extern void fixvalue(long x, int ptr);
+extern void addref(long x, intptr_t *ptr);
+extern void fixvalue(long x, intptr_t ptr);
 extern void connect(long x, long y);
 extern void clear(long x);
 
@@ -123,8 +123,8 @@ extern void search(VERT v);
 extern void chreach(void);
 extern void addloop(void);
 extern void insloop(VERT v);
-extern void exchange(int **p1, int **p2);
-extern void exchange2(int *p1, int *p2);
+extern void exchange(intptr_t **p1, intptr_t **p2);
+extern void exchange2(intptr_t *p1, intptr_t *p2);
 extern void repsearch(VERT v);
 
 /* 2.dom.c: */

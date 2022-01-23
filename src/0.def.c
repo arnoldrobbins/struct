@@ -5,7 +5,7 @@ int routnum;
 FILE *debfd;
 LOGICAL routerr;
 int nodenum, accessnum;
-int **graph;
+intptr_t **graph;
 int progtype;
 VERT stopvert, retvert;
 VERT START;

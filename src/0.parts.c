@@ -35,7 +35,7 @@ int childper[TYPENUM] = {
 	2, 1
 };
 
-int arcsper[TYPENUM] = {
+intptr_t arcsper[TYPENUM] = {
 	1, 2, 2, 3, 0,
 	-(FIXED + 1), 1, -(FIXED + 1), 1, 1,
 	1, 1, 2, 0, 0,
@@ -59,7 +59,7 @@ lchild(VERT v, int i)
 	return (&graph[v][nonarcs[NTYPE(v)] - i - 1]);
 }
 
-int *
+intptr_t *
 vxpart(VERT v, int type, int j)
 {
 	ASSERT((NTYPE(v) == type) && (0 <= j)
@@ -67,7 +67,7 @@ vxpart(VERT v, int type, int j)
 	return (&graph[v][FIXED + j]);
 }
 
-int *
+intptr_t *
 expres(VERT v)
 {
 	int ty;
@@ -78,21 +78,21 @@ expres(VERT v)
 	return (&graph[v][FIXED]);
 }
 
-int *
+intptr_t *
 negpart(VERT v)
 {
 	ASSERT(NTYPE(v) == IFVX || NTYPE(v) == ACASVX, negpart);
 	return (&graph[v][FIXED + 1]);
 }
 
-int *
+intptr_t *
 predic(VERT v)
 {
 	ASSERT(NTYPE(v) == IFVX || NTYPE(v) == ACASVX, predic);
 	return (&graph[v][FIXED]);
 }
 
-int *
+intptr_t *
 level(VERT v)
 {
 	ASSERT(NTYPE(v) == GOVX || NTYPE(v) == BRKVX
@@ -100,7 +100,7 @@ level(VERT v)
 	return (&graph[v][FIXED]);
 }
 
-int *
+intptr_t *
 stlfmt(VERT v, int n)
 {
 	ASSERT(NTYPE(v) == STLNVX || NTYPE(v) == FMTVX, stlfmt);

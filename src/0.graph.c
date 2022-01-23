@@ -14,9 +14,9 @@ prgraph(void)
 	if (progress)
 		fprintf(stderr, "prgraph():\n");
 	for (v = 0; v < nodenum; ++v) {
-		fprintf(stderr, "%d %s:", v, typename[NTYPE(v)]);
+		fprintf(stderr, "%" PRIdPTR " %s:", v, typename[NTYPE(v)]);
 		for (i = 0; i < ARCNUM(v); ++i) {
-			fprintf(stderr, "%d ", ARC(v, i));
+			fprintf(stderr, "%" PRIdPTR " ", ARC(v, i));
 			ASSERT(UNDEFINED <= ARC(v, i)
 			       && ARC(v, i) < nodenum, prgraph);
 		}
@@ -37,9 +37,9 @@ prtr(VERT v, int tab)
 	int i;
 
 	TABOVER(tab);
-	fprintf(stderr, "%d %s:", v, typename[NTYPE(v)]);
+	fprintf(stderr, "%" PRIdPTR " %s:", v, typename[NTYPE(v)]);
 	for (i = 0; i < ARCNUM(v); ++i)
-		fprintf(stderr, " %d", ARC(v, i));
+		fprintf(stderr, " %" PRIdPTR, ARC(v, i));
 	fprintf(stderr, "\n");
 	for (i = 0; i < CHILDNUM(v); ++i) {
 		TABOVER(tab + 1);

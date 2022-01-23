@@ -8,7 +8,8 @@
 extern int match[], symclass[], action[], newstate[];
 extern char symbol[];
 long *hashtab;
-int *value, *chain;
+int *value;
+intptr_t *chain;
 
 extern FILE *infd;
 
@@ -164,7 +165,7 @@ hash(long x)
 }
 
 void
-addref(long x, int *ptr)	/* put ptr in chain for x or assign value of x to *ptr */
+addref(long x, intptr_t *ptr)	/* put ptr in chain for x or assign value of x to *ptr */
 {
 	int index;
 
@@ -181,13 +182,14 @@ addref(long x, int *ptr)	/* put ptr in chain for x or assign value of x to *ptr 
 		*ptr = 0;
 	else
 		*ptr = chain[index];
-	chain[index] = ptr;
+	chain[index] = (intptr_t)ptr;
 }
 
 void
-fixvalue(long x, int ptr)
+fixvalue(long x, intptr_t ptr)
 {
-	int *temp1, *temp2, index, temp0;
+	intptr_t *temp1, temp2;
+	int index, temp0;
 
 	index = hash(x);
 
@@ -206,7 +208,7 @@ fixvalue(long x, int ptr)
 		while (temp1 != 0) {
 			temp2 = *temp1;
 			*temp1 = ptr;
-			temp1 = temp2;
+			temp1 = (intptr_t *)temp2;
 		}
 		temp0 = index;
 		index = value[index];
@@ -217,7 +219,8 @@ fixvalue(long x, int ptr)
 void
 connect(long x, long y)
 {
-	int *temp, index, temp2;
+	intptr_t *temp;
+	int index, temp2;
 
 	index = hash(x);
 
@@ -228,7 +231,7 @@ connect(long x, long y)
 			temp = &chain[index];
 
 			while (*temp != 0)
-				temp = *temp;
+				temp = (intptr_t *)*temp;
 
 			*temp = chain[hash(y)];
 		}
