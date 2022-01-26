@@ -34,5 +34,5 @@ addum(VERT v, struct list *lst)
 		ARC(new, i) = ls->elt;
 	}
 	ASSERT(!ls, addum);
-	return (new);
+	return new;
 }

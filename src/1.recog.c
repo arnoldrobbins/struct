@@ -294,7 +294,7 @@ makeif(int first, long labe, char *test, long arc1, long arc2)	/* construct IFVX
 	arclab[1] = arc2;
 	num = makenode(IFVX, first, first, labe, 2, arctype, arclab);
 	PRED(num) = (intptr_t)test;
-	return (num);
+	return num;
 }
 
 
@@ -303,9 +303,9 @@ innerdo(long labe)			/* return number of DOVX associated with labe, or UNDEFINED
 {
 	if (DEFINED(doptr)) {
 		if (dostack[doptr] == labe)
-			return (doloc[doptr--]);
+			return doloc[doptr--];
 	}
-	return (UNDEFINED);
+	return UNDEFINED;
 }
 
 
@@ -374,7 +374,7 @@ compcase(bool ifflag)		/* turn computed goto into case statement */
 	chfree(str, 6 * nlabs);
 	chfree(arctype, sizeof(*arctype) * nlabs);
 	chfree(arclab, sizeof(*arclab) * nlabs);
-	return (num);
+	return num;
 }
 
 
@@ -398,7 +398,7 @@ accum(char *str, struct lablist *vlist, long f)		/* build string of indices in c
 		}
 		++j;
 	}
-	return (s + 1);
+	return s + 1;
 }
 
 
@@ -423,5 +423,5 @@ distinct(struct lablist *vlist, int count[],	/*count[] gets count of each label;
 			}
 		}
 	}
-	return (d);
+	return d;
 }

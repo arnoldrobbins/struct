@@ -31,7 +31,7 @@ ndbrace(VERT v)			/* determine whether braces needed around subparts of v */
 			endif = false;
 		}
 	}
-	return (endif || IFTHEN(v));
+	return endif || IFTHEN(v);
 }
 
 
@@ -42,17 +42,17 @@ compound(VERT v, int ch)	/* return true iff subpart ch of v has multiple stateme
 
 	w = LCHILD(v, ch);
 	if (!DEFINED(w))
-		return (false);
+		return false;
 	if (NTYPE(w) == ITERVX) {
 		ASSERT(DEFINED(NXT(w)), compound);
 		if (LABEL(NXT(w)))
-			return (true);	/* loop ends with labeled CONTINUE statement */
+			return true;	/* loop ends with labeled CONTINUE statement */
 		else
-			return (compound(w, 0));
+			return compound(w, 0);
 	} else if (DEFINED(RSIB(w)))
-		return (true);
+		return true;
 	else if (NTYPE(w) == STLNVX && CODELINES(w) > 1)
-		return (true);
+		return true;
 	else
-		return (false);
+		return false;
 }

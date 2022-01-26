@@ -41,7 +41,7 @@ comprint(void)
 	}
 	/* if (!blank) 
 	   OUTSTR("#\n"); */
-	return (count);
+	return count;
 }
 
 
@@ -102,7 +102,7 @@ input2(void)
 		linechars = 0;
 	else
 		++linechars;
-	return (c);
+	return c;
 }
 
 
@@ -111,5 +111,5 @@ unput2(int c)
 {
 	unchar(c);
 	--linechars;
-	return (c);
+	return c;
 }

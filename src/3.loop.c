@@ -77,7 +77,7 @@ getwh(VERT v)
 	ASSERT(NTYPE(vchild) == ITERVX, getwh);
 	vgrand = LCHILD(vchild, 0);
 	if (!DEFINED(vgrand) || !IFTHEN(vgrand))
-		return (false);
+		return false;
 	vgreat = LCHILD(vgrand, THEN);
 	if (DEFINED(vgreat) && NTYPE(vgreat) == GOVX
 	    && ARC(vgreat, 0) == BRK(vchild)) {
@@ -87,9 +87,9 @@ getwh(VERT v)
 		LPRED(vchild) = vgrand;
 		LCHILD(vchild, 0) = RSIB(vgrand);
 		RSIB(vgrand) = UNDEFINED;
-		return (true);
+		return true;
 	}
-	return (false);
+	return false;
 }
 
 
@@ -102,15 +102,15 @@ getun(VERT v)			/* change loop to REPEAT UNTIL if possible */
 	vchild = LCHILD(v, 0);
 	ASSERT(DEFINED(vchild), getun);
 	if (ARCCOUNT(vchild) > 2)
-		return (false);	/* loop can be iterated without passing through predicate of UNTIL */
+		return false;	/* loop can be iterated without passing through predicate of UNTIL */
 	vgrand = ARC(vchild, 0);
 	if (!DEFINED(vgrand))
-		return (false);
+		return false;
 	for (ch = vgrand, before = UNDEFINED; DEFINED(RSIB(ch));
 	     ch = RSIB(ch))
 		before = ch;
 	if (!IFTHEN(ch))
-		return (false);
+		return false;
 	vgreat = LCHILD(ch, THEN);
 	if (DEFINED(vgreat) && NTYPE(vgreat) == GOVX
 	    && ARC(vgreat, 0) == BRK(vchild)) {
@@ -119,9 +119,9 @@ getun(VERT v)			/* change loop to REPEAT UNTIL if possible */
 		NXT(vchild) = ch;
 		LPRED(vchild) = ch;
 		RSIB(before) = UNDEFINED;
-		return (true);
+		return true;
 	}
-	return (false);
+	return false;
 }
 
 
@@ -134,13 +134,13 @@ getswitch(VERT v)
 
 	/* must be of form if ... else if ... else if ... */
 	if (NTYPE(v) != IFVX)
-		return (false);
+		return false;
 	ch = LCHILD(v, ELSE);
 	if (!FORMCASE(ch))
-		return (false);
+		return false;
 	grand = LCHILD(ch, ELSE);
 	if (!FORMCASE(grand))
-		return (false);
+		return false;
 
 	temp = create(SWCHVX, 0);
 	exchange(&graph[temp], &graph[v]);	/* want arcs to enter switch, not first case */
@@ -157,5 +157,5 @@ getswitch(VERT v)
 		ch = LCHILD(temp, ELSE);
 	}
 	ASSERT(!DEFINED(RSIB(temp)), getswitch);
-	return (true);
+	return true;
 }

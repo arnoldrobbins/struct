@@ -62,7 +62,7 @@ lowanc(VERT y, VERT z, VERT *head)		/* find the first node in chain of y which i
 {
 	while (y != -1 && !ANC(y, z))
 		y = head[y];
-	return (y);
+	return y;
 }
 
 

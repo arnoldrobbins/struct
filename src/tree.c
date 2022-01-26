@@ -16,7 +16,7 @@ addroot(char *string, int type, struct node *n1, struct node *n2)
 	p->op = type;
 	p->lit = malloc(strlen(string) + 1);
 	strcpy(p->lit, string);
-	return (p);
+	return p;
 }
 
 
@@ -48,7 +48,7 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 	struct node *t;
 
 	if (!tree)
-		return (0);
+		return 0;
 	for (i = 0; i < 8; ++i)
 		if (tree->op == compop[i])
 			break;
@@ -67,7 +67,7 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 		if (tree->op == '!') {
 			t = tree->left;
 			freenode(tree);
-			return (checkneg(t, 0));
+			return checkneg(t, 0);
 		}
 		if (i < 8) {
 			tree->op = notop[i];
@@ -78,7 +78,7 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 				tree->left = checkneg(tree->left, 1);
 				tree->right = checkneg(tree->right, 1);
 			}
-			return (tree);
+			return tree;
 		}
 		if (tree->op == xxident && strcmp(tree->lit, ".false.") == 0)
 			strcpy(tree->lit, ".true.");
@@ -92,16 +92,16 @@ checkneg(struct node *tree, int neg)	/* eliminate nots if possible */
 			tree->lit = malloc(2);
 			strcpy(tree->lit, "!");
 		}
-		return (tree);
+		return tree;
 	} else if (tree->op == '!') {
 		t = tree;
 		tree = tree->left;
 		freenode(t);
-		return (checkneg(tree, 1));
+		return checkneg(tree, 1);
 	} else {
 		tree->left = checkneg(tree->left, 0);
 		tree->right = checkneg(tree->right, 0);
-		return (tree);
+		return tree;
 	}
 }
 
@@ -184,13 +184,13 @@ prec(int oper)
 {
 	switch (oper) {
 	case ',':
-		return (0);
+		return 0;
 	case '|':
-		return (1);
+		return 1;
 	case '&':
-		return (2);
+		return 2;
 	case '!':
-		return (3);
+		return 3;
 
 	case '<':
 	case '>':
@@ -198,18 +198,18 @@ prec(int oper)
 	case xxne:
 	case xxle:
 	case xxge:
-		return (4);
+		return 4;
 	case '+':
 	case '-':
-		return (5);
+		return 5;
 	case '*':
 	case '/':
-		return (6);
+		return 6;
 	case xxuminus:
-		return (7);
+		return 7;
 	case '^':
-		return (8);
+		return 8;
 	default:
-		return (9);
+		return 9;
 	}
 }

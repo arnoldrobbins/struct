@@ -1,3 +1,11 @@
+2022-01-26         Arnold D. Robbins     <arnold@skeeve.com>
+
+	* 0.alloc.c, 0.list.c, 0.parts.c, 0.string.c, 1.finish.c, 1.form.c,
+	1.fort.c, 1.hash.c, 1.line.c, 1.main.c, 1.node.c, 1.recog.c, 2.dom.c,
+	2.head.c, 2.inarc.c, 2.tree.c, 3.branch.c, 3.flow.c, 3.loop.c,
+	3.reach.c, 4.brace.c, 4.form.c, lextab.l, tree.c: Change all
+	`return (expr)' into `return expr'. This is a more modern usage.
+
 2022-01-23         Arnold D. Robbins     <arnold@skeeve.com>
 
 	* 0.def.c, 1.init.c, 1.main.c, 1.node.c, 1.recog.c, 2.dfs.c,

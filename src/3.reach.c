@@ -87,7 +87,7 @@ exits(VERT v)			/* set REACH(v) = w if w is only node outside subtree of v which
 		REACH(v) = vpair->smallest;	/* vpair->smallest possibly UNDEFINED */
 	else
 		REACH(v) = UNDEFINED;
-	return (vpair);
+	return vpair;
 }
 
 
@@ -115,8 +115,8 @@ VERT
 NUM(VERT v)
 {
 	if (!DEFINED(v))
-		return (UNDEFINED);
-	return (REACH(v));
+		return UNDEFINED;
+	return REACH(v);
 }
 
 void
@@ -133,15 +133,15 @@ inspr(VERT w, struct pair *pr)	/* insert w in order in pr, return true if <= sma
 				/* don't insert duplicates */
 {
 	if (w == pr->smallest)
-		return (true);
+		return true;
 	if (NUM(w) < NUM(pr->smallest)) {
 		pr->second = pr->smallest;
 		pr->smallest = w;
-		return (true);
+		return true;
 	}
 	if (w == pr->second)
-		return (false);
+		return false;
 	if (NUM(w) < NUM(pr->second))
 		pr->second = w;
-	return (false);
+	return false;
 }

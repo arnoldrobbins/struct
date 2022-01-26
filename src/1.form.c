@@ -14,7 +14,7 @@ uptolow(int c)			/*translates upper to lower case */
 	if (isupper(c))
 		return tolower(c);
 	else
-		return (c);
+		return c;
 }
 
 void
@@ -94,7 +94,7 @@ labstand( int (*func)() )	/* labels in standard form input */
 int
 contfree(void)		/* identify continuation lines in free-form input */
 {
-	return (nonblchar(_diglet, 0));	/* any non-alpha non-digit */
+	return nonblchar(_diglet, 0);	/* any non-alpha non-digit */
 }
 
 
@@ -112,11 +112,11 @@ nonblchar(int class, int yesno)
 			break;
 		}
 	if (temp[j] != EOF && classmatch(temp[j], class) == yesno)
-		return (1);
+		return 1;
 	else {
 		for (; j >= 0; --j)
 			(*unput) (temp[j]);
-		return (0);
+		return 0;
 	}
 }
 
@@ -133,15 +133,15 @@ contstand(void)		/* continuation lines in standard form input */
 		    || temp[i] == EOF) {
 			for (; i >= 0; --i)
 				(*unput)(temp[i]);
-			return (0);
+			return 0;
 		}
 	}
 	if (temp[5] != '0' && temp[5] != ' ')
-		return (1);
+		return 1;
 	else {
 		for (i = 5; i >= 0; --i)
 			(*unput)(temp[i]);
-		return (0);
+		return 0;
 	}
 }
 
@@ -155,16 +155,16 @@ comstand(int posafter)		/* standard form comments */
 	if (!posafter)
 		(*unput)(c);
 	if (c == 'c' || c == '*' || c == '#')
-		return (1);
+		return 1;
 	else
-		return (0);
+		return 0;
 }
 
 
 int
 comfree(int posafter)
 {
-	return (comstand(posafter));
+	return comstand(posafter);
 }
 
 void (*rline[])() = { rdfree, rdstand };
@@ -177,9 +177,9 @@ blankline(void)
 {
 	if (nonblchar(_nl, 1)) {	/* first non-blank is nl */
 		(*unput)('\n');
-		return (1);
+		return 1;
 	} else
-		return (0);
+		return 0;
 }
 
 #define maxunbp	80
@@ -198,9 +198,9 @@ int
 inchar(void)
 {
 	if (unbp > 0)
-		return (unbuf[--unbp]);
+		return unbuf[--unbp];
 	else {
-		return (uptolow(getc(infd)));
+		return uptolow(getc(infd));
 	}
 }
 

@@ -25,7 +25,7 @@ act(int k, int c, int bufptr)
 					begline, newlab->labelt, buffer);
 				fprintf(stderr,
 					"treating line as straight line code\n");
-				return (ABORT);
+				return ABORT;
 			}
 		}
 		break;
@@ -44,13 +44,13 @@ act(int k, int c, int bufptr)
 	case 31:
 		counter--;
 		if (counter)
-			return (_if1);
+			return _if1;
 		else {
 			pred =
 			    remtilda(stralloc(&buffer[p1], bufptr - p1));
 			p3 = bufptr + 1;	/* p3 pts. to 1st symbol after ) */
 			flag = 1;
-			return (_if2);
+			return _if2;
 		}
 
 	case 45:		/* set p1 to pt.to 1st symbol of pred */
@@ -75,13 +75,13 @@ act(int k, int c, int bufptr)
 		if (counter != 0)
 			break;
 		act(162, c, bufptr);
-		return (ABORT);
+		return ABORT;
 
 	case 70:
 		if (counter)
-			return (_rwp);
+			return _rwp;
 		r1 = bufptr;
-		return (_rwlab);
+		return _rwlab;
 
 	case 72:
 		expr = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
@@ -107,7 +107,7 @@ act(int k, int c, int bufptr)
 	case 77:
 		if (!counter) {
 			act(111, c, bufptr);
-			return (ABORT);
+			return ABORT;
 		}
 		counter--;
 		break;
@@ -115,7 +115,7 @@ act(int k, int c, int bufptr)
 	case 111:		/* st. line code */
 		stcode = remtilda(stralloc(&buffer[p3], endbuf - p3));
 		recognize(STLNVX, flag);
-		return (ABORT);
+		return ABORT;
 
 	case 122:		/* uncond. goto */
 		recognize(ungo, flag);
@@ -133,12 +133,12 @@ act(int k, int c, int bufptr)
 	case 125:		/* computed goto */
 		expr = remtilda(stralloc(&buffer[r1 + 1], bufptr - r1 - 1));
 		recognize(COMPVX, flag);
-		return (ABORT);
+		return ABORT;
 
 	case 133:		/* if() =  is a simple statement, so reset flag to 0 */
 		flag = 0;
 		act(111, c, bufptr);
-		return (ABORT);
+		return ABORT;
 
 	case 141:		/* arith. if */
 		recognize(arithif, 0);
@@ -168,7 +168,7 @@ act(int k, int c, int bufptr)
 	case 210:		/* block data statement */
 		progtype = blockdata;
 		act(111, c, bufptr);
-		return (ABORT);
+		return ABORT;
 
 	case 300:		/* return statement */
 		recognize(RETVX, flag);
@@ -185,7 +185,7 @@ act(int k, int c, int bufptr)
 			act(300, c, bufptr);
 		else
 			act(350, c, bufptr);
-		return (endrt);
+		return endrt;
 
 	case 500:
 		prerw = remtilda(stralloc(&buffer[p3], r1 - p3 + 1));
@@ -194,38 +194,38 @@ act(int k, int c, int bufptr)
 			recognize(IOVX, flag);
 		else
 			recognize(STLNVX, flag);
-		return (ABORT);
+		return ABORT;
 
 	case 510:
 		r2 = bufptr;
 		act(3, c, bufptr);
 		act(500, c, bufptr);
-		return (ABORT);
+		return ABORT;
 
 	case 520:
 		r2 = bufptr;
 		reflab = newlab;
 		act(3, c, bufptr);
 		act(500, c, bufptr);
-		return (ABORT);
+		return ABORT;
 
 
 	case 600:
 		recognize(FMTVX, 0);
-		return (ABORT);
+		return ABORT;
 
 	case 700:
 		stcode = remtilda(stralloc(&buffer[p3], endbuf - p3));
 		recognize(entry, 0);
-		return (ABORT);
+		return ABORT;
 		/* error */
 	case 999:
 		fprintf(stderr,
 			"error: symbol '%c' should not occur as %d'th symbol of: \n%s\n",
 			c, bufptr, buffer);
-		return (ABORT);
+		return ABORT;
 	}
-	return (nulls);
+	return nulls;
 }
 
 
@@ -238,7 +238,7 @@ makelab(long x)
 	p = challoc(sizeof(*p));
 	p->labelt = x;
 	p->nxtlab = 0;
-	return (p);
+	return p;
 }
 
 
@@ -249,13 +249,13 @@ label(int i)
 
 	for (j = linelabs; i > 0; i--) {
 		if (j == 0)
-			return (0L);
+			return 0L;
 		j = j->nxtlab;
 	}
 	if (j)
-		return (j->labelt);
+		return j->labelt;
 	else
-		return (0L);
+		return 0L;
 }
 
 
@@ -280,7 +280,7 @@ stralloc(char *ad, int n)		/* allocate space, copy n chars from address ad, add 
 
 	cp = galloc(n + 1);
 	copycs(ad, cp, n);
-	return (cp);
+	return cp;
 }
 
 
@@ -292,5 +292,5 @@ remtilda(char *s)			/* change ~ to blank */
 	for (i = 0; s[i] != '\0'; i++)
 		if (s[i] == '~')
 			s[i] = ' ';
-	return (s);
+	return s;
 }

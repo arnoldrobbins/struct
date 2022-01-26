@@ -36,9 +36,9 @@ int
 comdom(VERT u, VERT v, VERT *dom)	/* find closest common dominator of u,v */
 {
 	if (u == UNDEFINED)
-		return (v);
+		return v;
 	if (v == UNDEFINED)
-		return (u);
+		return u;
 	while (u != v) {
 		ASSERT(u != UNDEFINED && v != UNDEFINED, comdom);
 		if (ntoaft[u] < ntoaft[v])
@@ -46,5 +46,5 @@ comdom(VERT u, VERT v, VERT *dom)	/* find closest common dominator of u,v */
 		else
 			u = dom[u];
 	}
-	return (u);
+	return u;
 }

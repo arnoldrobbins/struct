@@ -117,19 +117,19 @@ asoc(VERT v, int n)			/* return # of nodes associated with v if <= n, -1 otherwi
 			continue;
 		temp = asoc(w, n - count);
 		if (temp == -1)
-			return (-1);
+			return -1;
 		count += temp;
 		if (count > n)
-			return (-1);
+			return -1;
 	}
 	if (DEFINED(RSIB(v))) {
 		temp = asoc(RSIB(v), n - count);
 		if (temp == -1)
-			return (-1);
+			return -1;
 		count += temp;
 	}
 	if (count > n)
-		return (-1);
+		return -1;
 	else
-		return (count);
+		return count;
 }

@@ -88,5 +88,5 @@ nxtlab(void)
 {
 	static int count;
 
-	return (labinit + (count++) * labinc);
+	return labinit + (count++) * labinc;
 }

@@ -14,26 +14,26 @@ classmatch(char c, int i)
 	switch (i) {
 	case _digit:
 		if (isdigit(c))
-			return (1);
+			return 1;
 		else
-			return (0);
+			return 0;
 
 	case _letter:
 		if (isupper(c) || islower(c))
-			return (1);
+			return 1;
 		else
-			return (0);
+			return 0;
 
 	case _diglet:
-		return (classmatch(c, _digit) || classmatch(c, _letter));
+		return classmatch(c, _digit) || classmatch(c, _letter);
 
 	case _arith:
 		return strchr("()*+,-./", c) != NULL;
 	case _nl:
-		return (c == '\n');
+		return c == '\n';
 	case _other:
 	default:
-		return (1);
+		return 1;
 	}
 }
 
@@ -69,5 +69,5 @@ concat(char *x, char *y)		/* allocate space, return xy */
 	temp = (char *) galloc(i + j + 1);
 	sprintf(temp, "%s", x);
 	sprintf(&temp[i], "%s", y);
-	return (temp);
+	return temp;
 }

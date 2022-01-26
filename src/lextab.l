@@ -54,27 +54,27 @@ char *xxp;
 
 				backup(yytext[0]);
 			}
-IF			{ fixval(); return(xxif);}
-ELSE			{ fixval(); return(xxelse);}
-REPEAT			{ fixval(); return(xxrept); }
-WHILE			{ fixval(); return(xxwhile); }
-UNTIL			{ fixval(); return(xxuntil); }
-DO			{ fixval(); return(xxdo); }
-SWITCH			{ fixval(); return(xxswitch); }
-CASE			{ fixval(); return(xxcase); }
-DEFAULT			{ fixval(); return(xxdefault); }
-END			{ fixval(); return(xxend); }
+IF			{ fixval(); return xxif;}
+ELSE			{ fixval(); return xxelse;}
+REPEAT			{ fixval(); return xxrept; }
+WHILE			{ fixval(); return xxwhile; }
+UNTIL			{ fixval(); return xxuntil; }
+DO			{ fixval(); return xxdo; }
+SWITCH			{ fixval(); return xxswitch; }
+CASE			{ fixval(); return xxcase; }
+DEFAULT			{ fixval(); return xxdefault; }
+END			{ fixval(); return xxend; }
 
 ".true."		|
 ".false."		|
 
-{L}{A}*			{ fixval(); return(xxident); }
-~{D}+			{ fixval(); return(xxnum); }
+{L}{A}*			{ fixval(); return xxident; }
+~{D}+			{ fixval(); return xxnum; }
 {D}+/"."(ge|gt|le|lt|eq|ne|not|or|and)"."	|
 {D}+\.?				|
 {D}+\.?[de][+-]?{D}+		|
 {D}*\.{D}+[de][+-]?{D}+		|
-{D}*\.{D}+			{ fixval(); return(xxnum); }
+{D}*\.{D}+			{ fixval(); return xxnum; }
 
 ".gt."			{ putback(">"); }
 ".ge."			{ putback(">=");}
@@ -85,16 +85,16 @@ END			{ fixval(); return(xxend); }
 ".not."			{ putback("!"); }
 ".or."			{ putback("||"); }
 ".and."			{ putback("&&"); }
-">="			{ fixval(); return(xxge);  }
-"<="			{ fixval(); return(xxle); }
-==			{ fixval(); return(xxeq); }
-!=			{ fixval(); return(xxne); }
-"||"			{ fixval(); return('|'); }
-"&&"			{ fixval(); return('&'); }
-"**"			{ fixval(); return('^'); }
+">="			{ fixval(); return xxge;  }
+"<="			{ fixval(); return xxle; }
+==			{ fixval(); return xxeq; }
+!=			{ fixval(); return xxne; }
+"||"			{ fixval(); return '|'; }
+"&&"			{ fixval(); return '&'; }
+"**"			{ fixval(); return '^'; }
 
-#.*			{ fixval(); return(xxcom); }
-\"([^"]|\"\")*\"	{ fixval(); return(xxstring); }
+#.*			{ fixval(); return xxcom; }
+\"([^"]|\"\")*\"	{ fixval(); return xxstring; }
 '([^']|'')*'			{
 					fixval();
 					xxp = yylval.strval;
@@ -114,13 +114,13 @@ END			{ fixval(); return(xxend); }
 					xxtbuff[xxk] = '\0';
 					free(xxp);
 					yylval.strval = xxtbuff;
-					return(xxstring);
+					return xxstring;
 				}
 
-[ \t]		{ if (newflag) { fixval(); return(yytext[0]); } }
+[ \t]		{ if (newflag) { fixval(); return yytext[0]; } }
 ^\n		{ /* do nothing */ }
-\n		{ if (newflag) { fixval(); return('\n'); }  }
-{SP}		{ fixval(); return(yytext[0]); }
+\n		{ if (newflag) { fixval(); return '\n'; }  }
+{SP}		{ fixval(); return yytext[0]; }
 
 %%
 
@@ -130,12 +130,12 @@ rdchar(void)
 	int c;
 
 	if (xxunbp >= 0)
-		return (xxunbuf[xxunbp--]);
+		return xxunbuf[xxunbp--];
 	c = getchar();
 	if (c == EOF)
-		return ('\0');
+		return '\0';
 	else
-		return (c);
+		return c;
 }
 
 void
@@ -157,13 +157,13 @@ ninput(void)
 
 	c = rdchar();
 	if (c != '\n')
-		return (c);
+		return c;
 	while ((d = rdchar()) == ' ' || d == '\t')
 		continue;
 	if (d == '&')
-		return (ninput());
+		return ninput();
 	backup(d);
-	return ('\n');
+	return '\n';
 }
 
 

@@ -47,16 +47,16 @@ VERT
 maxentry(VERT x, VERT y, VERT *head)		/* return z if z is ITERVX of largest loop containing y but not x, UNDEFINED otherwise */
 {
 	if (head[y] == UNDEFINED)
-		return (UNDEFINED);
+		return UNDEFINED;
 	if (loomem(x, head[y], head))
-		return (UNDEFINED);
+		return UNDEFINED;
 	y = head[y];
 	while (head[y] != UNDEFINED) {
 		if (loomem(x, head[y], head))
-			return (y);
+			return y;
 		y = head[y];
 	}
-	return (y);
+	return y;
 }
 
 
@@ -67,11 +67,11 @@ loomem(VERT x, VERT y, VERT *head)		/* return true if x is in loop headed by y, 
 	VERT w;
 
 	if (!DEFINED(y))
-		return (true);
+		return true;
 	ASSERT(NTYPE(y) == ITERVX, loomem);
 	for (w = (NTYPE(x) == ITERVX) ? x : head[x]; DEFINED(w);
 	     w = head[w])
 		if (w == y)
-			return (true);
-	return (false);
+			return true;
+	return false;
 }

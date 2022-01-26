@@ -48,7 +48,7 @@ arc(VERT v, int i)
 {
 	ASSERT(DEFINED(v), arc);
 	ASSERT(0 <= i && i < ARCNUM(v), arc);
-	return (&graph[v][nonarcs[NTYPE(v)] + i]);
+	return &graph[v][nonarcs[NTYPE(v)] + i];
 }
 
 VERT *
@@ -56,7 +56,7 @@ lchild(VERT v, int i)
 {
 	ASSERT(DEFINED(v), lchild);
 	ASSERT(0 <= i && i < childper[NTYPE(v)], lchild);
-	return (&graph[v][nonarcs[NTYPE(v)] - i - 1]);
+	return &graph[v][nonarcs[NTYPE(v)] - i - 1];
 }
 
 intptr_t *
@@ -64,7 +64,7 @@ vxpart(VERT v, int type, int j)
 {
 	ASSERT((NTYPE(v) == type) && (0 <= j)
 	       && (j < nonarcs[type] - FIXED), vxpart);
-	return (&graph[v][FIXED + j]);
+	return &graph[v][FIXED + j];
 }
 
 intptr_t *
@@ -75,21 +75,21 @@ expres(VERT v)
 	ty = NTYPE(v);
 	ASSERT(ty == COMPVX || ty == ASGOVX || ty == ASVX || ty == SWCHVX
 	       || ty == ICASVX, expres);
-	return (&graph[v][FIXED]);
+	return &graph[v][FIXED];
 }
 
 intptr_t *
 negpart(VERT v)
 {
 	ASSERT(NTYPE(v) == IFVX || NTYPE(v) == ACASVX, negpart);
-	return (&graph[v][FIXED + 1]);
+	return &graph[v][FIXED + 1];
 }
 
 intptr_t *
 predic(VERT v)
 {
 	ASSERT(NTYPE(v) == IFVX || NTYPE(v) == ACASVX, predic);
-	return (&graph[v][FIXED]);
+	return &graph[v][FIXED];
 }
 
 intptr_t *
@@ -97,14 +97,14 @@ level(VERT v)
 {
 	ASSERT(NTYPE(v) == GOVX || NTYPE(v) == BRKVX
 	       || NTYPE(v) == NXTVX, level);
-	return (&graph[v][FIXED]);
+	return &graph[v][FIXED];
 }
 
 intptr_t *
 stlfmt(VERT v, int n)
 {
 	ASSERT(NTYPE(v) == STLNVX || NTYPE(v) == FMTVX, stlfmt);
-	return (&graph[v][FIXED + n]);
+	return &graph[v][FIXED + n];
 }
 
 int
@@ -124,5 +124,5 @@ create(int type, int arcnum)
 	if (arcsper[type] < 0)
 		ARCNUM(nodenum) = arcnum;
 
-	return (nodenum++);
+	return nodenum++;
 }

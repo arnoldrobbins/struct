@@ -88,7 +88,7 @@ parse(void)
 				if (current == ABORT)
 					break;
 				if (current == endrt) {
-					return (1);
+					return 1;
 				}
 			}
 		}
@@ -96,9 +96,9 @@ parse(void)
 		endbuf = get_a_line(&endline, &endchar, &endcom, &comchar);
 	}
 	if (someread)
-		return (1);
+		return 1;
 	else
-		return (0);
+		return 0;
 }
 
 void
@@ -161,7 +161,7 @@ hash(long x)
 	if (hcount >= maxhash)
 		faterr("hash table overflow - too many labels", "", "");
 	hashtab[temp] = x;
-	return (temp);
+	return temp;
 }
 
 void

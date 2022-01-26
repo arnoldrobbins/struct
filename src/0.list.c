@@ -10,7 +10,7 @@ consls(VERT v, struct list *ls)			/* make list */
 	temp = challoc(sizeof(*temp));
 	temp->elt = v;
 	temp->nxtlist = ls;
-	return (temp);
+	return temp;
 }
 
 struct list *
@@ -19,11 +19,11 @@ append(VERT v, struct list *ls)			/* return ls . v */
 	struct list *temp;
 
 	if (!ls)
-		return (consls(v, 0));
+		return consls(v, 0);
 	for (temp = ls; temp->nxtlist; temp = temp->nxtlist)
 		continue;
 	temp->nxtlist = consls(v, 0);
-	return (ls);
+	return ls;
 }
 
 
@@ -42,10 +42,10 @@ VERT
 oneelt(struct list *ls)		/* return w if w is only elt of ls, UNDEFINED otherwise */
 {
 	if (!ls)
-		return (UNDEFINED);
+		return UNDEFINED;
 	if (ls->nxtlist)
-		return (UNDEFINED);
-	return (ls->elt);
+		return UNDEFINED;
+	return ls->elt;
 }
 
 
@@ -58,7 +58,7 @@ lslen(struct list *ls)			/* return number of elements in list ls */
 	count = 0;
 	for (lp = ls; lp; lp = lp->nxtlist)
 		++count;
-	return (count);
+	return count;
 }
 
 

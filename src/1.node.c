@@ -34,7 +34,7 @@ makenode(int type, bool addimp, bool addcom, long labe, int arcnum, int arctype[
 				faterr("program too long", "", "");
 		}
 	}
-	return (num);
+	return num;
 }
 
 void

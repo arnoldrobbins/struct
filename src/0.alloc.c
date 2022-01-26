@@ -26,7 +26,7 @@ challoc(int n)
 	if (p) {
 		memset(p, 0, n);
 		space += n;
-		return (p);
+		return p;
 	}
 	fprintf(stderr, "alloc out of space\n");
 	fprintf(stderr, "total space alloc'ed = %ld\n", space);
@@ -67,19 +67,19 @@ balloc(int n, struct coreblk **p, int size)
 	}
 	i = q->nxtfree;
 	q->nxtfree += n;
-	return (&(q->blk)[i]);
+	return &(q->blk)[i];
 }
 
 void *
 talloc(int n)			/* allocate from line-by-line storage area */
 {
-	return (balloc(n, &tcore, tblksize));
+	return balloc(n, &tcore, tblksize);
 }
 
 void *
 galloc(int n)			/* allocate from graph storage area */
 {
-	return (balloc(n, &gcore, gblksize));
+	return balloc(n, &gcore, gblksize);
 }
 
 void
@@ -120,7 +120,7 @@ morespace(int n, struct coreblk **p, int size)	/* get at least n more wds for co
 	q->blksize = t;
 	q->nxtfree = 0;
 	q->blk = q + 1;
-	return (q);
+	return q;
 }
 
 

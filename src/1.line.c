@@ -69,9 +69,9 @@ get_a_line(int *lastline, long *lastchar, int *linecom, long *charcom)
 			if (buffer[i] == ' ' || buffer[i] == '\t'
 			    || buffer[i] == '\n')
 				buffer[i] = '~';
-		return (bufcount);
+		return bufcount;
 	}
-	return (-1);
+	return -1;
 }
 
 
@@ -93,7 +93,7 @@ input1(void)
 		++newline;
 		stchars = newchar;
 	}
-	return (c);
+	return c;
 }
 
 int
@@ -106,5 +106,5 @@ unput1(int c)
 		stchars = newchar;
 		--newline;
 	}
-	return (c);
+	return c;
 }

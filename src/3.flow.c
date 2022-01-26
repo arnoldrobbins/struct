@@ -66,16 +66,16 @@ lexval(VERT v, VERT lastlex)
 	VERT sib;
 
 	if (!HASLEX(NTYPE(v)))
-		return (UNDEFINED);
+		return UNDEFINED;
 	sib = RSIB(v);
 	if (NTYPE(v) == ICASVX || NTYPE(v) == ACASVX)
-		return (lastlex);
+		return lastlex;
 	else if (!DEFINED(sib))
-		return (lastlex);
+		return lastlex;
 	else if (BRANCHTYPE(sib))
-		return (ARC(sib, 0));
+		return ARC(sib, 0);
 	else
-		return (sib);
+		return sib;
 }
 
 VERT
@@ -87,5 +87,5 @@ makebr(VERT w)			/* make branching node leading to w */
 	ARC(new, 0) = w;
 	RSIB(new) = UNDEFINED;
 	REACH(new) = UNDEFINED;
-	return (new);
+	return new;
 }
