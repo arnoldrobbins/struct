@@ -1,0 +1,2121 @@
+#  ========== ratfor in fortran for bootstrap ==========
+#
+# block data - initialize global variables
+#
+block data
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+data outp /0/
+data level /1/
+data linect(1) /1/
+data infile(1) /5/
+data bp /0/
+data fordep /0/
+data lastp /0/
+data lastt /0/
+data sdo(1), sdo(2), sdo(3) /100, 111, 10002/
+data vdo(1), vdo(2) /10266, 10002/
+data sif(1), sif(2), sif(3) /105, 102, 10002/
+data vif(1), vif(2) /10261, 10002/
+data selse(1), selse(2), selse(3), selse(4), selse(5) /101,  108, 115, 101, 10002/
+data velse(1), velse(2) /10262, 10002/
+data swhile(1), swhile(2), swhile(3), swhile(4), swhile(5), swhile(6) /119, 104, 105, 108, 101, 10002/
+data vwhile(1), vwhile(2) /10263, 10002/
+data sbreak(1), sbreak(2), sbreak(3), sbreak(4), sbreak(5), sbreak(6) /98, 114, 101, 97, 107, 10002/
+data vbreak(1), vbreak(2) /10264, 10002/
+data snext(1), snext(2), snext(3), snext(4), snext(5) /110,  101, 120, 116, 10002/
+data vnext(1), vnext(2) /10265, 10002/
+data sfor(1), sfor(2), sfor(3), sfor(4) /102,  111, 114, 10002/
+data vfor(1), vfor(2) /10268, 10002/
+data srept(1), srept(2), srept(3), srept(4), srept(5), srept(6), srept(7) /114, 101, 112, 101, 97, 116, 10002/
+data vrept(1), vrept(2) /10269, 10002/
+data suntil(1), suntil(2), suntil(3), suntil(4), suntil(5), suntil(6) /117, 110, 116, 105, 108, 10002/
+data vuntil(1), vuntil(2) /10270, 10002/
+data extblk /" "/, intblk /32/
+data extdig(1) /"0"/, intdig(1) /48/
+data extdig(2) /"1"/, intdig(2) /49/
+data extdig(3) /"2"/, intdig(3) /50/
+data extdig(4) /"3"/, intdig(4) /51/
+data extdig(5) /"4"/, intdig(5) /52/
+data extdig(6) /"5"/, intdig(6) /53/
+data extdig(7) /"6"/, intdig(7) /54/
+data extdig(8) /"7"/, intdig(8) /55/
+data extdig(9) /"8"/, intdig(9) /56/
+data extdig(10) /"9"/, intdig(10) /57/
+data extlet(1) /"a"/, intlet(1) /97/
+data extlet(2) /"b"/, intlet(2) /98/
+data extlet(3) /"c"/, intlet(3) /99/
+data extlet(4) /"d"/, intlet(4) /100/
+data extlet(5) /"e"/, intlet(5) /101/
+data extlet(6) /"f"/, intlet(6) /102/
+data extlet(7) /"g"/, intlet(7) /103/
+data extlet(8) /"h"/, intlet(8) /104/
+data extlet(9) /"i"/, intlet(9) /105/
+data extlet(10) /"j"/, intlet(10) /106/
+data extlet(11) /"k"/, intlet(11) /107/
+data extlet(12) /"l"/, intlet(12) /108/
+data extlet(13) /"m"/, intlet(13) /109/
+data extlet(14) /"n"/, intlet(14) /110/
+data extlet(15) /"o"/, intlet(15) /111/
+data extlet(16) /"p"/, intlet(16) /112/
+data extlet(17) /"q"/, intlet(17) /113/
+data extlet(18) /"r"/, intlet(18) /114/
+data extlet(19) /"s"/, intlet(19) /115/
+data extlet(20) /"t"/, intlet(20) /116/
+data extlet(21) /"u"/, intlet(21) /117/
+data extlet(22) /"v"/, intlet(22) /118/
+data extlet(23) /"w"/, intlet(23) /119/
+data extlet(24) /"x"/, intlet(24) /120/
+data extlet(25) /"y"/, intlet(25) /121/
+data extlet(26) /"z"/, intlet(26) /122/
+data extbig(1) /"a"/, intbig(1) /65/
+data extbig(2) /"b"/, intbig(2) /66/
+data extbig(3) /"c"/, intbig(3) /67/
+data extbig(4) /"d"/, intbig(4) /68/
+data extbig(5) /"e"/, intbig(5) /69/
+data extbig(6) /"f"/, intbig(6) /70/
+data extbig(7) /"g"/, intbig(7) /71/
+data extbig(8) /"h"/, intbig(8) /72/
+data extbig(9) /"i"/, intbig(9) /73/
+data extbig(10) /"j"/, intbig(10) /74/
+data extbig(11) /"k"/, intbig(11) /75/
+data extbig(12) /"l"/, intbig(12) /76/
+data extbig(13) /"m"/, intbig(13) /77/
+data extbig(14) /"n"/, intbig(14) /78/
+data extbig(15) /"o"/, intbig(15) /79/
+data extbig(16) /"p"/, intbig(16) /80/
+data extbig(17) /"q"/, intbig(17) /81/
+data extbig(18) /"r"/, intbig(18) /82/
+data extbig(19) /"s"/, intbig(19) /83/
+data extbig(20) /"t"/, intbig(20) /84/
+data extbig(21) /"u"/, intbig(21) /85/
+data extbig(22) /"v"/, intbig(22) /86/
+data extbig(23) /"w"/, intbig(23) /87/
+data extbig(24) /"x"/, intbig(24) /88/
+data extbig(25) /"y"/, intbig(25) /89/
+data extbig(26) /"z"/, intbig(26) /90/
+data extchr(1) /"]"/, intchr(1) /33/
+data extchr(2) /""""/, intchr(2) /34/
+data extchr(3) /"#"/, intchr(3) /35/
+data extchr(4) /"$"/, intchr(4) /36/
+data extchr(5) /"%"/, intchr(5) /37/
+data extchr(6) /"&"/, intchr(6) /38/
+data extchr(7) /"'"/, intchr(7) /39/
+data extchr(8) /"("/, intchr(8) /40/
+data extchr(9) /")"/, intchr(9) /41/
+data extchr(10) /"*"/, intchr(10) /42/
+data extchr(11) /"+"/, intchr(11) /43/
+data extchr(12) /","/, intchr(12) /44/
+data extchr(13) /"-"/, intchr(13) /45/
+data extchr(14) /"."/, intchr(14) /46/
+data extchr(15) /"/"/, intchr(15) /47/
+data extchr(16) /":"/, intchr(16) /58/
+data extchr(17) /";"/, intchr(17) /59/
+data extchr(18) /"<"/, intchr(18) /60/
+data extchr(19) /"="/, intchr(19) /61/
+data extchr(20) /">"/, intchr(20) /62/
+data extchr(21) /"?"/, intchr(21) /63/
+data extchr(22) /"@"/, intchr(22) /64/
+data extchr(23) /"Õ"/, intchr(23) /91/
+data extchr(24) /"\"/, intchr(24) /92/
+data extchr(25) /"å"/, intchr(25) /93/
+data extchr(26) /"_"/, intchr(26) /95/
+data extchr(27) /"{"/, intchr(27) /123/
+data extchr(28) /"!"/, intchr(28) /124/
+data extchr(29) /"}"/, intchr(29) /125/
+data extchr(30) /""/, intchr(30) /8/
+data extchr(31) /"	"/, intchr(31) /9/
+data extchr(32) /"^"/, intchr(32) /33/
+data extchr(33) /"~"/, intchr(33) /33/
+end
+
+
+
+#
+# ratfor - main program for ratfor
+#
+call parse
+stop
+end
+
+
+
+#
+# alldig - return yes if str is all digits
+#
+integer function alldig(str)
+integer type
+integer str(100)
+integer i
+alldig  =  0
+if (str(1) != 10002) {
+	i  =  1
+	while (str(i) != 10002) {
+		if (type(str(i)) != 2)
+			return
+		i  =  i + 1
+		}
+	alldig  =  1
+	}
+return
+end
+
+
+
+#
+# balpar - copy balanced paren string
+#
+subroutine balpar
+integer gettok
+integer t, token(200)
+integer nlpar
+if (gettok(token,200) != 40)
+	call synerr("missing left paren.")
+else {
+	call outstr(token)
+	nlpar  =  1
+	repeat {
+		t  =  gettok(token, 200)
+		if (t == 59 || t == 123 || t == 125 || t == 10003)
+			break 1
+		if (t == 10)
+			token(1)  =  10002
+		else if (t == 40)
+			nlpar  =  nlpar + 1
+		else if (t == 41)
+			nlpar  =  nlpar - 1
+		call outstr(token)
+		if (nlpar <= 0)
+			go to 10
+		}
+	call pbstr(token)
+	10  if (nlpar != 0)
+		call synerr("missing parenthesis in condition.")
+	}
+return
+end
+
+
+
+#
+# brknxt - generate code for break and next
+#
+subroutine brknxt(sp, lextyp, labval, token)
+integer i, labval(100), lextyp(100), sp, token
+i  =  sp
+repeat {
+	if (i <= 0)
+		go to 20
+	if (lextyp(i) == 10263 || lextyp(i) == 10266 || lextyp(i) == 10268 || lextyp(i) == 10269)
+		break 1
+	i  =  i - 1
+	}
+if (token != 10264)
+	call outgo(labval(i))
+else
+	call outgo(labval(i)+1)
+return
+20  if (token != 10264)
+	call synerr("illegal next.")
+else
+	call synerr("illegal break.")
+return
+end
+
+
+
+#
+# close - exceedingly temporary version for gettok
+#
+subroutine close(fd)
+integer fd
+rewind fd
+return
+end
+
+
+
+#
+# ctoi - convert string at in(i) to integer, increment i
+#
+integer function ctoi(in, i)
+integer in(100)
+integer index
+integer d, i
+integer digits(11)
+data digits(1) /48/
+data digits(2) /49/
+data digits(3) /50/
+data digits(4) /51/
+data digits(5) /52/
+data digits(6) /53/
+data digits(7) /54/
+data digits(8) /55/
+data digits(9) /56/
+data digits(10) /57/
+data digits(11) /10002/
+while (in(i) == 32 || in(i) == 9)
+	i  =  i + 1
+ctoi  =  0
+while (in(i) != 10002) {
+	d  =  index(digits, in(i))
+	if (d == 0)
+		break 1
+	ctoi  =  10 * ctoi + d - 1
+	i  =  i + 1
+	}
+return
+end
+
+
+
+#
+# deftok - get token; process macro calls and invocations
+#
+integer function deftok(token, toksiz, fd)
+integer gtok
+integer fd, toksiz
+integer defn(200), t, token(toksiz)
+integer lookup
+t = gtok(token, toksiz, fd)
+while (t != 10003) {
+	if (t != 10100)
+		break 1
+	if (lookup(token,defn) == 0)
+		break 1
+	if (defn(1) != 10010)
+		call pbstr(defn)
+	else {
+		call getdef(token, toksiz, defn, 200, fd)
+		call instal(token, defn)
+		}
+	t = gtok(token, toksiz, fd)
+	}
+deftok  =  t
+if (deftok == 10100)
+	call fold(token)
+return
+end
+
+
+
+#
+# fold - convert alphabetic token to single case
+#
+subroutine fold(token)
+integer token(100)
+integer i
+i  =  1
+while (token(i) != 10002) {
+	if (token(i) >= 65 && token(i) <= 90)
+		token(i)  =  token(i) - 65 + 97
+	i  =  i + 1
+	}
+return
+end
+
+
+
+#
+# docode - generate code for beginning of do
+#
+subroutine docode(lab)
+integer labgen
+integer lab
+integer dostr(4)
+data dostr(1), dostr(2), dostr(3), dostr(4)/100, 111, 32, 10002/
+call outtab
+call outstr(dostr)
+lab  =  labgen(2)
+call outnum(lab)
+call eatup
+call outdon
+return
+end
+
+
+
+#
+# dostat - generate code for end of do statement
+#
+subroutine dostat(lab)
+integer lab
+call outcon(lab)
+call outcon(lab+1)
+return
+end
+
+
+
+#
+# eatup - process rest of statement; interpret continuations
+#
+subroutine eatup
+integer gettok
+integer ptoken(200), t, token(200)
+integer nlpar
+nlpar  =  0
+repeat {
+	t  =  gettok(token, 200)
+	if (t == 59 || t == 10)
+		go to 40
+	if (t == 125)
+		break 1
+	if (t == 123 || t == 10003)
+		go to 30
+	if (t == 44 || t == 95) {
+		if (gettok(ptoken,200) != 10)
+			call pbstr(ptoken)
+		if (t == 95)
+			token(1)  =  10002
+		}
+	else if (t == 40)
+		nlpar  =  nlpar + 1
+	else if (t == 41)
+		nlpar  =  nlpar - 1
+	call outstr(token)
+	if (nlpar < 0)
+		go to 40
+	}
+call pbstr(token)
+go to 40
+30  call synerr("unexpected brace or eof.")
+call pbstr(token)
+40  if (nlpar != 0)
+	call synerr("unbalanced parentheses.")
+return
+end
+
+
+
+#
+# elseif - generate code for end of if before else
+#
+subroutine elseif(lab)
+integer lab
+call outgo(lab+1)
+call outcon(lab)
+return
+end
+
+
+
+#
+# equal - compare str1 to str2; return yes if equal, no if not
+#
+integer function equal(str1, str2)
+integer str1(100), str2(100)
+integer i
+i  =  1
+repeat {
+	if (str1(i) != str2(i))
+		go to 50
+	if (str1(i) == 10002)
+		break 1
+	i  =  i + 1
+	}
+equal  =  1
+return
+50  equal  =  0
+return
+end
+
+
+
+#
+# error - print fatal error message, then die
+#
+subroutine error(buf)
+integer buf(100)
+call remark(buf)
+stop
+end
+
+
+
+#
+# forcod - beginning of for statement
+#
+subroutine forcod(lab)
+integer gettok
+integer t, token(200)
+integer length, labgen
+integer i, j, lab, nlpar
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+integer ifnot(9)
+data ifnot(1) /105/
+data ifnot(2) /102/
+data ifnot(3) /40/
+data ifnot(4) /46/
+data ifnot(5) /110/
+data ifnot(6) /111/
+data ifnot(7) /116/
+data ifnot(8) /46/
+data ifnot(9) /10002/
+lab  =  labgen(3)
+call outcon(0)
+if (gettok(token,200) != 40)
+	call synerr("missing left paren.")
+else {
+	if (gettok(token,200) != 59) {
+		call pbstr(token)
+		call outtab
+		call eatup
+		call outdon
+		}
+	if (gettok(token,200) == 59)
+		call outcon(lab)
+	else {
+		call pbstr(token)
+		call outnum(lab)
+		call outtab
+		call outstr(ifnot)
+		call outch(40)
+		nlpar  =  0
+		while (nlpar >= 0) {
+			t  =  gettok(token, 200)
+			if (t == 59)
+				break 1
+			if (t == 40)
+				nlpar  =  nlpar + 1
+			else if (t == 41)
+				nlpar  =  nlpar - 1
+			if (t != 10 && t != 95)
+				call outstr(token)
+			}
+		call outch(41)
+		call outch(41)
+		call outgo(lab+2)
+		if (nlpar < 0)
+			call synerr("invalid for clause.")
+		}
+	fordep  =  fordep + 1
+	j  =  1
+	i  =  1
+	while (i < fordep) {
+		j  =  j + length(forstk(j)) + 1
+		i  =  i + 1
+		}
+	forstk(j)  =  10002
+	nlpar  =  0
+	while (nlpar >= 0) {
+		t  =  gettok(token, 200)
+		if (t == 40)
+			nlpar  =  nlpar + 1
+		else if (t == 41)
+			nlpar  =  nlpar - 1
+		if (nlpar >= 0 && t != 10 && t != 95) {
+			call scopy(token, 1, forstk, j)
+			j  =  j + length(token)
+			}
+		}
+	lab  =  lab + 1
+	}
+return
+end
+
+
+
+#
+# fors - process end of for statement
+#
+subroutine fors(lab)
+integer length
+integer i, j, lab
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+call outnum(lab)
+j  =  1
+i  =  1
+while (i < fordep) {
+	j  =  j + length(forstk(j)) + 1
+	i  =  i + 1
+	}
+if (length(forstk(j)) > 0) {
+	call outtab
+	call outstr(forstk(j))
+	call outdon
+	}
+call outgo(lab-1)
+call outcon(lab+1)
+fordep  =  fordep - 1
+return
+end
+
+
+
+#
+# getch - get characters from file
+#
+integer function getch(c, f)
+integer inmap
+integer buf(81), c
+integer f, i, lastc
+data lastc /81/, buf(81) /10/
+if (buf(lastc) == 10 || lastc >= 81) {
+	read(f,70,end  =  60) (buf(i), i  =  1, 80)
+	60  c  =  10003
+	getch  =  10003
+	return
+	i  =  1
+	while (i <= 80) {
+		buf(i)  =  inmap(buf(i))
+		i  =  i + 1
+		}
+	i  =  80
+	while (i > 0) {
+		if (buf(i) != 32)
+			break 1
+		i  =  i - 1
+		}
+	buf(i+1)  =  10
+	lastc  =  0
+	}
+lastc  =  lastc + 1
+c  =  buf(lastc)
+getch  =  c
+return
+70  format(80 a1)
+end
+
+
+
+#
+# getdef (for no arguments) - get name and definition
+#
+subroutine getdef(token, toksiz, defn, defsiz, fd)
+integer gtok, ngetch
+integer defsiz, fd, i, nlpar, toksiz
+integer c, defn(defsiz), token(toksiz)
+if (ngetch(c,fd) != 40)
+	call remark("missing left paren.")
+if (gtok(token,toksiz,fd) != 10100)
+	call remark("non-alphanumeric name.")
+else if (ngetch(c,fd) != 44)
+	call remark("missing comma in define.")
+nlpar  =  0
+i  =  1
+while (nlpar >= 0) {
+	if (i > defsiz)
+		call error("definition too long.")
+	else if (ngetch(defn(i),fd) == 10003)
+		call error("missing right paren.")
+	else if (defn(i) == 40)
+		nlpar  =  nlpar + 1
+	else if (defn(i) == 41)
+		nlpar  =  nlpar - 1
+	i  =  i + 1
+	}
+defn(i-1)  =  10002
+return
+end
+
+
+
+#
+# gettok - get token. handles file inclusion and line numbers
+#
+integer function gettok(token, toksiz)
+integer equal, open
+integer junk, toksiz
+integer deftok
+integer name(30), token(toksiz)
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+integer incl(8)
+data incl(1) /105/
+data incl(2) /110/
+data incl(3) /99/
+data incl(4) /108/
+data incl(5) /117/
+data incl(6) /100/
+data incl(7) /101/
+data incl(8) /10002/
+while (level > 0) {
+	gettok  =  deftok(token, toksiz, infile(level))
+	while (gettok != 10003) {
+		if (equal(token,incl) == 0)
+			return
+		junk  =  deftok(name, 30, infile(level))
+		if (level >= 5)
+			call synerr("includes nested too deeply.")
+		else {
+			infile(level+1)  =  open(name, 0)
+			linect(level+1)  =  1
+			if (infile(level + 1) != 10001)
+				level  =  level + 1
+			else
+				call synerr("can't open include.")
+			}
+		gettok  =  deftok(token, toksiz, infile(level))
+		}
+	if (level > 1)
+		call close(infile(level))
+	level  =  level - 1
+	}
+gettok  =  10003
+return
+end
+
+
+
+#
+# gtok - get token for ratfor
+#
+integer function gtok(lexstr, toksiz, fd)
+integer ngetch, type
+integer fd, i, toksiz
+integer c, lexstr(toksiz)
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+while (ngetch(c,fd) != 10003)
+	if (c != 32 && c != 9)
+		break 1
+call putbak(c)
+i  =  1
+while (i < toksiz - 1) {
+	gtok  =  type(ngetch(lexstr(i), fd))
+	if (gtok != 1 && gtok != 2)
+		break 1
+	i  =  i + 1
+	}
+if (i >= toksiz - 1)
+	call synerr("token too long.")
+if (i > 1) {
+	call putbak(lexstr(i))
+	lexstr(i)  =  10002
+	gtok  =  10100
+	}
+else if (lexstr(1) != 36) {
+	if (lexstr(1) == 39 || lexstr(1) == 34) {
+		i  =  2
+		repeat {
+			if (ngetch(lexstr(i),fd) == lexstr(1))
+				go to 80
+			if (lexstr(i) == 10 || i >= toksiz - 1)
+				break 1
+			i  =  i + 1
+			}
+		call synerr("missing quote.")
+		lexstr(i)  =  lexstr(1)
+		call putbak(10)
+		}
+	else if (lexstr(1) == 35) {
+		while (ngetch(lexstr(1),fd) != 10) {}
+		gtok  =  10
+		}
+	else if (lexstr(1) == 62 || lexstr(1) == 60 || lexstr(1) == 33 || lexstr(1) == 61 || lexstr(1) == 38 || lexstr(1) == 124)
+		call relate(lexstr, i, fd)
+	}
+else if (ngetch(lexstr(2),fd) == 40) {
+	lexstr(1)  =  123
+	gtok  =  123
+	}
+else if (lexstr(2) != 41)
+	call putbak(lexstr(2))
+else {
+	lexstr(1)  =  125
+	gtok  =  125
+	}
+80  lexstr(i+1)  =  10002
+if (lexstr(1) == 10)
+	linect(level)  =  linect(level) + 1
+return
+end
+
+
+
+#
+# ifcode - generate initial code for if
+#
+subroutine ifcode(lab)
+integer labgen
+integer lab
+lab  =  labgen(2)
+call ifgo(lab)
+return
+end
+
+
+
+#
+# ifgo - generate "if(.not.(...))goto lab"
+#
+subroutine ifgo(lab)
+integer lab
+integer ifnot(9)
+data ifnot(1) /105/
+data ifnot(2) /102/
+data ifnot(3) /40/
+data ifnot(4) /46/
+data ifnot(5) /110/
+data ifnot(6) /111/
+data ifnot(7) /116/
+data ifnot(8) /46/
+data ifnot(9) /10002/
+call outtab
+call outstr(ifnot)
+call balpar
+call outch(41)
+call outgo(lab)
+return
+end
+
+
+
+#
+# index - find character  c  in string  str
+#
+integer function index(str, c)
+integer c, str(100)
+index  =  1
+while (str(index) != 10002) {
+	if (str(index) == c)
+		return
+	index  =  index + 1
+	}
+index  =  0
+return
+end
+
+
+
+#
+# initkw - install keyword "define" in table
+#
+subroutine initkw
+integer defnam(7), deftyp(2)
+data defnam(1) /100/, defnam(2) /101/, defnam(3) /102/
+data defnam(4) /105/, defnam(5) /110/, defnam(6) /101/
+data defnam(7) /10002/
+data deftyp(1), deftyp(2) /10010, 10002/
+call instal(defnam, deftyp)
+return
+end
+
+
+
+#
+# inmap - convert left adjusted external rep to right adj ascii
+#
+integer function inmap(inchar)
+integer i, inchar
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+if (inchar == extblk)
+	inmap  =  intblk
+else {
+	do i = 1,10
+		if (inchar == extdig(i))
+			go to 120
+	do i = 1,26
+		if (inchar == extlet(i))
+			go to 110
+	do i = 1,26
+		if (inchar == extbig(i))
+			go to 100
+	do i = 1,33
+		if (inchar == extchr(i))
+			go to 90
+	inmap  =  inchar
+	return
+	90  inmap  =  intchr(i)
+	return
+	100  inmap  =  intbig(i)
+	return
+	110  inmap  =  intlet(i)
+	return
+	120  inmap  =  intdig(i)
+	}
+return
+end
+
+
+
+#
+# instal - add name and definition to table
+#
+subroutine instal(name, defn)
+integer defn(200), name(200)
+integer length
+integer dlen, nlen
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+nlen  =  length(name) + 1
+dlen  =  length(defn) + 1
+if (lastt + nlen + dlen > 1500 || lastp >= 200) {
+	call putlin(name, 6)
+	call remark(": too many definitions.")
+	}
+lastp  =  lastp + 1
+namptr(lastp)  =  lastt + 1
+call scopy(name, 1, table, lastt + 1)
+call scopy(defn, 1, table, lastt + nlen + 1)
+lastt  =  lastt + nlen + dlen
+return
+end
+
+
+
+#
+# itoc - convert integer  int  to char string in  str
+#
+integer function itoc(int, str, size)
+integer iabs, mod
+integer d, i, int, intval, j, k, size
+integer str(size)
+integer digits(11)
+data digits(1) /48/
+data digits(2) /49/
+data digits(3) /50/
+data digits(4) /51/
+data digits(5) /52/
+data digits(6) /53/
+data digits(7) /54/
+data digits(8) /55/
+data digits(9) /56/
+data digits(10) /57/
+data digits(11) /10002/
+intval  =  iabs(int)
+str(1)  =  10002
+i  =  1
+repeat {
+	i  =  i + 1
+	d  =  mod(intval, 10)
+	str(i)  =  digits(d+1)
+	intval  =  intval / 10
+	}
+	until(intval == 0 || i >= size)
+if (int < 0 && i < size) {
+	i  =  i + 1
+	str(i)  =  45
+	}
+itoc  =  i - 1
+j  =  1
+while (j < i) {
+	k  =  str(i)
+	str(i)  =  str(j)
+	str(j)  =  k
+	i  =  i - 1
+	j  =  j + 1
+	}
+return
+end
+
+
+
+#
+# labelc - output statement number
+#
+subroutine labelc(lexstr)
+integer lexstr(100)
+integer length
+if (length(lexstr) == 5)
+	if (lexstr(1) == 50 && lexstr(2) == 51)
+		call synerr("warning: possible label conflict.")
+call outstr(lexstr)
+call outtab
+return
+end
+
+
+
+#
+# labgen - generate  n  consecutive labels, return first one
+#
+integer function labgen(n)
+integer label, n
+data label /23000/
+labgen  =  label
+label  =  label + n
+return
+end
+
+
+
+#
+# length - compute length of string
+#
+integer function length(str)
+integer str(100)
+length  =  0
+while (str(length + 1) != 10002)
+	length  =  length + 1
+return
+end
+
+
+
+#
+# lex - return lexical type of token
+#
+integer function lex(lexstr)
+integer gettok
+integer lexstr(200)
+integer alldig, equal
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+while (gettok(lexstr,200) == 10) {}
+lex  =  lexstr(1)
+if (lex != 10003 && lex != 59 && lex != 123 && lex != 125)
+	if (alldig(lexstr) == 1)
+		lex  =  10260
+	else if (equal(lexstr,sif) == 1)
+		lex  =  vif(1)
+	else if (equal(lexstr,selse) == 1)
+		lex  =  velse(1)
+	else if (equal(lexstr,swhile) == 1)
+		lex  =  vwhile(1)
+	else if (equal(lexstr,sdo) == 1)
+		lex  =  vdo(1)
+	else if (equal(lexstr,sbreak) == 1)
+		lex  =  vbreak(1)
+	else if (equal(lexstr,snext) == 1)
+		lex  =  vnext(1)
+	else if (equal(lexstr,sfor) == 1)
+		lex  =  vfor(1)
+	else if (equal(lexstr,srept) == 1)
+		lex  =  vrept(1)
+	else if (equal(lexstr,suntil) != 1)
+		lex  =  10267
+	else
+		lex  =  vuntil(1)
+return
+end
+
+
+
+#
+# lookup - locate name, extract definition from table
+#
+integer function lookup(name, defn)
+integer defn(200), name(200)
+integer i, j, k
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+i  =  lastp
+repeat {
+	if (i <= 0)
+		go to 130
+	j  =  namptr(i)
+	k  =  1
+	while (name(k) == table(j) && name(k) != 10002) {
+		j  =  j + 1
+		k  =  k + 1
+		}
+	if (name(k) == table(j))
+		break 1
+	i  =  i - 1
+	}
+call scopy(table, j+1, defn, 1)
+lookup  =  1
+return
+130  lookup  =  0
+return
+end
+
+
+
+#
+# ngetch - get a (possibly pushed back) character
+#
+integer function ngetch(c, fd)
+integer getch
+integer c
+integer fd
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+if (bp > 0)
+	c  =  buf(bp)
+else {
+	bp  =  1
+	buf(bp)  =  getch(c, fd)
+	}
+bp  =  bp - 1
+ngetch  =  c
+return
+end
+
+
+
+#
+# open - exceedingly temporary version for gettok
+#
+integer function open(name, mode)
+integer name(30)
+integer ctoi
+integer i, mode
+i  =  1
+open  =  ctoi(name, i)
+return
+end
+
+
+
+#
+# otherc - output ordinary fortran statement
+#
+subroutine otherc(lexstr)
+integer lexstr(100)
+call outtab
+call outstr(lexstr)
+call eatup
+call outdon
+return
+end
+
+
+
+#
+# outch - put one character into output buffer
+#
+subroutine outch(c)
+integer c
+integer i
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+if (outp >= 72) {
+	call outdon
+	i  =  1
+	while (i < 6) {
+		outbuf(i)  =  32
+		i  =  i + 1
+		}
+	outbuf(6)  =  42
+	outp  =  6
+	}
+outp  =  outp + 1
+outbuf(outp)  =  c
+return
+end
+
+
+
+#
+# outcon - output "n   continue"
+#
+subroutine outcon(n)
+integer n
+integer contin(9)
+data contin(1) /99/
+data contin(2) /111/
+data contin(3) /110/
+data contin(4) /116/
+data contin(5) /105/
+data contin(6) /110/
+data contin(7) /117/
+data contin(8) /101/
+data contin(9) /10002/
+if (n > 0)
+	call outnum(n)
+call outtab
+call outstr(contin)
+call outdon
+return
+end
+
+
+
+#
+# outdon - finish off an output line
+#
+subroutine outdon
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+outbuf(outp+1)  =  10
+outbuf(outp+2)  =  10002
+call putlin(outbuf, 6)
+outp  =  0
+return
+end
+
+
+
+#
+# outgo - output "goto  n"
+#
+subroutine outgo(n)
+integer n
+integer goto(6)
+data goto(1) /103/
+data goto(2) /111/
+data goto(3) /116/
+data goto(4) /111/
+data goto(5) /32/
+data goto(6) /10002/
+call outtab
+call outstr(goto)
+call outnum(n)
+call outdon
+return
+end
+
+
+
+#
+# outmap - convert right adj ascii to left adjusted external rep
+#
+integer function outmap(inchar)
+integer i, inchar
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+if (inchar == intblk)
+	outmap  =  extblk
+else {
+	do i = 1,10
+		if (inchar == intdig(i))
+			go to 170
+	do i = 1,26
+		if (inchar == intlet(i))
+			go to 160
+	do i = 1,26
+		if (inchar == intbig(i))
+			go to 150
+	do i = 1,33
+		if (inchar == intchr(i))
+			go to 140
+	outmap  =  inchar
+	return
+	140  outmap  =  extchr(i)
+	return
+	150  outmap  =  extbig(i)
+	return
+	160  outmap  =  extlet(i)
+	return
+	170  outmap  =  extdig(i)
+	}
+return
+end
+
+
+
+#
+# outnum - output decimal number
+#
+subroutine outnum(n)
+integer chars(10)
+integer itoc
+integer i, len, n
+len  =  itoc(n, chars, 10)
+i  =  1
+while (i <= len) {
+	call outch(chars(i))
+	i  =  i + 1
+	}
+return
+end
+
+
+
+#
+# outstr - output string
+#
+subroutine outstr(str)
+integer c, str(100)
+integer i, j
+i  =  1
+while (str(i) != 10002) {
+	c  =  str(i)
+	if (c != 39 && c != 34)
+		call outch(c)
+	else {
+		i  =  i + 1
+		j  =  i
+		while (str(j) != c)
+			j  =  j + 1
+		call outnum(j-i)
+		call outch(104)
+		while (i < j) {
+			call outch(str(i))
+			i  =  i + 1
+			}
+		}
+	i  =  i + 1
+	}
+return
+end
+
+
+
+#
+# outtab - get past column 6
+#
+subroutine outtab
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+while (outp < 6)
+	call outch(32)
+return
+end
+
+
+
+#
+# parse - parse ratfor source program
+#
+subroutine parse
+integer lexstr(200)
+integer lex
+integer lab, labval(100), lextyp(100), sp, token
+call initkw
+sp  =  1
+lextyp(1)  =  10003
+token  =  lex(lexstr)
+while (token != 10003) {
+	if (token == 10261)
+		call ifcode(lab)
+	else if (token == 10266)
+		call docode(lab)
+	else if (token == 10263)
+		call whilec(lab)
+	else if (token == 10268)
+		call forcod(lab)
+	else if (token == 10269)
+		call repcod(lab)
+	else if (token == 10260)
+		call labelc(lexstr)
+	else if (token == 10262)
+		if (lextyp(sp) != 10261)
+			call synerr("illegal else.")
+		else
+			call elseif(labval(sp))
+	if (token == 10261 || token == 10262 || token == 10263 || token == 10268 || token == 10269 || token == 10266 || token == 10260 || token == 123) {
+		sp  =  sp + 1
+		if (sp > 100)
+			call error("stack overflow in parser.")
+		lextyp(sp)  =  token
+		labval(sp)  =  lab
+		}
+	else {
+		if (token != 125) {
+			if (token == 10267)
+				call otherc(lexstr)
+			else if (token == 10264 || token == 10265)
+				call brknxt(sp, lextyp, labval, token)
+			}
+		else if (lextyp(sp) != 123)
+			call synerr("illegal right brace.")
+		else
+			sp  =  sp - 1
+		token  =  lex(lexstr)
+		call pbstr(lexstr)
+		call unstak(sp, lextyp, labval, token)
+		}
+	token  =  lex(lexstr)
+	}
+if (sp != 1)
+	call synerr("unexpected eof.")
+return
+end
+
+
+
+#
+# pbstr - push string back onto input
+#
+subroutine pbstr(in)
+integer in(100)
+integer length
+integer i
+i  =  length(in)
+while (i > 0) {
+	call putbak(in(i))
+	i  =  i - 1
+	}
+return
+end
+
+
+
+#
+# putbak - push character back onto input
+#
+subroutine putbak(c)
+integer c
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+bp  =  bp + 1
+if (bp > 300)
+	call error("too many characters pushed back.")
+buf(bp)  =  c
+return
+end
+
+
+
+#
+# putch (interim version)  put characters
+#
+subroutine putch(c, f)
+integer buf(81), c
+integer outmap
+integer f, i, lastc
+data lastc /0/
+if (lastc >= 81 || c == 10) {
+	if (lastc > 0)
+		write(f,190) (buf(i), i  =  1, lastc)
+	else
+		write(f,180)
+	lastc  =  0
+	}
+if (c != 10) {
+	lastc  =  lastc + 1
+	buf(lastc)  =  outmap(c)
+	}
+return
+180  format(/)
+190  format(80 a1)
+end
+
+
+
+#
+# putlin - put out line by repeated calls to putch
+#
+subroutine putlin(b, f)
+integer b(100)
+integer f, i
+i  =  1
+while (b(i) != 10002) {
+	call putch(b(i), f)
+	i  =  i + 1
+	}
+return
+end
+
+
+
+#
+# relate - convert relational shorthands into long form
+#
+subroutine relate(token, last, fd)
+integer ngetch
+integer token(100)
+integer length
+integer fd, last
+integer dotge(5), dotgt(5), dotlt(5), dotle(5)
+integer dotne(5), dotnot(6), doteq(5), dotand(6), dotor(5)
+data dotge(1), dotge(2), dotge(3), dotge(4), dotge(5)/ 46, 103, 101, 46, 10002/
+data dotgt(1), dotgt(2), dotgt(3), dotgt(4), dotgt(5)/ 46, 103, 116, 46, 10002/
+data dotle(1), dotle(2), dotle(3), dotle(4), dotle(5)/ 46, 108, 101, 46, 10002/
+data dotlt(1), dotlt(2), dotlt(3), dotlt(4), dotlt(5)/ 46, 108, 116, 46, 10002/
+data dotne(1), dotne(2), dotne(3), dotne(4), dotne(5)/ 46, 110, 101, 46, 10002/
+data doteq(1), doteq(2), doteq(3), doteq(4), doteq(5)/ 46, 101, 113, 46, 10002/
+data dotor(1), dotor(2), dotor(3), dotor(4), dotor(5)/ 46, 111, 114, 46, 10002/
+data dotand(1), dotand(2), dotand(3), dotand(4), dotand(5), dotand(6) /46, 97, 110, 100, 46, 10002/
+data dotnot(1), dotnot(2), dotnot(3), dotnot(4), dotnot(5), dotnot(6) /46, 110, 111, 116, 46, 10002/
+if (ngetch(token(2),fd) != 61)
+	call putbak(token(2))
+if (token(1) != 62)
+	if (token(1) != 60)
+		if (token(1) != 33)
+			if (token(1) != 61)
+				if (token(1) == 38)
+					call scopy(dotand, 1, token, 1)
+				else if (token(1) != 124)
+					token(2)  =  10002
+				else
+					call scopy(dotor, 1, token, 1)
+			else if (token(2) != 61)
+				token(2)  =  10002
+			else
+				call scopy(doteq, 1, token, 1)
+		else if (token(2) != 61)
+			call scopy(dotnot, 1, token, 1)
+		else
+			call scopy(dotne, 1, token, 1)
+	else if (token(2) != 61)
+		call scopy(dotlt, 1, token, 1)
+	else
+		call scopy(dotle, 1, token, 1)
+else if (token(2) != 61)
+	call scopy(dotgt, 1, token, 1)
+else
+	call scopy(dotge, 1, token, 1)
+last  =  length(token)
+return
+end
+
+
+
+#
+# remark - print warning message
+#
+subroutine remark(buf)
+integer buf(100), i
+write(6,200) (buf(i), i  =  1, 5)
+return
+200  format(5a4)
+end
+
+
+
+#
+# repcod - generate code for beginning of repeat
+#
+subroutine repcod(lab)
+integer labgen
+integer lab
+call outcon(0)
+lab  =  labgen(3)
+call outcon(lab)
+lab  =  lab + 1
+return
+end
+
+
+
+#
+# scopy - copy string at from(i) to to(j)
+#
+subroutine scopy(from, i, to, j)
+integer from(100), to(100)
+integer i, j, k1, k2
+k2  =  j
+k1  =  i
+while (from(k1) != 10002) {
+	to(k2)  =  from(k1)
+	k2  =  k2 + 1
+	k1  =  k1 + 1
+	}
+to(k2)  =  10002
+return
+end
+
+
+
+#
+# synerr - report ratfor syntax error
+#
+subroutine synerr(msg)
+integer lc(81), msg(81)
+integer itoc
+integer i, junk
+common /cchar/ extdig(10), intdig(10), extlet(26), intlet(26),  extbig(26), intbig(26), extchr(33), intchr(33),  extblk, intblk
+integer extdig
+integer intdig
+integer extlet
+integer intlet
+integer extbig
+integer intbig
+integer extchr
+integer intchr
+integer extblk
+integer intblk
+common /cdefio/ bp, buf(300)
+integer bp
+integer buf
+common /cfor/ fordep, forstk(200)
+integer fordep
+integer forstk
+common /ckeywd/ sdo, sif, selse, swhile, sbreak, snext, sfor, srept, suntil, vdo, vif, velse, vwhile, vbreak, vnext, vfor, vrept, vuntil
+integer sdo(3), sif(3), selse(5), swhile(6), sbreak(6), snext(5)
+integer sfor(4), srept(7), suntil(6)
+integer vdo(2), vif(2), velse(2), vwhile(2), vbreak(2), vnext(2)
+integer vfor(2), vrept(2), vuntil(2)
+common /cline/ level, linect(5), infile(5)
+integer level
+integer linect
+integer infile
+common /clook/ lastp, lastt, namptr(200), table(1500)
+integer lastp
+integer lastt
+integer namptr
+integer table
+common /coutln/ outp, outbuf(81)
+integer outp
+integer outbuf
+call remark("error at line.")
+i  =  1
+while (i <= level) {
+	call putch(32, 6)
+	junk  =  itoc(linect(i), lc, 81)
+	call putlin(lc, 6)
+	i  =  i + 1
+	}
+call putch(58, 6)
+call putch(10, 6)
+call remark(msg)
+return
+end
+
+
+
+#
+# type - return letter, digit or character
+#
+integer function type(c)
+integer c
+if (c >= 48 && c <= 57)
+	type  =  2
+else if (c >= 97 && c <= 122)
+	type  =  1
+else if (c < 65 || c > 90)
+	type  =  c
+else
+	type  =  1
+return
+end
+
+
+
+#
+# unstak - unstack at end of statement
+#
+subroutine unstak(sp, lextyp, labval, token)
+integer labval(100), lextyp(100), sp, token
+while (sp > 1) {
+	if (lextyp(sp) == 123)
+		break 1
+	if (lextyp(sp) == 10261 && token == 10262)
+		break 1
+	if (lextyp(sp) == 10261)
+		call outcon(labval(sp))
+	else if (lextyp(sp) == 10262) {
+		if (sp > 2)
+			sp  =  sp - 1
+		call outcon(labval(sp)+1)
+		}
+	else if (lextyp(sp) == 10266)
+		call dostat(labval(sp))
+	else if (lextyp(sp) == 10263)
+		call whiles(labval(sp))
+	else if (lextyp(sp) == 10268)
+		call fors(labval(sp))
+	else if (lextyp(sp) == 10269)
+		call untils(labval(sp), token)
+	sp  =  sp - 1
+	}
+return
+end
+
+
+
+#
+# untils - generate code for until or end of repeat
+#
+subroutine untils(lab, token)
+integer ptoken(200)
+integer lex
+integer junk, lab, token
+call outnum(lab)
+if (token != 10270)
+	call outgo(lab-1)
+else {
+	junk  =  lex(ptoken)
+	call ifgo(lab-1)
+	}
+call outcon(lab+1)
+return
+end
+
+
+
+#
+# whilec - generate code for beginning of while
+#
+subroutine whilec(lab)
+integer labgen
+integer lab
+call outcon(0)
+lab  =  labgen(2)
+call outnum(lab)
+call ifgo(lab+1)
+return
+end
+
+
+
+#
+# whiles - generate code for end of while
+#
+subroutine whiles(lab)
+integer lab
+call outgo(lab)
+call outcon(lab+1)
+return
+end
+
+
+

@@ -56,6 +56,18 @@ compiling and running on 64-bit systems.  I thank him.
 Dr. Baker's paper on `struct` may be found at
 https://dl.acm.org/doi/abs/10.1145/321992.321999.
 
+## The test Directory
+
+The file `t.f` is the sample program in Dr. Baker's paper. `t.r` is
+the result of running `struct` on it.
+
+The file `rat.in.for` is the _Software Tools_ `ratfor` in Fortran
+for bootstrapping. `structure.out` is the result of running `structure`
+on it and `beautify.out` is the result of running `beautify` on
+`structure.out`.
+
+Still to go is a `Makefile` to run the comparisons.
+
 #### Last Modified
 
-Sun Jan 23 19:47:43 IST 2022
+Sun Feb 27 21:40:55 IST 2022
