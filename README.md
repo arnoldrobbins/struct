@@ -56,6 +56,11 @@ compiling and running on 64-bit systems.  I thank him.
 Dr. Baker's paper on `struct` may be found at
 https://dl.acm.org/doi/abs/10.1145/321992.321999.
 
+The `techmemo` directory contains scans of Dr. Baker's internal
+Bell Labs memorandum on `struct`, as retrieved from
+https://www.tuhs.org/Archive/Documentation/TechReports/Baker_Struct/bsbstruct.pdf.
+This was kindly made available to TUHS by Doug McIlroy.
+
 ## The test Directory
 
 The file `t.f` is the sample program in Dr. Baker's paper. `t.r` is
@@ -70,4 +75,4 @@ Still to go is a `Makefile` to run the comparisons.
 
 #### Last Modified
 
-Sun Feb 27 21:40:55 IST 2022
+Thu Mar  3 12:20:02 IST 2022
